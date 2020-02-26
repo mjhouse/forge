@@ -15,7 +15,7 @@
 #include "ForgeMenu.h"
 #include "MeshView.h"
 #include "Config.h"
-#include "Geometry.h"
+#include "FCrossSection.h"
 
 ForgeWindow::ForgeWindow() : view(0x212121) {
 	QRect screenSize = QDesktopWidget().availableGeometry(this);
@@ -35,11 +35,10 @@ void ForgeWindow::build() {
 
 	// MATERIAL
     auto material = new Qt3DExtras::QPhongMaterial();
-    material->setDiffuse(QColor(QRgb(0x00b2d1)));
+    material->setAmbient(QColor(QRgb(0x0089a1)));
 	
 	// SETUP ENTITY
 	auto entity = view.rootEntity();
-<<<<<<< HEAD
 	polygon = new FCrossSection(entity, material,{
 		{-3.0f, 3.0f, 0.0f},
 		{-3.0f, -3.0f, 0.0f},
@@ -53,41 +52,7 @@ void ForgeWindow::build() {
 		{1.5f, 1.5f, 0.0f},
 		{-1.5f, 1.5f, 0.0f},
 		{-1.5f, 3.0f, 0.0f}
-=======
-	cube = new FCube(entity, material);
-	cube->setPoints({
-		{1.0f, 1.0f, 1.0f},
-		{-1.0f, -1.0f, -1.0f}
->>>>>>> parent of c042836... Adds thickening algo to FPolygon, some refactors
 	});
-	cube->test();
-	
-	
-	
-	//polygon = new FPolygon(entity, material);
-	//polygon->setPoints({
-	//	{-1.0f, 1.0f, 0.0f},
-	//	{-1.0f, -1.0f, 0.0f},
-	//	{-0.5f, -1.0f, 0.0f},
-	//	{-0.5f, -0.5f, 0.0f},
-	//	{0.5f, -0.5f, 0.0f},
-	//	{0.5f, -1.0f, 0.0f},
-	//	{1.0f, -1.0f, 0.0f},
-	//	{1.0f, 1.0f, 0.0f},
-	//	{0.5f, 1.0f, 0.0f},
-	//	{0.5f, 0.5f, 0.0f},
-	//	{-0.5f, 0.5f, 0.0f},
-	//	{-0.5f, 1.0f, 0.0f}
-	//});
-
-	//line = new FLine(entity, material);
-	//line->setPoints({
-	//	{-1.0f, 1.0f, 0.1f},
-	//	{-1.0f, -1.0f, 0.1f},
-	//	{-0.5f, -1.0f, 0.1f},
-	//});
-
-	// TEST TEST TEST
 
 	// create the floating main menu
 	auto menu = new ForgeMenu(this);
@@ -141,8 +106,5 @@ void ForgeWindow::openConfig() {
 }
 
 void ForgeWindow::testEvent() {
-	//auto data = polygon->geometry->buffer->data();
-	//float* raw = reinterpret_cast<float*>(data.data());
-	//raw[0] -= 1;
-	//polygon->geometry->buffer->setData(data);
+	polygon->thicken();
 }

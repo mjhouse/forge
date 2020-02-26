@@ -40,7 +40,7 @@ void FCrossSection::thicken() {
 		indices.resize(isize * 2);
 
 		for (int i = 0; i < vsize; ++i) {
-			vertices[i + vsize] = vertices[i] + offset;
+			vertices[i + vsize] = vertices[i] + QVector3D(0.0, 0.0, 1.0);
 			normals[i + vsize] = normals[i];
 			normals[i] = -normals[i];
 		}

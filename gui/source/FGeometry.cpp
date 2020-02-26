@@ -1,10 +1,10 @@
 #include <array>
 #include <vector>
 
-#include "Geometry.h"
+#include "FGeometry.h"
 #include "earcut.h"
 
-std::vector<uint> Geometry::tessellate(std::vector<QVector3D> points) {
+std::vector<uint> FGeometry::tessellate(std::vector<QVector3D> points) {
     std::vector<std::vector<std::array<double, 2>>> polygon{ {} };
 
     for (const auto& p : points) {
@@ -14,22 +14,22 @@ std::vector<uint> Geometry::tessellate(std::vector<QVector3D> points) {
     return mapbox::earcut<uint>(polygon);
 }
 
-void Geometry::setVertices(std::vector<QVector3D> t_vertices) {
+void FGeometry::setVertices(std::vector<QVector3D> t_vertices) {
     setVertexData(t_vertices);
     setVertexBuffer(this->buffer, t_vertices.size());
 }
 
-void Geometry::setNormals(std::vector<QVector3D> t_normals) {
+void FGeometry::setNormals(std::vector<QVector3D> t_normals) {
     setNormalData(t_normals);
     setNormalBuffer(this->normals, t_normals.size());
 }
 
-void Geometry::setIndices(std::vector<uint> t_indices) {
+void FGeometry::setIndices(std::vector<uint> t_indices) {
     setIndexData(t_indices);
     setIndexBuffer(this->indices, t_indices.size());
 }
 
-std::vector<QVector3D> Geometry::getVertices() {
+std::vector<QVector3D> FGeometry::getVertices() {
     QByteArray data = this->buffer->data();
     std::vector<QVector3D> points;
 
@@ -47,7 +47,7 @@ std::vector<QVector3D> Geometry::getVertices() {
     return points;
 }
 
-std::vector<QVector3D> Geometry::getNormals() {
+std::vector<QVector3D> FGeometry::getNormals() {
     QByteArray data = this->normals->data();
     std::vector<QVector3D> points;
 
@@ -65,7 +65,7 @@ std::vector<QVector3D> Geometry::getNormals() {
     return points;
 }
 
-std::vector<uint> Geometry::getIndices() {
+std::vector<uint> FGeometry::getIndices() {
     QByteArray data = this->indices->data();
     int count = data.size() / sizeof(uint);
     std::vector<uint> index(count);
@@ -79,7 +79,7 @@ std::vector<uint> Geometry::getIndices() {
 }
 
 
-Geometry::Geometry(QNode* parent)
+FGeometry::FGeometry(QNode* parent)
     : buffer(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::VertexBuffer, this))
     , normals(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::VertexBuffer, this))
     , indices(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::IndexBuffer, this))
@@ -90,7 +90,7 @@ Geometry::Geometry(QNode* parent)
 
 }
 
-void Geometry::setVertexData(std::vector<QVector3D> vertices) {
+void FGeometry::setVertexData(std::vector<QVector3D> vertices) {
     QByteArray data;
 
     // size the output bytearray and get direct access
@@ -108,7 +108,7 @@ void Geometry::setVertexData(std::vector<QVector3D> vertices) {
     this->buffer->setData(data);
 }
 
-void Geometry::setNormalData(std::vector<QVector3D> normals) {
+void FGeometry::setNormalData(std::vector<QVector3D> normals) {
     QByteArray data;
 
     // size the output bytearray and get direct access
@@ -126,7 +126,7 @@ void Geometry::setNormalData(std::vector<QVector3D> normals) {
     this->normals->setData(data);
 }
 
-void Geometry::setIndexData(std::vector<uint> indices) {
+void FGeometry::setIndexData(std::vector<uint> indices) {
     QByteArray data;
     data.resize(indices.size() * sizeof(uint));
     uint* raw = reinterpret_cast<uint*>(data.data());
@@ -139,12 +139,12 @@ void Geometry::setIndexData(std::vector<uint> indices) {
     this->indices->setData(data);
 }
 
-void Geometry::setVertexBuffer(QtBuffer* buffer, uint count) {
+void FGeometry::setVertexBuffer(QtBuffer* buffer, uint count) {
     posAttribute = new QtAttribute();
     posAttribute->setAttributeType(QtAttribute::VertexAttribute);
     posAttribute->setBuffer(buffer);
-    posAttribute->setDataType(QtAttribute::Float);
-    posAttribute->setDataSize(3);
+    posAttribute->setVertexBaseType(QtAttribute::Float);
+    posAttribute->setVertexSize(3);
     posAttribute->setByteOffset(0);
     posAttribute->setByteStride(3*sizeof(float));
     posAttribute->setCount(count);
@@ -152,12 +152,12 @@ void Geometry::setVertexBuffer(QtBuffer* buffer, uint count) {
 	addAttribute(posAttribute);
 }
 
-void Geometry::setNormalBuffer(QtBuffer* buffer, uint count) {
+void FGeometry::setNormalBuffer(QtBuffer* buffer, uint count) {
     normAttribute = new QtAttribute();
     normAttribute->setAttributeType(QtAttribute::VertexAttribute);
     normAttribute->setBuffer(buffer);
-    normAttribute->setDataType(QtAttribute::Float);
-    normAttribute->setDataSize(3);
+    normAttribute->setVertexBaseType(QtAttribute::Float);
+    normAttribute->setVertexSize(3);
     normAttribute->setByteOffset(0);
     normAttribute->setByteStride(3*sizeof(float));
     normAttribute->setCount(count);
@@ -165,49 +165,19 @@ void Geometry::setNormalBuffer(QtBuffer* buffer, uint count) {
 	addAttribute(normAttribute);
 }
 
-void Geometry::setIndexBuffer(Qt3DRender::QBuffer* buffer, uint count) {
+void FGeometry::setIndexBuffer(Qt3DRender::QBuffer* buffer, uint count) {
     idxAttribute = new QtAttribute();
     idxAttribute->setAttributeType(QtAttribute::IndexAttribute);
     idxAttribute->setBuffer(buffer);
-    idxAttribute->setDataType(QtAttribute::UnsignedInt);
-    idxAttribute->setDataSize(sizeof(uint));
+    idxAttribute->setVertexBaseType(QtAttribute::UnsignedInt);
+    idxAttribute->setVertexSize(1);
     idxAttribute->setByteOffset(0);
     idxAttribute->setByteStride(0);
     idxAttribute->setCount(count);
 	addAttribute(idxAttribute);
 }
 
-void Geometry::polygon() {
-    // Vertices
-    QVector3D v00(-1.0f, 1.0f, 0.0f);
-    QVector3D v01(-1.0f, -1.0f, 0.0f);
-    QVector3D v02(-0.5f, -1.0f, 0.0f);
-    QVector3D v03(-0.5f, -0.5f, 0.0f);
-    QVector3D v04(0.5f, -0.5f, 0.0f);
-    QVector3D v05(0.5f, -1.0f, 0.0f);
-    QVector3D v06(1.0f, -1.0f, 0.0f);
-    QVector3D v07(1.0f, 1.0f, 0.0f);
-    QVector3D v08(0.5f, 1.0f, 0.0f);
-    QVector3D v09(0.5f, 0.5f, 0.0f);
-    QVector3D v10(-0.5f, 0.5f, 0.0f);
-    QVector3D v11(-0.5f, 1.0f, 0.0f);
-
-    QVector3D n = QVector3D::normal(v03, v04, v09);
-
-    std::vector<QVector3D> vertices = { v00, v01, v02, v03, v04, v05, v06, v07, v08, v09, v10, v11 };
-    std::vector<QVector3D> normals = { n, n, n, n, n, n, n, n, n, n, n, n };
-    std::vector<uint> indices = tessellate(vertices);
-
-    this->setVertexData(vertices);
-    this->setNormalData(normals);
-    this->setIndexData(indices);
-
-    this->setVertexBuffer(this->buffer, 12);
-    this->setNormalBuffer(this->normals, 12);
-    this->setIndexBuffer(this->indices, indices.size());
-}
-
-QtRenderer* Geometry::getRenderer(QtRenderType type) {
+QtRenderer* FGeometry::getRenderer(QtRenderType type) {
     auto renderer = new QtRenderer(this->parentNode());
 
     renderer->setInstanceCount(1);

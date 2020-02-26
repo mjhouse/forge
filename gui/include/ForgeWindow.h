@@ -6,21 +6,14 @@
 
 #include "MeshView.h"
 #include "Config.h"
-#include "Geometry.h"
+#include "FCrossSection.h"
 
 class ForgeWindow: public QMainWindow {
 private:
 	MeshView view;
 	Config config;
 
-<<<<<<< HEAD
 	FCrossSection* polygon;
-=======
-	// TEST TEST
-	FCube* cube;
-	FPolygon* polygon;
-	FLine* line;
->>>>>>> parent of c042836... Adds thickening algo to FPolygon, some refactors
 
 public:
 	ForgeWindow();
