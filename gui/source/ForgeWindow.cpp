@@ -6,18 +6,29 @@
 #include <Qt3DRender/QCamera>
 #include <Qt3DRender/QMaterial>
 #include <Qt3DRender/QMesh>
-#include <Qt3DExtras/QPhongMaterial>
+#include <Qt3DExtras/QGoochMaterial>
 #include <Qt3DExtras/QPerVertexColorMaterial>
 #include <Qt3DExtras/QTorusMesh>
 #include <Qt3DCore/QTransform>
+#include <Qt3DRender/QLineWidth>
 
 #include "ForgeWindow.h"
 #include "ForgeMenu.h"
 #include "MeshView.h"
 #include "Config.h"
 #include "FCrossSection.h"
+#include "FDefaultMaterial.h"
 
-ForgeWindow::ForgeWindow() : view(0x212121) {
+#define WHITE 0xffffff
+#define BLACK 0x000000
+#define GRAY  0x212121
+
+ForgeWindow::ForgeWindow( QDir t_resources ) 
+	: resources(t_resources)
+	, view(GRAY)
+	, config()
+	, polygon(nullptr) {
+
 	QRect screenSize = QDesktopWidget().availableGeometry(this);
 	resize(screenSize.size() * 0.8);
 	setWindowTitle("Forge - Construction");
@@ -33,9 +44,17 @@ void ForgeWindow::build() {
 
 	// TEST TEST TEST
 
-	// MATERIAL
-    auto material = new Qt3DExtras::QPhongMaterial();
-    material->setAmbient(QColor(QRgb(0x0089a1)));
+	// MATERIAL	
+	//auto material = new Qt3DExtras::QGoochMaterial();
+	//material->setCool(0x002fff);
+	//material->setWarm(0xff0000);
+	//material->setDiffuse(WHITE);
+	//material->setAlpha(0.01);
+	//material->setBeta(0.25);
+	//material->setShininess(0.1);
+	
+	auto material = new FDefaultMaterial(resources);
+
 	
 	// SETUP ENTITY
 	auto entity = view.rootEntity();

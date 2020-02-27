@@ -5,7 +5,7 @@
 #include "Defines.h"
 
 #define DEPTH_NORMAL QVector3D(0.0, 0.0, 1.0)
-#define DEPTH_LENGTH 0.1
+#define DEPTH_LENGTH -0.5
 
 class FCrossSection : public FModel {
 private:

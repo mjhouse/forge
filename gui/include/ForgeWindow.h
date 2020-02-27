@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <QtWidgets/QMainWindow>
+#include <QtCore/QDir>
 
 #include "MeshView.h"
 #include "Config.h"
@@ -10,13 +11,16 @@
 
 class ForgeWindow: public QMainWindow {
 private:
+	QDir resources;
+
 	MeshView view;
+
 	Config config;
 
 	FCrossSection* polygon;
 
 public:
-	ForgeWindow();
+	ForgeWindow( QDir t_resources );
 	~ForgeWindow();
 
 	void build();

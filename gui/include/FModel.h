@@ -30,6 +30,15 @@ public:
 		initialize(material,transform);
 	}
 
+	FModel(QtEntity* parent)
+		: geometry(new FGeometry(this))
+		, transform(new QtTransform())
+	{
+		renderer = geometry->getRenderer(QtRenderType::Points);
+		this->addComponent(renderer);
+		this->addComponent(transform);
+	}
+
 	FModel(QtComponent* material)
 		: geometry(new FGeometry(this))
 		, transform(new QtTransform())

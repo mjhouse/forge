@@ -9,13 +9,16 @@
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
-	auto stylePath = QDir(app.applicationDirPath()).filePath("resources/stylesheet.qss");
+
+	auto resources = QDir(QDir::cleanPath(app.applicationDirPath() + "/resources"));
+	auto stylePath = resources.filePath("stylesheet.qss");
+
 	QFile File(stylePath);
 	File.open(QFile::ReadOnly);
 	
 	app.setStyleSheet(QLatin1String(File.readAll()));
 
-	ForgeWindow window;
+	ForgeWindow window(resources);
 	window.build();
 	window.show();
 
