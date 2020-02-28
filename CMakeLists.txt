@@ -15,9 +15,10 @@ set(BOOST_ROOT "C:/local/boost_1_72_0/")
 set(CMAKE_PREFIX_PATH ${QT5_INSTALL})
 
 include_directories("${QT5_INSTALL}/include/")
-include_directories("gui/include")
 include_directories("C:/Program Files/SCIPOptSuite 6.0.2/include")
 include_directories("dependencies")
+include_directories("core/include")
+include_directories("gui/include")
 
 link_directories("${QT5_INSTALL}/lib")
 link_directories("C:/Program Files/SCIPOptSuite 6.0.2/lib")

@@ -29,46 +29,6 @@ void FCrossSection::initialize(std::vector<QVector2D> coordinates) {
 	assert(geometry->isPlanar());
 }
 
-std::vector<QVector3D> findEdgeNormals(std::vector<QVector3D>& front, std::vector<QVector3D>& back) {
-	assert(front.size() == back.size());
-	
-	size_t size = front.size();
-	std::vector<QVector3D> normals(size);
-
-	// assuming-
-	//
-	//		A: points are given counter-clockwise
-	//		B: front and back are identical (with a fixed offset)
-	//
-	// -iterate around the edge of the shape and find normals
-	// to the "right" of the edge.
-	for (int i = 0; i < size; ++i) {
-		int j = i == size - 1 ? 0 : i + 1;
-
-		auto a = front[i];
-		auto b = front[j];
-
-		auto c = back[i];
-		auto d = back[j];
-
-		// directional edge vector and normal
-		auto m = QVector3D(b - a).normalized();
-		auto n = QVector3D::normal(b - a, c - b);
-
-		// if the normal is on the left of the
-		// direction of travel
-		bool left = m.x() * n.y() > n.x()* m.y();
-		normals[i] += left ? -n : n;
-		normals[j] += left ? -n : n;
-	}
-
-	// normalize the normal vectors
-	for (int i = 0; i < size; ++i)
-		normals[i] = normals[i].normalized();
-
-	return normals;
-}
-
 void FCrossSection::thicken() {
 	if (geometry->isPlanar()) {
 		auto vertices = geometry->getVertices();

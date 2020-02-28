@@ -42,19 +42,7 @@ void ForgeWindow::build() {
 	// wrap the 3d view in a QWidget container
 	auto main = QWidget::createWindowContainer(&view);
 
-	// TEST TEST TEST
-
-	// MATERIAL	
-	//auto material = new Qt3DExtras::QGoochMaterial();
-	//material->setCool(0x002fff);
-	//material->setWarm(0xff0000);
-	//material->setDiffuse(WHITE);
-	//material->setAlpha(0.01);
-	//material->setBeta(0.25);
-	//material->setShininess(0.1);
-	
 	auto material = new FDefaultMaterial(resources);
-
 	
 	// SETUP ENTITY
 	auto entity = view.rootEntity();
@@ -93,27 +81,12 @@ void ForgeWindow::build() {
 	this->setDockOptions(0);
 	this->addDockWidget(Qt::DockWidgetArea::TopDockWidgetArea, menu);
 
-	// wrapped 3d view is the main, and only widget
+	// wrapped 3d view is the main and only widget
     this->setCentralWidget(main);
 }
 
 void ForgeWindow::openFile(QString path) {
-	//auto material = new QPhongMaterial(view.rootEntity());
-	//material->setDiffuse(QColor(QRgb(0x665423)));
-	//material->setAmbient(QColor(QRgb(0xffffff)));
-	//material->setSpecular(QColor(QRgb(0xff0000)));
 
-	//auto entity = new QEntity(view.rootEntity());
-	//auto mesh = new QMesh(view.rootEntity());
-
-	//Qt3DCore::QTransform* transform = new Qt3DCore::QTransform;
-	//transform->setTranslation(QVector3D(0,0,0));
-
-	//entity->addComponent(mesh);
-	//entity->addComponent(material);
-	//entity->addComponent(transform);
-
-	// mesh->setSource(QUrl::fromLocalFile("C:\\Work\\experimental\\Forge\\resources\\test\\projection_model.obj"));
 }
 
 void ForgeWindow::exitForge() {
@@ -126,4 +99,5 @@ void ForgeWindow::openConfig() {
 
 void ForgeWindow::testEvent() {
 	polygon->thicken();
+	polygon->material->setColor(0.3, 1, 0.3);
 }

@@ -3,12 +3,16 @@
 #include <QtCore/QByteArray>
 #include <Qt3DRender/QRenderPass>
 #include <Qt3DRender/QTechnique>
+#include <Qt3DRender/QParameter>
 #include <Qt3DRender/QEffect>
 #include <Qt3DExtras/QGoochMaterial>
 #include <Qt3DRender/QMaterial>
 #include <Qt3DRender/QGraphicsApiFilter>
+#include <QtCore/QDir>
 
-class FModelEffect : public Qt3DRender::QEffect {
+#include "Defines.h"
+
+class FModelEffect : public QtEffect {
 private:
 
 	QDir resources;
@@ -27,8 +31,8 @@ private:
 	}
 
 public:
-	FModelEffect(Qt3DRender::QMaterial* parent, QDir t_resources) 
-		: Qt3DRender::QEffect(parent)
+	FModelEffect(QtMaterial* parent, QDir t_resources) 
+		: QtEffect(parent)
 		, resources(t_resources) 
 	{
 		auto shader = new Qt3DRender::QShaderProgram(parent);
@@ -55,10 +59,29 @@ public:
 	}
 };
 
-class FDefaultMaterial : public Qt3DRender::QMaterial {
+class FMaterial : public QtMaterial {
 public:
-	FDefaultMaterial( QDir resources ) {
+	virtual void setColor(float r, float g, float b) = 0;
+};
+
+class FDefaultMaterial : public FMaterial {
+private:
+
+	QtParameter* surfaceColor;
+
+public:
+	FDefaultMaterial( QDir resources )
+		: surfaceColor(new QtParameter())
+	{
 		this->setEffect(new FModelEffect(this, resources));
-		
+
+		surfaceColor->setName(QStringLiteral("surfaceColor"));
+		this->addParameter(surfaceColor);
+
+		this->setColor(1,1,1);
+	}
+
+	void setColor(float r, float g, float b) {
+		surfaceColor->setValue(QColor::fromRgbF(r,g,b));
 	}
 };

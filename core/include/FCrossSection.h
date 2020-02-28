@@ -1,7 +1,9 @@
 #pragma once
 
 #include <QtGui/QVector2D>
+#include <Qt3DRender/QMaterial>
 
+#include "FDefaultMaterial.h"
 #include "FGeometry.h"
 #include "FModel.h"
 #include "Defines.h"
@@ -15,14 +17,19 @@ private:
 	void initialize(std::vector<QVector2D> coordinates);
 
 public:
-	FCrossSection(QtEntity* parent, QtComponent* material, std::vector<QVector2D> coordinates)
-		: FModel(parent, material)
+	
+	FMaterial* material;
+	
+	FCrossSection(QtEntity* parent, FMaterial* t_material, std::vector<QVector2D> coordinates)
+		: FModel(parent, t_material)
+		, material(t_material)
 	{
 		initialize(coordinates);
 	}
 
-	FCrossSection(QtComponent* material, std::vector<QVector2D> coordinates)
-		: FModel(material)
+	FCrossSection(FMaterial* t_material, std::vector<QVector2D> coordinates)
+		: FModel(t_material)
+		, material(t_material)
 	{
 		initialize(coordinates);
 	}

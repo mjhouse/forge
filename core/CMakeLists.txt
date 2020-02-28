@@ -10,6 +10,13 @@ add_executable(Forge WIN32 ${INCLUDES} ${CSOURCES})
 target_link_libraries(Forge 
     qtmain          # handles windows-specific WinMain exe
     ForgeGuiLib     # gui-code for this application
+    Qt5::Core 
+	Qt5::Gui 
+	Qt5::Widgets 
+	Qt5::3DCore
+	Qt5::3DExtras
+    Qt5::3DRender
+    Qt5::3DInput
 )
 
 add_custom_command(TARGET Forge POST_BUILD

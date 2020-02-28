@@ -24,5 +24,4 @@ void main(void)
 
     viewPosition = (modelView * vec4(vertexPosition,1)).xyz;
     cameraVector = normalize(eyePosition - viewPosition);
-    vec3 worldNormal = normalize(mat3(modelMatrix) * vertexNormal);
 }

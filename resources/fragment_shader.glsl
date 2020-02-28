@@ -1,5 +1,7 @@
 #version 330 core
 
+uniform vec3 surfaceColor;
+
 out vec4 color;
 
 // the world-space position of the triggering 
@@ -12,10 +14,6 @@ in vec3 cameraVector;
 
 void main()
 {
-	vec3 RED = vec3(1,0.3,0.3);
-	vec3 GRN = vec3(0.3,1,0.3);
-	vec3 BLU = vec3(0.3,0.3,1);
-
 	vec3 xTangent = dFdx( viewPosition );
 	vec3 yTangent = dFdy( viewPosition );
 
@@ -26,9 +24,9 @@ void main()
 	// calculate direction relative to the camera
 	float direction = dot(faceNormal,cameraVector);
 	float faceAngle = acos(direction);
-
+	
 	// adjust and constrain the angle so that we get 
 	// varying per-face shading
 	float angle = 1/clamp(faceAngle,1,3);
-	color = vec4(RED * angle,1);
+	color = vec4(surfaceColor * angle,1);
 }
