@@ -13,13 +13,15 @@ private:
 
 	QDir resources;
 
-	QByteArray load(const char* file) {
-		auto path = resources.filePath(file);
-		QFile File(path);
+	QByteArray load(const char* name) {
+		QFile file(resources.filePath(name));
 
-		File.open(QFile::ReadOnly);
-		auto data = File.readAll();
-		File.close();
+		if (!file.exists())
+			throw -1;
+
+		file.open(QFile::ReadOnly);
+		auto data = file.readAll();
+		file.close();
 
 		return data;
 	}
@@ -30,13 +32,9 @@ public:
 		, resources(t_resources) 
 	{
 		auto shader = new Qt3DRender::QShaderProgram(parent);
-
+		
 		shader->setVertexShaderCode(load("vertex_shader.glsl"));
 		shader->setFragmentShaderCode(load("fragment_shader.glsl"));
-
-		auto vs = shader->vertexShaderCode().toStdString();
-		auto fs = shader->fragmentShaderCode().toStdString();
-		
 
 		auto render = new Qt3DRender::QRenderPass(parent);
 		render->setShaderProgram(shader);
@@ -51,7 +49,7 @@ public:
 		technique->graphicsApiFilter()->setApi(Qt3DRender::QGraphicsApiFilter::Api::OpenGL);
 		technique->graphicsApiFilter()->setProfile(Qt3DRender::QGraphicsApiFilter::OpenGLProfile::CoreProfile);
 		technique->graphicsApiFilter()->setMajorVersion(3);
-		technique->graphicsApiFilter()->setMinorVersion(1);
+		technique->graphicsApiFilter()->setMinorVersion(3);
 
 		this->addTechnique(technique);
 	}

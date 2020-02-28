@@ -5,9 +5,9 @@
 #include <QtWidgets/QMainWindow>
 #include <QtCore/QDir>
 
+#include "FCrossSection.h"
 #include "MeshView.h"
 #include "Config.h"
-#include "FCrossSection.h"
 
 class ForgeWindow: public QMainWindow {
 private:

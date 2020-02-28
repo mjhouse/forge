@@ -1,9 +1,16 @@
 #include "FCrossSection.h"
 
-void FCrossSection::initialize(std::vector<QVector3D> points) {
+void FCrossSection::initialize(std::vector<QVector2D> coordinates) {
 	renderer->setPrimitiveType(QtRenderType::Triangles);
-
-	size_t size = points.size();
+	size_t size = coordinates.size();
+	
+	// convert coordinates to 3d points
+	std::vector<QVector3D> points(size);
+	for (size_t i = 0; i < size; ++i) {
+		auto p = coordinates[i];
+		points[i] = QVector3D(p.x(),p.y(),0.0);
+	}
+	
 	QVector3D n = QVector3D::normal(
 		points[0],
 		points[1],

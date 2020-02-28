@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QtGui/QVector2D>
+
 #include "FGeometry.h"
 #include "FModel.h"
 #include "Defines.h"
@@ -10,19 +12,19 @@
 class FCrossSection : public FModel {
 private:
 
-	void initialize(std::vector<QVector3D> points);
+	void initialize(std::vector<QVector2D> coordinates);
 
 public:
-	FCrossSection(QtEntity* parent, QtComponent* material, std::vector<QVector3D> points)
+	FCrossSection(QtEntity* parent, QtComponent* material, std::vector<QVector2D> coordinates)
 		: FModel(parent, material)
 	{
-		initialize(points);
+		initialize(coordinates);
 	}
 
-	FCrossSection(QtComponent* material, std::vector<QVector3D> points)
+	FCrossSection(QtComponent* material, std::vector<QVector2D> coordinates)
 		: FModel(material)
 	{
-		initialize(points);
+		initialize(coordinates);
 	}
 
 	void thicken();

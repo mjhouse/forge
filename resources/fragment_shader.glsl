@@ -1,10 +1,34 @@
-#version 150 core
+#version 330 core
 
-//uniform vec3 maincolor;
+out vec4 color;
 
-out vec4 fragColor;
+// the world-space position of the triggering 
+// vertex
+in vec3 viewPosition;
+
+// a vector from the triggering vertex to the 
+// camera position
+in vec3 cameraVector;
 
 void main()
 {
-	fragColor = vec4(1,0.5,0.5,1);
+	vec3 RED = vec3(1,0.3,0.3);
+	vec3 GRN = vec3(0.3,1,0.3);
+	vec3 BLU = vec3(0.3,0.3,1);
+
+	vec3 xTangent = dFdx( viewPosition );
+	vec3 yTangent = dFdy( viewPosition );
+
+	// normal for this entire face (all fragments 
+	// facing the same direction)
+	vec3 faceNormal = normalize( cross( xTangent, yTangent ) );
+
+	// calculate direction relative to the camera
+	float direction = dot(faceNormal,cameraVector);
+	float faceAngle = acos(direction);
+
+	// adjust and constrain the angle so that we get 
+	// varying per-face shading
+	float angle = 1/clamp(faceAngle,1,3);
+	color = vec4(RED * angle,1);
 }

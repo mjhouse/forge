@@ -59,18 +59,18 @@ void ForgeWindow::build() {
 	// SETUP ENTITY
 	auto entity = view.rootEntity();
 	polygon = new FCrossSection(entity, material,{
-		{-3.0f, 3.0f, 0.0f},
-		{-3.0f, -3.0f, 0.0f},
-		{-1.5f, -3.0f, 0.0f},
-		{-1.5f, -1.5f, 0.0f},
-		{1.5f, -1.5f, 0.0f},
-		{1.5f, -3.0f, 0.0f},
-		{3.0f, -3.0f, 0.0f},
-		{3.0f, 3.0f, 0.0f},
-		{1.5f, 3.0f, 0.0f},
-		{1.5f, 1.5f, 0.0f},
-		{-1.5f, 1.5f, 0.0f},
-		{-1.5f, 3.0f, 0.0f}
+		{-3.0f, 3.0f},
+		{-3.0f, -3.0f},
+		{-1.5f, -3.0f},
+		{-1.5f, -1.5f},
+		{1.5f, -1.5f},
+		{1.5f, -3.0f},
+		{3.0f, -3.0f},
+		{3.0f, 3.0f},
+		{1.5f, 3.0f},
+		{1.5f, 1.5f},
+		{-1.5f, 1.5f},
+		{-1.5f, 3.0f}
 	});
 
 	// create the floating main menu
