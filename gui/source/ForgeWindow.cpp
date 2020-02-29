@@ -18,14 +18,14 @@
 #include "Config.h"
 #include "FCrossSection.h"
 #include "FDefaultMaterial.h"
+#include "ForgePlace.h"
 
 #define WHITE 0xffffff
 #define BLACK 0x000000
 #define GRAY  0x212121
 
-ForgeWindow::ForgeWindow( QDir t_resources ) 
-	: resources(t_resources)
-	, view(GRAY)
+ForgeWindow::ForgeWindow() 
+	: view(GRAY)
 	, config()
 	, polygon(nullptr) {
 
@@ -60,27 +60,31 @@ void ForgeWindow::build() {
 		{-1.5f, 3.0f}
 	});
 
-	model = new FModel(entity,polygon->toGeometry());
+	new FModel(entity,polygon->toGeometry());
 
-	// create the floating main menu
-	auto menu = new ForgeMenu(this);
+	mainMenu = new ForgeMenu(this);
+	placeDialog = new ForgePlace(this);
 
-	(void)this->connect(menu, &ForgeMenu::onOpenFile,
+	(void)this->connect(mainMenu, &ForgeMenu::onOpenFile,
 						this, &ForgeWindow::openFile);
 
-	(void)this->connect(menu, &ForgeMenu::onExitForge,
+	(void)this->connect(mainMenu, &ForgeMenu::onExitForge,
 						this, &ForgeWindow::exitForge);
 
-	(void)this->connect(menu, &ForgeMenu::onOpenConfig,
+	(void)this->connect(mainMenu, &ForgeMenu::onOpenConfig,
 						this, &ForgeWindow::openConfig);
 
-	(void)this->connect(menu, &ForgeMenu::onTestEvent,
+	(void)this->connect(mainMenu, &ForgeMenu::onTestEvent,
 						this, &ForgeWindow::testEvent);
 
 	// setting dock options = 0 will remove dockarea animations,
 	// which stutter because of the 3d view
 	this->setDockOptions(0);
-	this->addDockWidget(Qt::DockWidgetArea::TopDockWidgetArea, menu);
+	
+	this->addDockWidget(Qt::DockWidgetArea::TopDockWidgetArea, mainMenu);
+	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, placeDialog);
+
+	placeDialog->hide();
 
 	// wrapped 3d view is the main and only widget
     this->setCentralWidget(main);
@@ -99,6 +103,5 @@ void ForgeWindow::openConfig() {
 }
 
 void ForgeWindow::testEvent() {
-	//polygon->thicken();
-	//polygon->material->setColor(0.3f, 1.0f, 0.3f);
+	placeDialog->show();
 }

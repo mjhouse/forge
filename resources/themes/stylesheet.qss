@@ -1,0 +1,39 @@
+
+QWidget {
+	background-color: #424242; 
+	color: white;
+}
+
+#MainControl,
+#MainControl QWidget {  
+	background-color: #424242; 
+	color: white; 
+}
+
+#TitleButton {
+	background-color: #545454;
+	border-style: solid;
+	border-width:1px;
+	border-radius:10px;
+	border-color: #575757;
+	max-width:20px;
+	max-height:20px;
+	min-width:20px;
+	min-height:20px;
+}
+
+QDockWidget::close-button,
+QDockWidget::float-button {
+	background-color: #545454;
+	color: white;
+	border-radius: 10px;
+}
+
+#MainControl QMenu::item:selected { 
+	background-color: #6d6d6d; 
+}
+
+QMainWindow::separator {
+	width: 1px; 
+	border: none;
+}

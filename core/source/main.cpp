@@ -5,20 +5,16 @@
 #include <QtCore/QDir>
 
 #include "ForgeWindow.h"
+#include "Resources.h"
 
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
-	auto resources = QDir(QDir::cleanPath(app.applicationDirPath() + "/resources"));
-	auto stylePath = resources.filePath("stylesheet.qss");
+	resources::initialize(QDir::cleanPath(app.applicationDirPath() + "/resources"));
+	app.setStyleSheet(resources::theme("stylesheet"));
 
-	QFile File(stylePath);
-	File.open(QFile::ReadOnly);
-	
-	app.setStyleSheet(QLatin1String(File.readAll()));
-
-	ForgeWindow window(resources);
+	ForgeWindow window;
 	window.build();
 	window.show();
 

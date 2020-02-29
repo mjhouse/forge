@@ -9,9 +9,11 @@
 #include "MeshView.h"
 #include "Config.h"
 
+#include "ForgeMenu.h"
+#include "ForgePlace.h"
+
 class ForgeWindow: public QMainWindow {
 private:
-	QDir resources;
 
 	MeshView view;
 
@@ -19,10 +21,11 @@ private:
 
 	FCrossSection* polygon;
 
-	FModel* model;
+	ForgeMenu*  mainMenu;
+	ForgePlace* placeDialog;
 
 public:
-	ForgeWindow( QDir t_resources );
+	ForgeWindow();
 	~ForgeWindow();
 
 	void build();
