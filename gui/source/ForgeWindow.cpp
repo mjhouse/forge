@@ -42,11 +42,10 @@ void ForgeWindow::build() {
 	// wrap the 3d view in a QWidget container
 	auto main = QWidget::createWindowContainer(&view);
 
-	auto material = new FDefaultMaterial(resources);
-	
 	// SETUP ENTITY
 	auto entity = view.rootEntity();
-	polygon = new FCrossSection(entity, material,{
+	
+	polygon = new FCrossSection({
 		{-3.0f, 3.0f},
 		{-3.0f, -3.0f},
 		{-1.5f, -3.0f},
@@ -60,6 +59,8 @@ void ForgeWindow::build() {
 		{-1.5f, 1.5f},
 		{-1.5f, 3.0f}
 	});
+
+	model = new FModel(entity,polygon->toGeometry());
 
 	// create the floating main menu
 	auto menu = new ForgeMenu(this);
@@ -98,6 +99,6 @@ void ForgeWindow::openConfig() {
 }
 
 void ForgeWindow::testEvent() {
-	polygon->thicken();
-	polygon->material->setColor(0.3, 1, 0.3);
+	//polygon->thicken();
+	//polygon->material->setColor(0.3f, 1.0f, 0.3f);
 }

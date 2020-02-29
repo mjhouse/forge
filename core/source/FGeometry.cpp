@@ -78,8 +78,7 @@ std::vector<uint> FGeometry::getIndices() {
     return index;
 }
 
-
-FGeometry::FGeometry(QNode* parent)
+FGeometry::FGeometry()
     : buffer(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::VertexBuffer, this))
     , normals(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::VertexBuffer, this))
     , indices(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::IndexBuffer, this))

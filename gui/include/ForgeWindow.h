@@ -19,6 +19,8 @@ private:
 
 	FCrossSection* polygon;
 
+	FModel* model;
+
 public:
 	ForgeWindow( QDir t_resources );
 	~ForgeWindow();

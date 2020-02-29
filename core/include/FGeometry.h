@@ -57,7 +57,7 @@ public:
 	std::vector<uint> tessellate(std::vector<QVector3D> points);
 
 public:
-	FGeometry(QNode* parent);
+	FGeometry();
 
 	QtRenderer* getRenderer(QtRenderType type);
 
