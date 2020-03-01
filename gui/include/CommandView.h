@@ -63,6 +63,9 @@ private:
 	void untrack() {
 		(void)this->disconnect(ForgeRenderer::instance(), &ForgeRenderer::mouseMove,
 							this, &CreateCommand::onMouseEvent);
+
+		(void)this->disconnect(ForgeRenderer::instance(), &ForgeRenderer::mouseRelease,
+							this, &CreateCommand::onClickEvent);
 	}
 
 	void onMouseEvent(QMouseEvent* e) {

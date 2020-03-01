@@ -4,7 +4,11 @@
 #include <Qt3DExtras/QForwardRenderer>
 #include <Qt3DRender/QCamera>
 #include <QtGui/QResizeEvent>
+
+#include "FModel.h"
 #include "Defines.h"
+
+class FModel;
 
 class ForgeRenderer : public Qt3DWindow {
 	Q_OBJECT
@@ -17,72 +21,27 @@ private:
 
 	QWidget* widget;
 
-	ForgeRenderer()
-		: root(new QtEntity())
-		, controller(nullptr)
-	{
-		this->camera()->lens()->setPerspectiveProjection(45.0, 1, 0.1f, 1000.0);
-		this->setBackground(QRgb(0x000000));
-		this->setRootEntity(root);
+	ForgeRenderer();
 
-		auto camera = this->camera();
+	void resizeEvent(QResizeEvent* event);
 
-		camera->setPosition(QVector3D(0, 10, 0));
-		camera->setUpVector(QVector3D(0, 0, 1));
-		camera->setViewCenter(QVector3D(0, 0, 0));
+	void mouseMoveEvent(QMouseEvent* e) override;
 
-		controller = new QtOrbitController(root);
-		controller->setLinearSpeed(50.0f);
-		controller->setLookSpeed(100.0f);
-		controller->setCamera(camera);
+	void mousePressEvent(QMouseEvent* e) override;
 
-		widget = QWidget::createWindowContainer(this);
-	}
-
-	void resizeEvent(QResizeEvent* event) {
-		auto lens = camera()->lens();
-		lens->setPerspectiveProjection(
-			lens->fieldOfView(),
-			(float)width() / height(),
-			lens->nearPlane(),
-			lens->farPlane()
-		);
-	}
-
-	void mouseMoveEvent(QMouseEvent* e) override {
-		emit mouseMove(e);
-	}
-
-	void mousePressEvent(QMouseEvent* e) override {
-		emit mousePress(e);
-	}
-
-	void mouseReleaseEvent(QMouseEvent* e) override {
-		emit mouseRelease(e);
-	}
+	void mouseReleaseEvent(QMouseEvent* e) override;
 
 public:
 	
-	static ForgeRenderer* instance() {
-		static auto renderer = new ForgeRenderer();
-		return renderer;
-	}
+	static ForgeRenderer* instance();
 
-	QWidget* getView() {
-		return widget;
-	}
+	QWidget* getView();
 
-	void setBackground(QRgb t_color) {
-		this->defaultFrameGraph()->setClearColor(QColor(t_color));
-	}
+	void setBackground(QRgb t_color);
 
-	void addModel(FModel* t_model) {
-		t_model->setParent(root);
-	}
+	void addModel(FModel* t_model);
 
-	QVector3D cameraPosition() {
-		return camera()->position();
-	}
+	QVector3D cameraPosition();
 	
 signals:
 	void mouseMove(QMouseEvent* e);

@@ -17,8 +17,4 @@ target_link_libraries(ForgeGuiLib
 	Qt5::3DExtras
     Qt5::3DRender
     Qt5::3DInput
-	CGAL
-	scip
-	soplex
-	zimpl
 )

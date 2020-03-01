@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Qt3DCore/QEntity>
+#include <QtWidgets/QWidget>
 #include <Qt3DRender/QGeometryRenderer>
 
 #include "FDefaultMaterial.h"
