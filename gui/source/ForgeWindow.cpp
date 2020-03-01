@@ -14,24 +14,26 @@
 
 #include "ForgeWindow.h"
 #include "ForgeMenu.h"
-#include "MeshView.h"
 #include "Config.h"
 #include "FCrossSection.h"
 #include "FDefaultMaterial.h"
-#include "ForgePlace.h"
+#include "CommandView.h"
+#include "ForgeRenderer.h"
 
 #define WHITE 0xffffff
 #define BLACK 0x000000
 #define GRAY  0x212121
 
 ForgeWindow::ForgeWindow() 
-	: view(GRAY)
-	, config()
-	, polygon(nullptr) {
+	: config()
+	, mainMenu(new ForgeMenu(this))
+	, placeDialog(new CreateCommand(this))
+	{
 
 	QRect screenSize = QDesktopWidget().availableGeometry(this);
 	resize(screenSize.size() * 0.8);
 	setWindowTitle("Forge - Construction");
+	ForgeRenderer::instance()->setBackground(GRAY);
 }
 
 ForgeWindow::~ForgeWindow() {
@@ -39,31 +41,6 @@ ForgeWindow::~ForgeWindow() {
 }
 
 void ForgeWindow::build() {
-	// wrap the 3d view in a QWidget container
-	auto main = QWidget::createWindowContainer(&view);
-
-	// SETUP ENTITY
-	auto entity = view.rootEntity();
-	
-	polygon = new FCrossSection({
-		{-3.0f, 3.0f},
-		{-3.0f, -3.0f},
-		{-1.5f, -3.0f},
-		{-1.5f, -1.5f},
-		{1.5f, -1.5f},
-		{1.5f, -3.0f},
-		{3.0f, -3.0f},
-		{3.0f, 3.0f},
-		{1.5f, 3.0f},
-		{1.5f, 1.5f},
-		{-1.5f, 1.5f},
-		{-1.5f, 3.0f}
-	});
-
-	new FModel(entity,polygon->toGeometry());
-
-	mainMenu = new ForgeMenu(this);
-	placeDialog = new ForgePlace(this);
 
 	(void)this->connect(mainMenu, &ForgeMenu::onOpenFile,
 						this, &ForgeWindow::openFile);
@@ -87,7 +64,7 @@ void ForgeWindow::build() {
 	placeDialog->hide();
 
 	// wrapped 3d view is the main and only widget
-    this->setCentralWidget(main);
+    this->setCentralWidget(ForgeRenderer::instance()->getView());
 }
 
 void ForgeWindow::openFile(QString path) {

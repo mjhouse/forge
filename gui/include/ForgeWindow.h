@@ -6,23 +6,20 @@
 #include <QtCore/QDir>
 
 #include "FCrossSection.h"
-#include "MeshView.h"
 #include "Config.h"
 
 #include "ForgeMenu.h"
-#include "ForgePlace.h"
+#include "CommandView.h"
 
 class ForgeWindow: public QMainWindow {
 private:
-
-	MeshView view;
-
+	
 	Config config;
-
-	FCrossSection* polygon;
-
+	
 	ForgeMenu*  mainMenu;
-	ForgePlace* placeDialog;
+
+	// commands
+	CreateCommand* placeDialog;
 
 public:
 	ForgeWindow();

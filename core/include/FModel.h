@@ -10,7 +10,7 @@
 #define RED QColor::fromRgbF(1.0,0.3,0.3)
 
 class FModel : public QtEntity {
-public:
+private:
 
 	FGeometry* geometry;
 
@@ -22,9 +22,8 @@ public:
 
 public:
 	
-	FModel( QtEntity* t_parent, FGeometry* t_geometry, QtTransform* t_transform, FMaterial* t_material )
-		: QtEntity(t_parent)
-		, geometry(t_geometry)
+	FModel( FGeometry* t_geometry, QtTransform* t_transform, FMaterial* t_material )
+		: geometry(t_geometry)
 		, transform(t_transform)
 		, material(t_material)
 	{
@@ -36,16 +35,20 @@ public:
 		this->addComponent(transform);
 	}
 
-	FModel( QtEntity* t_parent, FGeometry* t_geometry, QColor t_color)
-		: FModel(t_parent, t_geometry, new QtTransform(), new FDefaultMaterial(t_color))
+	FModel( FGeometry* t_geometry, QColor t_color)
+		: FModel(t_geometry, new QtTransform(), new FDefaultMaterial(t_color))
 	{}
 
-	FModel( QtEntity* t_parent, FGeometry* t_geometry)
-		: FModel(t_parent, t_geometry, new QtTransform(), new FDefaultMaterial(RED))
+	FModel( FGeometry* t_geometry)
+		: FModel(t_geometry, new QtTransform(), new FDefaultMaterial(RED))
 	{}
 	
 	QVector3D getCentroid(std::vector<QVector3D> points);
 
 	QVector3D getCentroid();
+
+	QtTransform* getTransform() {
+		return transform;
+	}
 
 };
