@@ -9,7 +9,7 @@
 #include "Config.h"
 
 #include "ForgeMenu.h"
-#include "CommandView.h"
+#include "CommandCreate.h"
 
 class ForgeWindow: public QMainWindow {
 private:

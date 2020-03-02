@@ -17,7 +17,6 @@
 #include "Config.h"
 #include "FCrossSection.h"
 #include "FDefaultMaterial.h"
-#include "CommandView.h"
 #include "ForgeRenderer.h"
 
 #define WHITE 0xffffff

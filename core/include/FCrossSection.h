@@ -37,39 +37,3 @@ signals:
 	void crossSectionChanged(FCrossSection* crossSection);
 
 };
-
-
-
-
-
-
-
-
-
-
-
-//class FCrossSection : public FModel {
-//private:
-//
-//	void initialize(std::vector<QVector2D> coordinates);
-//
-//public:
-//	
-//	FMaterial* material;
-//	
-//	FCrossSection(QtEntity* parent, FMaterial* t_material, std::vector<QVector2D> coordinates)
-//		: FModel(parent, t_material)
-//		, material(t_material)
-//	{
-//		initialize(coordinates);
-//	}
-//
-//	FCrossSection(FMaterial* t_material, std::vector<QVector2D> coordinates)
-//		: FModel(t_material)
-//		, material(t_material)
-//	{
-//		initialize(coordinates);
-//	}
-//
-//	void thicken();
-//};
