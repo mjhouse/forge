@@ -6,6 +6,7 @@
 
 #include "ForgeWindow.h"
 #include "Resources.h"
+#include "Defines.h"
 
 int main(int argc, char* argv[])
 {

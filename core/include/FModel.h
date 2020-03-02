@@ -5,13 +5,18 @@
 #include <Qt3DRender/QGeometryRenderer>
 
 #include "FDefaultMaterial.h"
+#include "FCrossSection.h"
 #include "FGeometry.h"
 #include "Defines.h"
 
 #define RED QColor::fromRgbF(1.0,0.3,0.3)
 
+class FCrossSection;
+
 class FModel : public QtEntity {
 private:
+
+	FCrossSection* section;
 
 	FGeometry* geometry;
 
@@ -23,33 +28,23 @@ private:
 
 public:
 	
-	FModel( FGeometry* t_geometry, QtTransform* t_transform, FMaterial* t_material )
-		: geometry(t_geometry)
-		, transform(t_transform)
-		, material(t_material)
-	{
-		renderer = geometry->getRenderer(
-			QtRenderType::Triangles);
+	FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_material);
 
-		this->addComponent(renderer);
-		this->addComponent(material);
-		this->addComponent(transform);
-	}
+	FModel(FCrossSection* t_section, QColor t_color);
 
-	FModel( FGeometry* t_geometry, QColor t_color)
-		: FModel(t_geometry, new QtTransform(), new FDefaultMaterial(t_color))
-	{}
-
-	FModel( FGeometry* t_geometry)
-		: FModel(t_geometry, new QtTransform(), new FDefaultMaterial(RED))
-	{}
+	FModel(FCrossSection* t_section);
 	
 	QVector3D getCentroid(std::vector<QVector3D> points);
 
 	QVector3D getCentroid();
 
-	QtTransform* getTransform() {
-		return transform;
-	}
+	QtTransform* getTransform();
 
+	bool isVisible();
+
+	void hide();
+
+	void show();
+
+	void setLength(float t_length);
 };

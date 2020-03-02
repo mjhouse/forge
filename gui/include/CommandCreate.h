@@ -9,6 +9,8 @@ private:
 
 	FModel* active = nullptr;
 
+	float length = 0.5;
+
 public:
 	CreateCommand(QWidget* t_parent)
 		: Command(t_parent)
@@ -19,7 +21,7 @@ public:
 		auto row = new QHBoxLayout();
 
 		auto name = new QLineEdit();
-		name->setPlaceholderText("Item_Name");
+		name->setPlaceholderText("Length");
 
 		button = new QPushButton("Create");
 		row->addStretch(1);
@@ -30,6 +32,9 @@ public:
 
 		(void)this->connect(button, &QPushButton::pressed,
 			this, &CreateCommand::startCreate);
+
+		(void)this->connect(name, &QLineEdit::textChanged,
+							this, &CreateCommand::lengthChanged);
 
 		layout->addStretch(1);
 		this->widget()->setLayout(layout);
@@ -71,7 +76,7 @@ public:
 
 	void startCreate() {
 		cancelCreate();
-		FCrossSection crossSection({
+		FCrossSection* cs = new FCrossSection({
 			{-3.0f, 3.0f},
 			{-3.0f, -3.0f},
 			{-1.5f, -3.0f},
@@ -86,7 +91,8 @@ public:
 			{-1.5f, 3.0f}
 			});
 
-		active = new FModel(crossSection.toGeometry());
+		cs->setLength(length);
+		active = new FModel(cs);
 		ForgeRenderer::instance()->addModel(active);
 
 		button->setEnabled(false);
@@ -106,6 +112,16 @@ public:
 				break;
 			default: 
 				break;
+		}
+	}
+
+	void lengthChanged(QString t_input) {
+		bool ok = false;
+		auto l = t_input.toFloat(&ok);
+		if (ok) {
+			length = l;
+			if(active) 
+				active->setLength(length);
 		}
 	}
 

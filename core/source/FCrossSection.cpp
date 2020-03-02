@@ -37,40 +37,50 @@ void FCrossSection::tessellate() {
 	indices = mapbox::earcut<uint>(polygon);
 }
 
-FCrossSection::FCrossSection(std::vector<QVector2D> t_coordinates) {
+FCrossSection::FCrossSection(std::vector<QVector2D> t_coordinates) 
+	: length(DEPTH_LENGTH)
+{
 	initialize(t_coordinates);
 }
 
-FGeometry* FCrossSection::toGeometry(float thickness) {
+FGeometry* FCrossSection::toGeometry() {
 	FGeometry* geometry = new FGeometry();
-	
+	updateGeometry(geometry);
+	return geometry;
+}
+
+void FCrossSection::updateGeometry(FGeometry* t_geometry) {
 	// find the offset for the new end face
-	auto offset = DEPTH_NORMAL * thickness;
+	auto offset = DEPTH_NORMAL * (length * -1);
+
+	auto nvertices = vertices;
+	auto nnormals  = normals;
+	auto nindices  = indices;
 
 	// find new sizes for vertex, index and normal 
 	// buffers
-	size_t vs = vertices.size();
-	size_t is = indices.size();
+	size_t vs = nvertices.size();
+	size_t is = nindices.size();
 
-	vertices.resize(vs * 2);
-	normals.resize(vs * 2);
-	indices.resize(is * 2);
+	nvertices.resize(vs * 2);
+	nnormals.resize(vs * 2);
+	nindices.resize(is * 2);
 
 	// duplicate front-surface geometry along the
 	// offset
 	for (uint i = 0; i < vs; ++i) {
 		uint j = i == vs - 1 ? 0 : i + 1;
 
-		vertices[i + vs] = vertices[i] + offset;
-			
-		uint a = i,                 // first, original side
-				b = j,                 // second, original side
-				c = i + (uint)vs,      // first, far side
-				d = j + (uint)vs;      // second, far side
+		nvertices[i + vs] = nvertices[i] + offset;
 
-		indices.insert(indices.end(), {
+		uint a = i,                 // first, original side
+			b = j,                 // second, original side
+			c = i + (uint)vs,      // first, far side
+			d = j + (uint)vs;      // second, far side
+
+		nindices.insert(nindices.end(), {
 			a, c, d, d, b, a
-		});
+			});
 	}
 
 	// duplicate existing triangle patterns with a 
@@ -78,32 +88,34 @@ FGeometry* FCrossSection::toGeometry(float thickness) {
 	uint k = (uint)vs;
 	for (int i = 0; i < is; i += 3) {
 		auto a = i + is,
-				b = a + 1,
-				c = b + 1;
+			b = a + 1,
+			c = b + 1;
 
-		indices[a] = indices[c - is] + k;
-		indices[b] = indices[b - is] + k;
-		indices[c] = indices[a - is] + k;
+		nindices[a] = nindices[c - is] + k;
+		nindices[b] = nindices[b - is] + k;
+		nindices[c] = nindices[a - is] + k;
 	}
 
 	// calculate normals for each vertex of each
 	// triangle in the mesh
-	for (size_t j = 0; j < indices.size();) {
-		auto a = indices[j++];
-		auto b = indices[j++];
-		auto c = indices[j++];
+	for (size_t j = 0; j < nindices.size();) {
+		auto a = nindices[j++];
+		auto b = nindices[j++];
+		auto c = nindices[j++];
 		auto n = QVector3D::crossProduct(
-			vertices[b] - vertices[a],
-			vertices[c] - vertices[a]
+			nvertices[b] - nvertices[a],
+			nvertices[c] - nvertices[a]
 		);
-		normals[a] += n;
-		normals[b] += n;
-		normals[c] += n;
+		nnormals[a] += n;
+		nnormals[b] += n;
+		nnormals[c] += n;
 	}
 
-	geometry->setVertices(vertices);
-	geometry->setNormals(normals);
-	geometry->setIndices(indices);
-
-	return geometry;
+	t_geometry->setVertices(nvertices);
+	t_geometry->setNormals(nnormals);
+	t_geometry->setIndices(nindices);
 }
+
+void FCrossSection::setLength(float t_length) {
+	length = t_length > 0 ? t_length : 0.1;
+};

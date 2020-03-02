@@ -11,7 +11,7 @@
 #include "FCrossSection.h"
 #include "ForgeRenderer.h"
 
-enum ShortcutKey {
+enum class ShortcutKey {
 	EscapeKey,
 	EnterKey
 };
