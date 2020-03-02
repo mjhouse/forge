@@ -74,9 +74,9 @@ void FCrossSection::updateGeometry(FGeometry* t_geometry) {
 		nvertices[i + vs] = nvertices[i] + offset;
 
 		uint a = i,                 // first, original side
-			b = j,                 // second, original side
-			c = i + (uint)vs,      // first, far side
-			d = j + (uint)vs;      // second, far side
+			b = j,                  // second, original side
+			c = i + (uint)vs,       // first, far side
+			d = j + (uint)vs;       // second, far side
 
 		nindices.insert(nindices.end(), {
 			a, c, d, d, b, a

@@ -41,9 +41,6 @@ ForgeWindow::~ForgeWindow() {
 
 void ForgeWindow::build() {
 
-	(void)this->connect(mainMenu, &ForgeMenu::onOpenFile,
-						this, &ForgeWindow::openFile);
-
 	(void)this->connect(mainMenu, &ForgeMenu::onExitForge,
 						this, &ForgeWindow::exitForge);
 
@@ -52,6 +49,9 @@ void ForgeWindow::build() {
 
 	(void)this->connect(mainMenu, &ForgeMenu::onTestEvent,
 						this, &ForgeWindow::testEvent);
+
+	(void)this->connect(mainMenu, &ForgeMenu::onCreateCommand,
+						this, &ForgeWindow::onCreateCommand);
 
 	// setting dock options = 0 will remove dockarea animations,
 	// which stutter because of the 3d view
@@ -66,10 +66,6 @@ void ForgeWindow::build() {
     this->setCentralWidget(ForgeRenderer::instance()->getView());
 }
 
-void ForgeWindow::openFile(QString path) {
-
-}
-
 void ForgeWindow::exitForge() {
 	QApplication::quit();
 }
@@ -79,5 +75,10 @@ void ForgeWindow::openConfig() {
 }
 
 void ForgeWindow::testEvent() {
-	placeDialog->show();
+
+}
+
+void ForgeWindow::onCreateCommand(bool open) {
+	if (open) placeDialog->show();
+	else placeDialog->hide();
 }

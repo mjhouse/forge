@@ -47,13 +47,13 @@ namespace resources {
 	/* Initialize
 	   Find the root directory and init the resources map
 	*/
-	void initialize(QString t_root) {
-		root = QDir(t_root);
+	void initialize(QDir t_root) {
+		root = t_root;
 		root.makeAbsolute();
 
 		auto list = root.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 		for (auto directory : list) {
-			paths[directory] = root.filePath(directory);
+			paths[directory] = QDir(root.filePath(directory));
 		}
 	}
 

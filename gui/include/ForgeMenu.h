@@ -12,14 +12,14 @@ public:
 	void onOwnerChanged(bool topLevel);
 	void onDockChanged(Qt::DockWidgetArea area);
 
-	void openButton(bool checked);
 	void exitButton(bool checked);
+	void createButton(bool checked);
 	void testButton(bool checked);
 	void optionButton(bool checked);
 
 signals:
-	void onOpenFile(QString path);
 	void onExitForge();
+	void onCreateCommand(bool open);
 	void onTestEvent();
 	void onOpenConfig();
 };

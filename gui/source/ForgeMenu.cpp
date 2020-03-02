@@ -17,23 +17,31 @@ ForgeMenu::ForgeMenu( QWidget* parent ) {
 	auto widget = new QWidget();
 	auto menu = new QMenuBar();
 
-	auto f_menu = new QMenu(tr("&File"), this);
-	auto s_menu = new QMenu(tr("&Settings"), this);
+	auto f_menu = new QMenu(tr("File"), this);
+	auto v_menu = new QMenu(tr("View"), this);
+	auto s_menu = new QMenu(tr("Settings"), this);
 
-	auto open_action = f_menu->addAction(tr("O&pen"));
-	auto exit_action = f_menu->addAction(tr("E&xit"));
+	// submenu/items for file menu
+	auto exit_action = f_menu->addAction(tr("Exit"));
 
-	auto test_action = s_menu->addAction(tr("T&est"));
-	auto optn_action = s_menu->addAction(tr("O&ptions"));
+	// submenu/items for view menu
+	auto create_action = v_menu->addAction(tr("Create"));
+	create_action->setCheckable(true);
+
+	// submenu/items for settings menu
+	auto test_action = s_menu->addAction(tr("Test"));
+	auto options_action = s_menu->addAction(tr("Options"));
 
 	menu->addMenu(f_menu);
+	menu->addMenu(v_menu);
 	menu->addMenu(s_menu);
 
 	layout->addWidget(menu);
 	layout->addStretch(1);
+
 	widget->setLayout(layout);
-	
 	this->setTitleBarWidget(widget);
+
 	this->setWidget(new QWidget());
 	this->widget()->setMaximumHeight(0);
 
@@ -45,16 +53,16 @@ ForgeMenu::ForgeMenu( QWidget* parent ) {
 	(void)this->connect(this, &QDockWidget::dockLocationChanged,
 						this, &ForgeMenu::onDockChanged);
 
-	(void)this->connect(open_action,&QAction::triggered,
-						this,&ForgeMenu::openButton);
-
 	(void)this->connect(exit_action, &QAction::triggered,
 						this, &ForgeMenu::exitButton);
+
+	(void)this->connect(create_action, &QAction::triggered,
+						this, &ForgeMenu::createButton);
 
 	(void)this->connect(test_action, &QAction::triggered,
 						this, &ForgeMenu::testButton);
 
-	(void)this->connect(optn_action, &QAction::triggered,
+	(void)this->connect(options_action, &QAction::triggered,
 						this, &ForgeMenu::optionButton);
 
 	this->setObjectName("MainControl");
@@ -73,16 +81,12 @@ void ForgeMenu::onDockChanged(Qt::DockWidgetArea area) {
 
 }
 
-void ForgeMenu::openButton(bool checked) {
-	QString fileName = QFileDialog::getOpenFileName(this,
-		tr("Open Model"), "",
-		tr("Wavefront OBJ (*.obj);; STL (*.stl);; PLY (*.ply)"));
-
-	emit onOpenFile(fileName);
-}
-
 void ForgeMenu::exitButton(bool checked) {
 	emit onExitForge();
+}
+
+void ForgeMenu::createButton(bool checked) {
+	emit onCreateCommand(checked);
 }
 
 void ForgeMenu::testButton(bool checked) {

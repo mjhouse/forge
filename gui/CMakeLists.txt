@@ -3,13 +3,11 @@
 file(GLOB INCLUDES "include/*.h")
 file(GLOB CSOURCES "source/*.cpp")
 
-set(CGAL_USE_SCIP True)
-
 # Add source to this project's executable.
-add_library(ForgeGuiLib ${INCLUDES} ${CSOURCES})
+add_library(forge_gui ${INCLUDES} ${CSOURCES})
 
 # link QT5 libraries
-target_link_libraries(ForgeGuiLib 
+target_link_libraries(forge_gui 
 	Qt5::Core 
 	Qt5::Gui 
 	Qt5::Widgets 

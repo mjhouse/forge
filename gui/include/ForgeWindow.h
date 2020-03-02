@@ -31,4 +31,6 @@ public:
 	void exitForge();
 	void openConfig();
 	void testEvent();
+
+	void onCreateCommand(bool open);
 };

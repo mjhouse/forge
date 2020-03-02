@@ -16,17 +16,17 @@ std::vector<uint> FGeometry::tessellate(std::vector<QVector3D> points) {
 
 void FGeometry::setVertices(std::vector<QVector3D> t_vertices) {
     setVertexData(t_vertices);
-    setVertexBuffer(this->buffer, t_vertices.size());
+    setVertexBuffer(this->buffer, (uint)t_vertices.size());
 }
 
 void FGeometry::setNormals(std::vector<QVector3D> t_normals) {
     setNormalData(t_normals);
-    setNormalBuffer(this->normals, t_normals.size());
+    setNormalBuffer(this->normals, (uint)t_normals.size());
 }
 
 void FGeometry::setIndices(std::vector<uint> t_indices) {
     setIndexData(t_indices);
-    setIndexBuffer(this->indices, t_indices.size());
+    setIndexBuffer(this->indices, (uint)t_indices.size());
 }
 
 std::vector<QVector3D> FGeometry::getVertices() {
@@ -79,9 +79,9 @@ std::vector<uint> FGeometry::getIndices() {
 }
 
 FGeometry::FGeometry()
-    : buffer(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::VertexBuffer, this))
-    , normals(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::VertexBuffer, this))
-    , indices(new Qt3DRender::QBuffer(Qt3DRender::QBuffer::IndexBuffer, this))
+    : buffer(new QtBuffer(this))
+    , normals(new QtBuffer(this))
+    , indices(new QtBuffer(this))
     , posAttribute(nullptr)
     , normAttribute(nullptr)
     , idxAttribute(nullptr)
@@ -93,7 +93,7 @@ void FGeometry::setVertexData(std::vector<QVector3D> vertices) {
     QByteArray data;
 
     // size the output bytearray and get direct access
-    data.resize(vertices.size() * 3 * sizeof(float));
+    data.resize((uint)vertices.size() * 3 * sizeof(float));
     float* raw = reinterpret_cast<float*>(data.data());
 
     // transfer data from vertices to the raw array
@@ -111,7 +111,7 @@ void FGeometry::setNormalData(std::vector<QVector3D> normals) {
     QByteArray data;
 
     // size the output bytearray and get direct access
-    data.resize(normals.size() * 3 * sizeof(float));
+    data.resize((uint)normals.size() * 3 * sizeof(float));
     float* raw = reinterpret_cast<float*>(data.data());
 
     // transfer data from vertices to the raw array
@@ -127,7 +127,7 @@ void FGeometry::setNormalData(std::vector<QVector3D> normals) {
 
 void FGeometry::setIndexData(std::vector<uint> indices) {
     QByteArray data;
-    data.resize(indices.size() * sizeof(uint));
+    data.resize((uint)indices.size() * sizeof(uint));
     uint* raw = reinterpret_cast<uint*>(data.data());
 
     int i = 0;

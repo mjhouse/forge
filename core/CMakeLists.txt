@@ -4,12 +4,12 @@
 file(GLOB INCLUDES "include/*.h")
 file(GLOB CSOURCES "source/*.cpp")
 
-add_executable(Forge WIN32 ${INCLUDES} ${CSOURCES})
+add_library(forge_core ${INCLUDES} ${CSOURCES})
 
 # link QT5 libraries
-target_link_libraries(Forge 
-    qtmain          # handles windows-specific WinMain exe
-    ForgeGuiLib     # gui-code for this application
+target_link_libraries(forge_core 
+    qtmain        # handles windows-specific WinMain exe
+    forge_gui     # gui-code for this application
     Qt5::Core 
 	Qt5::Gui 
 	Qt5::Widgets 
@@ -17,18 +17,4 @@ target_link_libraries(Forge
 	Qt5::3DExtras
     Qt5::3DRender
     Qt5::3DInput
-)
-
-add_custom_command(TARGET Forge POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Core>     $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Gui>      $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Widgets>  $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::3DCore>   $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::3DExtras> $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::3DRender> $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::3DInput>  $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::3DLogic>  $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Network>  $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Gamepad>  $<TARGET_FILE_DIR:Forge>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Concurrent>  $<TARGET_FILE_DIR:Forge>
 )

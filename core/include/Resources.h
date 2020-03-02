@@ -35,7 +35,7 @@ namespace resources {
 	/* Initialize
 	   Find the root directory and init the resources map
 	*/
-	void initialize(QString t_root);
+	void initialize(QDir t_root);
 
 	/* Shader
 	   Load a shader as a QByteArray
