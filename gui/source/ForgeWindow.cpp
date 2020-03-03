@@ -79,6 +79,6 @@ void ForgeWindow::testEvent() {
 }
 
 void ForgeWindow::onCreateCommand(bool open) {
-	if (open) placeDialog->show();
+	if(open) placeDialog->show();
 	else placeDialog->hide();
 }
