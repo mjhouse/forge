@@ -23,62 +23,67 @@
 #define BLACK 0x000000
 #define GRAY  0x212121
 
-ForgeWindow::ForgeWindow() 
-	: config()
-	, mainMenu(new ForgeMenu(this))
-	, placeDialog(new CreateCommand(this))
-	{
+int ForgeWindow::count = 0;
 
-	QRect screenSize = QDesktopWidget().availableGeometry(this);
-	resize(screenSize.size() * 0.8);
-	setWindowTitle("Forge - Construction");
-	ForgeRenderer::instance()->setBackground(GRAY);
+bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
+	if (event->type() == QEvent::Close) {
+		auto window = (ForgeWindow*)obj;
+		emit window->onClose(window);
+	}
+
+	return QObject::eventFilter(obj, event);
+}
+
+ForgeWindow::ForgeWindow()
+	: id(count++)
+	, camera(new QtCamera())
+	, renderer(new QtForwardRenderer())
+{
+
+	this->setSurfaceType(QWindow::OpenGLSurface);
+	this->resize(1024, 768);
+
+	camera->lens()->setPerspectiveProjection(45.0, (float)1024/768, 0.1f, 1000.0);
+	camera->setPosition(QVector3D(0, 10, 0));
+	camera->setUpVector(QVector3D(0, 0, 1));
+	camera->setViewCenter(QVector3D(0, 0, 0));
+
+	renderer->setCamera(camera);
+	renderer->setSurface(this);
+	renderer->setClearColor(GRAY);
+
+	this->installEventFilter(new CloseEventFilter(this));
+
+	//// setting dock options = 0 will remove dockarea animations,
+	//// which stutter because of the 3d view
+	//this->setDockOptions(0);
+	//this->addDockWidget(Qt::DockWidgetArea::TopDockWidgetArea, EXAMPLE);
+
 }
 
 ForgeWindow::~ForgeWindow() {
-
+	//delete camera;
+	//delete renderer;
 }
 
-void ForgeWindow::build() {
-
-	(void)this->connect(mainMenu, &ForgeMenu::onExitForge,
-						this, &ForgeWindow::exitForge);
-
-	(void)this->connect(mainMenu, &ForgeMenu::onOpenConfig,
-						this, &ForgeWindow::openConfig);
-
-	(void)this->connect(mainMenu, &ForgeMenu::onTestEvent,
-						this, &ForgeWindow::testEvent);
-
-	(void)this->connect(mainMenu, &ForgeMenu::onCreateCommand,
-						this, &ForgeWindow::onCreateCommand);
-
-	// setting dock options = 0 will remove dockarea animations,
-	// which stutter because of the 3d view
-	this->setDockOptions(0);
-	
-	this->addDockWidget(Qt::DockWidgetArea::TopDockWidgetArea, mainMenu);
-	this->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, placeDialog);
-
-	placeDialog->hide();
-
-	// wrapped 3d view is the main and only widget
-    this->setCentralWidget(ForgeRenderer::instance()->getView());
+void ForgeWindow::setRenderSource(QtFrameGraphNode* t_framegraph) {
+	renderer->setParent(t_framegraph);
 }
 
-void ForgeWindow::exitForge() {
-	QApplication::quit();
+void ForgeWindow::setRoot(QtEntity* t_root) {
+	camera->setParent(t_root);
 }
 
-void ForgeWindow::openConfig() {
-	config.exec();
+void ForgeWindow::focusInEvent(QFocusEvent* ev) {
+	emit onFocus(this);
 }
 
-void ForgeWindow::testEvent() {
-
+bool ForgeWindow::isWindow(ForgeWindow* t_window) {
+	return t_window->id == this->id;
+}
+void ForgeWindow::clearParent() {
+	renderer->setParent((QtFrameGraphNode*)nullptr);
+	camera->setParent((QtEntity*)nullptr);
 }
 
-void ForgeWindow::onCreateCommand(bool open) {
-	if(open) placeDialog->show();
-	else placeDialog->hide();
-}
+

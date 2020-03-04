@@ -2,7 +2,9 @@
 
 #include <iostream>
 
-#include <QtWidgets/QMainWindow>
+#include <Qt3DRender/QCamera>
+#include <Qt3DExtras/QForwardRenderer>
+#include <QtGui/QWindow>
 #include <QtCore/QDir>
 
 #include "FCrossSection.h"
@@ -11,26 +13,54 @@
 #include "ForgeMenu.h"
 #include "CommandCreate.h"
 
-class ForgeWindow: public QMainWindow {
+typedef Qt3DRender::QCamera QtCamera;
+typedef Qt3DExtras::QForwardRenderer QtForwardRenderer;
+typedef Qt3DRender::QFrameGraphNode QtFrameGraphNode;
+
+class CloseEventFilter : public QObject {
+	Q_OBJECT
+public:
+	CloseEventFilter(QObject* parent) : QObject(parent) {}
+
+protected:
+	bool eventFilter(QObject* obj, QEvent* event);
+};
+
+class ForgeWindow: public QWindow {
+	Q_OBJECT
+
 private:
 	
-	Config config;
-	
-	ForgeMenu*  mainMenu;
+	static int count;
 
-	// commands
-	CreateCommand* placeDialog;
+	int id;
+
+	QtCamera* camera;
+
+	QtForwardRenderer* renderer;
 
 public:
 	ForgeWindow();
 	~ForgeWindow();
 
-	void build();
+	void setRenderSource(QtFrameGraphNode* t_framegraph);
 
-	void openFile(QString path);
-	void exitForge();
-	void openConfig();
-	void testEvent();
+	void setRoot(QtEntity* t_root);
 
-	void onCreateCommand(bool open);
+	void focusInEvent(QFocusEvent* ev) override;
+
+	void closeEvent(QObject* obj);
+
+	bool isWindow(ForgeWindow* t_window);
+
+	void clearParent();
+
+	QtCamera* getCamera() { return camera; }
+
+signals:
+	void onFocus(ForgeWindow* window);
+
+	void onClose(ForgeWindow* window);
+
 };
+
