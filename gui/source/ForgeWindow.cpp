@@ -13,11 +13,9 @@
 #include <Qt3DRender/QLineWidth>
 
 #include "ForgeWindow.h"
-#include "ForgeMenu.h"
 #include "Config.h"
 #include "FCrossSection.h"
 #include "FDefaultMaterial.h"
-#include "ForgeRenderer.h"
 
 #define WHITE 0xffffff
 #define BLACK 0x000000
@@ -53,18 +51,9 @@ ForgeWindow::ForgeWindow()
 	renderer->setClearColor(GRAY);
 
 	this->installEventFilter(new CloseEventFilter(this));
-
-	//// setting dock options = 0 will remove dockarea animations,
-	//// which stutter because of the 3d view
-	//this->setDockOptions(0);
-	//this->addDockWidget(Qt::DockWidgetArea::TopDockWidgetArea, EXAMPLE);
-
 }
 
-ForgeWindow::~ForgeWindow() {
-	//delete camera;
-	//delete renderer;
-}
+ForgeWindow::~ForgeWindow() {}
 
 void ForgeWindow::setRenderSource(QtFrameGraphNode* t_framegraph) {
 	renderer->setParent(t_framegraph);
@@ -78,12 +67,26 @@ void ForgeWindow::focusInEvent(QFocusEvent* ev) {
 	emit onFocus(this);
 }
 
+void ForgeWindow::resizeEvent(QResizeEvent* event) {
+	auto lens = camera->lens();
+	lens->setPerspectiveProjection(
+		lens->fieldOfView(),
+		(float)width() / height(),
+		lens->nearPlane(),
+		lens->farPlane()
+	);
+}
+
 bool ForgeWindow::isWindow(ForgeWindow* t_window) {
 	return t_window->id == this->id;
 }
 void ForgeWindow::clearParent() {
 	renderer->setParent((QtFrameGraphNode*)nullptr);
 	camera->setParent((QtEntity*)nullptr);
+}
+
+QtCamera* ForgeWindow::getCamera() { 
+	return camera; 
 }
 
 

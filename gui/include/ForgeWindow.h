@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include <QtWidgets/QMainWindow>
 #include <Qt3DRender/QCamera>
 #include <Qt3DExtras/QForwardRenderer>
 #include <QtGui/QWindow>
@@ -9,9 +10,6 @@
 
 #include "FCrossSection.h"
 #include "Config.h"
-
-#include "ForgeMenu.h"
-#include "CommandCreate.h"
 
 typedef Qt3DRender::QCamera QtCamera;
 typedef Qt3DExtras::QForwardRenderer QtForwardRenderer;
@@ -39,6 +37,10 @@ private:
 
 	QtForwardRenderer* renderer;
 
+	void focusInEvent(QFocusEvent* ev) override;
+
+	void resizeEvent(QResizeEvent* event) override;
+
 public:
 	ForgeWindow();
 	~ForgeWindow();
@@ -46,16 +48,12 @@ public:
 	void setRenderSource(QtFrameGraphNode* t_framegraph);
 
 	void setRoot(QtEntity* t_root);
-
-	void focusInEvent(QFocusEvent* ev) override;
-
-	void closeEvent(QObject* obj);
-
+	
 	bool isWindow(ForgeWindow* t_window);
 
 	void clearParent();
 
-	QtCamera* getCamera() { return camera; }
+	QtCamera* getCamera();
 
 signals:
 	void onFocus(ForgeWindow* window);

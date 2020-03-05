@@ -4,41 +4,11 @@ QWidget {
 	color: white;
 }
 
-#MainControl,
-#MainControl QWidget {  
-	background-color: #424242; 
-	color: white; 
-}
-
-#TitleButton {
-	background-color: #545454;
-	border-style: solid;
-	border-width:1px;
-	border-radius:5px;
-	border-color: #575757;
-	max-width:15px;
-	max-height:15px;
-	min-width:15px;
-	min-height:15px;
-	margin:0;
-}
-
-#TitleButton:pressed {
-	background-color: #424242;
-}
-
-#TitleBar {
+#MainMenu {
 	background-color: #333333;
 }
 
-QDockWidget::close-button,
-QDockWidget::float-button {
-	background-color: #545454;
-	color: white;
-	border-radius: 10px;
-}
-
-#MainControl QMenu::item:selected { 
+#MainMenu QMenu::item:selected { 
 	background-color: #6d6d6d; 
 }
 
