@@ -16,9 +16,13 @@ private:
 public:
 	ForgeTransformMenu();
 
+	void showAt(int ax, int ay)
+	{
+		this->show();
+		this->move(ax, ay);
+	}
+
 signals:
 	void exitCommand(bool t_checked);
-	void viewCommand(bool t_checked);
-	void placeCommand(bool t_checked);
 	void optionsCommand(bool t_checked);
 };

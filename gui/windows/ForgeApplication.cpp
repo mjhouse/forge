@@ -107,13 +107,12 @@ void ForgeApplication::initialize() {
 	auto transformMenu = new ForgeTransformMenu();
 
 	(void)this->connect(transformMenu, &ForgeTransformMenu::exitCommand, this, &ForgeApplication::onExit);
-	(void)this->connect(transformMenu, &ForgeTransformMenu::viewCommand, this, &ForgeApplication::onView);
-	(void)this->connect(transformMenu, &ForgeTransformMenu::placeCommand, this, &ForgeApplication::onPlace);
 	(void)this->connect(transformMenu, &ForgeTransformMenu::optionsCommand, this, &ForgeApplication::onOptions);
 
 	controls.push_back(transformMenu);
-	transformMenu->show();
-	
+	transformMenu->showAt(100, 100);
+	//transformMenu->show();
+	//transformMenu->move(100, 100);
 }
 
 ForgeWindow* ForgeApplication::newWindow() {

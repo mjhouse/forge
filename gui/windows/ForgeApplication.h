@@ -89,5 +89,4 @@ public:
 	void onPlace(bool t_checked);
 
 	void onOptions(bool t_checked);
-
 };
