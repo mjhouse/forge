@@ -16,6 +16,9 @@ QMainWindow::separator {
 	width: 1px; 
 	border: none;
 }
+QDialog{
+	color: white;
+}
 
 QPushButton {
 	color: white;

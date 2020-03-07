@@ -1,5 +1,6 @@
 #include "ForgeApplication.h"
 #include "ForgeMainMenu.h"
+#include "ForgeTransformMenu.h"
 
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
@@ -12,6 +13,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, logicAspect(new QtLogicAspect())
 	, rootEntity(new QtEntity())
 	, controller(new QtController())
+	, m_selected(nullptr)
 {
 	rootPath = applicationDirPath();
 	resourcesPath = QDir(rootPath.filePath("resources"));
@@ -59,6 +61,17 @@ QDir ForgeApplication::resources() {
 	return this->resourcesPath;
 }
 
+FModel* ForgeApplication::getSelected()
+{
+	return this->m_selected;
+}
+
+void ForgeApplication::setSelected(FModel* t_model)
+{
+	this->m_selected = t_model;
+}
+
+
 void ForgeApplication::setActive(ForgeWindow* t_window) {
 	if (t_window != nullptr) {
 		controller->setCamera(t_window->getCamera());
@@ -99,6 +112,19 @@ void ForgeApplication::initialize() {
 
 	controls.push_back(mainMenu);
 	mainMenu->show();
+
+	/*Davids test stuff.*/
+
+	
+	auto transformMenu = new ForgeTransformMenu();
+
+	(void)this->connect(transformMenu, &ForgeTransformMenu::exitCommand, this, &ForgeApplication::onExit);
+	(void)this->connect(transformMenu, &ForgeTransformMenu::optionsCommand, this, &ForgeApplication::onOptions);
+
+	controls.push_back(transformMenu);
+	transformMenu->showAt(100, 100);
+	//transformMenu->show();
+	//transformMenu->move(100, 100);
 }
 
 ForgeWindow* ForgeApplication::newWindow() {

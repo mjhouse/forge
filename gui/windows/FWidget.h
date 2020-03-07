@@ -66,4 +66,8 @@ public:
 		return moving;
 	}
 
+	void setPosition(int x, int y)
+	{
+		this->move(x, y);
+	}
 };

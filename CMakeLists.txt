@@ -13,6 +13,7 @@ include_directories("${QT5_INSTALL}/include/")
 include_directories("core/include")
 include_directories("gui/windows")
 include_directories("gui/components")
+include_directories("gui/controls")
 
 link_directories("${QT5_INSTALL}/lib")
 

@@ -7,7 +7,8 @@
 #include <Qt3DCore/QNode>               
 #include <Qt3DCore/QEntity>             
 #include <Qt3DCore/QComponent>          
-#include <Qt3DCore/QTransform>          
+#include <Qt3DCore/QTransform>   
+       
 
 #include <Qt3DRender/QBuffer>           
 #include <Qt3DRender/QAttribute>        
@@ -16,6 +17,10 @@
 #include <Qt3DRender/QMaterial>         
 #include <Qt3DRender/QParameter>
 #include <Qt3DRender/QEffect>
+#include <Qt3DRender/QObjectPicker>
+
+
+#include <Qt3DInput/QMouseHandler>
 
 typedef Qt3DRender::QGeometryRenderer::PrimitiveType QtRenderType;
 
@@ -26,6 +31,9 @@ typedef Qt3DRender::QGeometryRenderer		QtRenderer;
 typedef Qt3DRender::QMaterial				QtMaterial;
 typedef Qt3DRender::QParameter				QtParameter;
 typedef Qt3DRender::QEffect					QtEffect;
+typedef Qt3DRender::QObjectPicker			QtObjectPicker;
+
+typedef Qt3DInput::QMouseHandler			QtMouseHandler;
 
 typedef Qt3DCore::QNode						QtNode;
 typedef Qt3DCore::QEntity					QtEntity;
