@@ -123,8 +123,6 @@ void ForgeApplication::initialize() {
 
 	controls.push_back(transformMenu);
 	transformMenu->showAt(100, 100);
-	//transformMenu->show();
-	//transformMenu->move(100, 100);
 }
 
 ForgeWindow* ForgeApplication::newWindow() {

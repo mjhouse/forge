@@ -19,10 +19,11 @@ namespace components {
 		auto pt = t_rect.top();
 
 		for (auto it = m_controls.begin(); it != m_controls.end(); ++it) {
-			auto c = it->second->geometry();
+			auto control = it->second->getControl();
+			auto c = control->geometry();
 
-			auto x = it->second->position().x();
-			auto y = it->second->position().y();
+			auto x = control->pos().x();
+			auto y = control->pos().y();
 
 			auto cr = c.right();
 			auto cl = c.left();
@@ -39,7 +40,9 @@ namespace components {
 			dy += ct < pt ? y + (pt - ct) : y;
 			y = dy / 2;
 
-			it->second->setPosition(x, y);
+			control->setGeometry(x, y,
+				control->width(),
+				control->height());
 		}
 	}
 
@@ -47,7 +50,8 @@ namespace components {
 		if (m_controls.empty()) return;
 		auto ch = t_new - t_old;
 		for (auto it = m_controls.begin(); it != m_controls.end(); ++it) {
-			it->second->move(it->second->position() + ch);
+			auto control = it->second->getControl();
+			control->move(control->pos() + ch);
 		}
 	}
 

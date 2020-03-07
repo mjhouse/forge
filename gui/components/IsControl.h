@@ -24,18 +24,7 @@ namespace components {
 
 		void findController();
 
-		QRect geometry() { return m_control->geometry(); }
-
-		void setPosition(float x, float y) {
-			m_control->setGeometry(x, y,
-				m_control->width(),
-				m_control->height());
-		}
-
-		QPoint position() { return m_control->pos(); }
-
-		void move(QPoint t_pos) { m_control->move(t_pos); }
-
+		QDialog* getControl() { return m_control; }
 	};
 
 }

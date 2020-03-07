@@ -14,7 +14,7 @@ namespace components {
 	}
 
 	void IsControl::findController() {
-		auto center = this->geometry().center();
+		auto center = m_control->geometry().center();
 		auto parent = ForgeApplication::instance()->findWindow(center);
 
 		if (parent) {
