@@ -47,6 +47,10 @@ class FCrossSection;
 
 		bool isVisible();
 
+		void unSelect();
+
+		void select();
+
 		void hide();
 
 		void show();
