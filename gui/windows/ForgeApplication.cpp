@@ -1,5 +1,6 @@
 #include "ForgeApplication.h"
 #include "ForgeMainMenu.h"
+#include "ForgeTransformMenu.h"
 
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
@@ -99,6 +100,20 @@ void ForgeApplication::initialize() {
 
 	controls.push_back(mainMenu);
 	mainMenu->show();
+
+	/*Davids test stuff.*/
+
+	
+	auto transformMenu = new ForgeTransformMenu();
+
+	(void)this->connect(transformMenu, &ForgeTransformMenu::exitCommand, this, &ForgeApplication::onExit);
+	(void)this->connect(transformMenu, &ForgeTransformMenu::viewCommand, this, &ForgeApplication::onView);
+	(void)this->connect(transformMenu, &ForgeTransformMenu::placeCommand, this, &ForgeApplication::onPlace);
+	(void)this->connect(transformMenu, &ForgeTransformMenu::optionsCommand, this, &ForgeApplication::onOptions);
+
+	controls.push_back(transformMenu);
+	transformMenu->show();
+	
 }
 
 ForgeWindow* ForgeApplication::newWindow() {

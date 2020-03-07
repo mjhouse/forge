@@ -3,6 +3,7 @@ add_library(forge_gui)
 
 add_subdirectory("components")
 add_subdirectory("windows")
+add_subdirectory("controls")
 
 # link QT5 libraries
 target_link_libraries(forge_gui 

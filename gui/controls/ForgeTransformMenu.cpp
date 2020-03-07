@@ -18,18 +18,9 @@ ForgeTransformMenu::ForgeTransformMenu() {
 	auto widget = new FWidget();
 	auto menu   = new QMenuBar();
 
-	// File Menu
-	auto f = bind(menu, "File");
-	bind(f, "Exit", &ForgeMainMenu::exitCommand);
-
-	// View Menu
-	auto v = bind(menu, "View");
-	bind(v, "3D Window", &ForgeMainMenu::viewCommand);
-	bind(v, "Member Placement", &ForgeMainMenu::placeCommand);
-	
 	// Settings Menu
 	auto s = bind(menu, "Settings");
-	bind(s, "Options", &ForgeMainMenu::optionsCommand);
+	bind(s, "Options", &ForgeTransformMenu::optionsCommand);
 
 	layout->addWidget(menu);
 	layout->addStretch(1);
