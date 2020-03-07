@@ -66,6 +66,16 @@ void FModel::onClick(Qt3DRender::QPickEvent* t_event)
 	ForgeApplication::instance()->setSelected(this);
 }
 
+void FModel::unSelect()
+{
+
+}
+
+void FModel::select()
+{
+
+}
+
 void FModel::hide() {
 	this->setEnabled(false);
 }

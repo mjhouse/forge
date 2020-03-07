@@ -68,6 +68,10 @@ FModel* ForgeApplication::getSelected()
 
 void ForgeApplication::setSelected(FModel* t_model)
 {
+	if (m_selected != nullptr)
+	{
+	}
+
 	this->m_selected = t_model;
 }
 
