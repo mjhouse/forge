@@ -15,6 +15,7 @@ private:
 
 public:
 	ForgeTransformMenu();
+	void onChange();
 
 	void showAt(int ax, int ay)
 	{

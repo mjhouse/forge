@@ -58,6 +58,8 @@ private:
 
 	QtController* controller;
 
+	FModel* m_selected;
+
 	void setActive(ForgeWindow* t_window);
 
 	void onWindowClose(ForgeWindow* t_window);
@@ -71,6 +73,7 @@ public:
 	~ForgeApplication(){}
 
 	static ForgeApplication* instance();
+	
 
 	QDir root();
 
@@ -79,6 +82,10 @@ public:
 	ForgeWindow* newWindow();
 
 	ForgeWindow* findWindow(QPoint t_point);
+
+	FModel* getSelected();
+
+	void setSelected(FModel* t_model);
 
 	void render(FModel* t_model);
 	

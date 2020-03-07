@@ -3,6 +3,9 @@
 #include <Qt3DCore/QEntity>
 #include <QtWidgets/QWidget>
 #include <Qt3DRender/QGeometryRenderer>
+#include <Qt3DRender/QPickEvent>
+
+#include <HasIdentifier.h>
 
 #include "FDefaultMaterial.h"
 #include "FCrossSection.h"
@@ -13,38 +16,42 @@
 
 class FCrossSection;
 
-class FModel : public QtEntity {
-private:
+	class FModel : public QtEntity, public components::HasIdentifier {
+	private:
 
-	FCrossSection* section;
+		FCrossSection* section;
 
-	FGeometry* geometry;
+		FGeometry* geometry;
 
-	QtTransform* transform;
-	
-	FMaterial* material;
+		QtTransform* transform;
 
-	QtRenderer* renderer;
+		FMaterial* material;
 
-public:
-	
-	FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_material);
+		QtRenderer* renderer;
 
-	FModel(FCrossSection* t_section, QColor t_color);
+		QtObjectPicker* objectPicker;
 
-	FModel(FCrossSection* t_section);
-	
-	QVector3D getCentroid(std::vector<QVector3D> points);
+	public:
 
-	QVector3D getCentroid();
+		FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_material);
 
-	QtTransform* getTransform();
+		FModel(FCrossSection* t_section, QColor t_color);
 
-	bool isVisible();
+		FModel(FCrossSection* t_section);
 
-	void hide();
+		QVector3D getCentroid(std::vector<QVector3D> points);
 
-	void show();
+		QVector3D getCentroid();
 
-	void setLength(float t_length);
-};
+		QtTransform* getTransform();
+
+		bool isVisible();
+
+		void hide();
+
+		void show();
+
+		void onClick(Qt3DRender::QPickEvent* t_event);
+
+		void setLength(float t_length);
+	};

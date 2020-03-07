@@ -13,6 +13,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, logicAspect(new QtLogicAspect())
 	, rootEntity(new QtEntity())
 	, controller(new QtController())
+	, m_selected(nullptr)
 {
 	rootPath = applicationDirPath();
 	resourcesPath = QDir(rootPath.filePath("resources"));
@@ -59,6 +60,17 @@ QDir ForgeApplication::root() {
 QDir ForgeApplication::resources() {
 	return this->resourcesPath;
 }
+
+FModel* ForgeApplication::getSelected()
+{
+	return this->m_selected;
+}
+
+void ForgeApplication::setSelected(FModel* t_model)
+{
+	this->m_selected = t_model;
+}
+
 
 void ForgeApplication::setActive(ForgeWindow* t_window) {
 	if (t_window != nullptr) {
