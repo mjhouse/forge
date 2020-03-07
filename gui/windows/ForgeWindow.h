@@ -9,9 +9,8 @@
 #include <QtCore/QDir>
 
 #include "HasIdentifier.h"
+#include "HasControls.h"
 #include "Defines.h"
-
-class ForgeControl;
 
 typedef Qt3DRender::QCamera QtCamera;
 typedef Qt3DExtras::QForwardRenderer QtForwardRenderer;
@@ -28,12 +27,15 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
-class ForgeWindow: public QWindow, public HasIdentifier {
+
+
+class ForgeWindow:  public QWindow, 
+					public HasIdentifier, 
+					public HasControls 
+{
 	Q_OBJECT
 
 private:
-
-	std::map<int,ForgeControl*> controls;
 
 	QtCamera* camera;
 
@@ -54,10 +56,6 @@ public:
 	void clearParent();
 
 	QtCamera* getCamera();
-
-	void addControl(ForgeControl* t_control);
-
-	void removeControl(ForgeControl* t_control);
 
 	void moveEvent(QMoveEvent* t_event) override;
 

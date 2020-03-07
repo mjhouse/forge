@@ -1,26 +1,24 @@
-#pragma once
+#ifndef __FORGECONTROL_H__
+#define __FORGECONTROL_H__
 
 #include <QtWidgets/QDialog>
 
 #include "ForgeTitleBar.h"
-#include "ForgeWindow.h"
-
-#include "HasIdentifier.h"
+#include "IsControl.h"
 
 using namespace components;
 
-class ForgeControl : public QDialog, public HasIdentifier {
+class ForgeControl : public QDialog, 
+					 public IsControl {
 private:
 
-	ForgeWindow* m_parent;
+	//ForgeWindow* m_parent;
 
 	ForgeTitleBar* m_title;
 
 	QWidget* m_body;
 
 	FWidget* m_handle;
-
-	void findParent(QPoint t_point);
 
 	void moveEvent(QMoveEvent* t_event) override;
 
@@ -33,9 +31,8 @@ public:
 	void setCentralWidget(QWidget* t_widget);
 
 	void setHandle(FWidget* t_handle);
-
-	bool isControl(ForgeControl* t_control);
-
+	
 	void stateChanged(Qt::ApplicationState state);
-
 };
+
+#endif

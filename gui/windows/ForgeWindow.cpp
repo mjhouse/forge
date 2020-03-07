@@ -31,7 +31,7 @@ bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
 }
 
 ForgeWindow::ForgeWindow()
-	: controls()
+	: HasControls(this)
 	, camera(new QtCamera())
 	, renderer(new QtForwardRenderer())
 {
@@ -74,39 +74,7 @@ void ForgeWindow::resizeEvent(QResizeEvent* event) {
 		lens->farPlane()
 	);
 
-	auto g = geometry();
-
-	auto pr = g.right();
-	auto pl = g.left();
-	auto pb = g.bottom();
-	auto pt = g.top();
-
-	for (auto it = controls.begin(); it != controls.end(); ++it) {
-		auto c = it->second->geometry();
-
-		auto x = it->second->pos().x();
-		auto y = it->second->pos().y();
-
-		auto cr = c.right();
-		auto cl = c.left();
-		auto cb = c.bottom();
-		auto ct = c.top();
-
-		int dx = 0;
-		dx += cr > pr ? x + (pr - cr) : x;
-		dx += cl < pl ? x + (pl - cl) : x;
-		x   = dx / 2;
-
-		int dy = 0;
-		dy += cb > pb ? y + (pb - cb) : y;
-		dy += ct < pt ? y + (pt - ct) : y;
-		y   = dy / 2;
-
-		it->second->setGeometry(x, y, 
-			it->second->width(), 
-			it->second->height());
-	}
-
+	adjustControls(geometry());
 }
 
 void ForgeWindow::clearParent() {
@@ -118,19 +86,8 @@ QtCamera* ForgeWindow::getCamera() {
 	return camera; 
 }
 
-void ForgeWindow::addControl(ForgeControl* t_control) {
-	controls[t_control->id()] = t_control;
-}
-
 void ForgeWindow::moveEvent(QMoveEvent* t_event) {
-	auto ch = t_event->pos() - t_event->oldPos();
-	for (auto it = controls.begin(); it != controls.end(); ++it) {
-		it->second->move(it->second->pos() + ch);
-	}
-}
-
-void ForgeWindow::removeControl(ForgeControl* t_control) {
-	controls.erase(t_control->id());
+	moveControls(t_event->oldPos(), t_event->pos());
 }
 
 

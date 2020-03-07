@@ -12,7 +12,7 @@ inline void ForgeMainMenu::bind(QMenu* t_menu, const char* t_name, void(ForgeMai
 }
 
 ForgeMainMenu::ForgeMainMenu() {
-	//this->hasTitle(false);
+	this->hasTitle(false);
 
 	auto layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
 	auto widget = new FWidget();
@@ -34,11 +34,11 @@ ForgeMainMenu::ForgeMainMenu() {
 	layout->addWidget(menu);
 	layout->addStretch(1);
 
-	//widget->setDrag(true);
-	//widget->setDragTarget(this);
+	widget->setDrag(true);
+	widget->setDragTarget(this);
 	widget->setLayout(layout);
 
-	//this->setHandle(widget);
+	this->setHandle(widget);
 	this->setCentralWidget(widget);
 	this->setObjectName("MainMenu");
 }

@@ -1,30 +1,44 @@
-#pragma once
+#ifndef __HASCONTROLS_H__
+#define __HASCONTROLS_H__
 
-#include "ForgeControl.h"
+#include <QWindow>
+#include <QWidget>
+#include <QEvent>
+
+#include "IsControl.h"
+
+#include <vector>
+#include <map>
 
 namespace components {
 
-	//class HasControls {
-	//private:
+	class IsControl;
 
-	//	std::vector<ForgeControl*> m_controls;
+	class HasControls{
+	private:
 
-	//public:
-	//	HasControls() {}
+		QWindow* m_parent;
 
-	//	// HasControls cannot be instantiated
-	//	virtual ~HasControls() = 0;
+		std::map<uint, IsControl*> m_controls;
+		
+	public:
+		HasControls(QWindow* t_parent);
 
-	//	ForgeControl* findControl(uint t_id) {
-	//		m_controls.
-	//	}
+		// HasControls cannot be instantiated
+		virtual ~HasControls() = 0;
 
-	//	void addControl(ForgeControl* t_control) {
-	//	}
+		void adjustControls(QRect t_rect);
+		
+		void moveControls(QPoint t_old, QPoint t_new);
 
-	//	void removeControl(ForgeControl* t_control) {
-	//	}
+		IsControl* findControl(uint t_id);
 
-	//};
+		void addControl(IsControl* t_control);
+
+		void removeControl(IsControl* t_control);
+
+	};
 
 }
+
+#endif
