@@ -25,7 +25,8 @@ ForgeMainMenu::ForgeMainMenu() {
 	// View Menu
 	auto v = bind(menu, "View");
 	bind(v, "3D Window", &ForgeMainMenu::viewCommand);
-	bind(v, "Member Placement", &ForgeMainMenu::placeCommand);
+	bind(v, "Move", &ForgeMainMenu::moveCommand);
+	bind(v, "Create", &ForgeMainMenu::createCommand);
 	
 	// Settings Menu
 	auto s = bind(menu, "Settings");

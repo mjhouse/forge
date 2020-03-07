@@ -11,7 +11,7 @@ namespace components {
 	{
 
 	}
-	
+
 	void HasControls::adjustControls(QRect t_rect) {
 		auto pr = t_rect.right();
 		auto pl = t_rect.left();
@@ -44,6 +44,8 @@ namespace components {
 				control->width(),
 				control->height());
 		}
+
+		m_old = t_rect;
 	}
 
 	void HasControls::moveControls(QPoint t_old, QPoint t_new) {

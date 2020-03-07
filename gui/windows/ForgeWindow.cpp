@@ -30,6 +30,18 @@ bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
 	return QObject::eventFilter(obj, event);
 }
 
+bool StateEventFilter::eventFilter(QObject* obj, QEvent* event) {
+	if (event->type() == QEvent::WindowStateChange){
+		auto window = (ForgeWindow*)obj;
+		window->changeEvent((QWindowStateChangeEvent*)event);
+	}
+
+	return QObject::eventFilter(obj, event);
+}
+
+
+
+
 ForgeWindow::ForgeWindow()
 	: HasControls(this)
 	, camera(new QtCamera())
@@ -49,6 +61,7 @@ ForgeWindow::ForgeWindow()
 	renderer->setClearColor(GRAY);
 
 	this->installEventFilter(new CloseEventFilter(this));
+	this->installEventFilter(new StateEventFilter(this));
 }
 
 ForgeWindow::~ForgeWindow() {}
@@ -90,4 +103,14 @@ void ForgeWindow::moveEvent(QMoveEvent* t_event) {
 	moveControls(t_event->oldPos(), t_event->pos());
 }
 
-
+void ForgeWindow::changeEvent(QWindowStateChangeEvent* t_event) {
+	if (t_event->oldState().testFlag(Qt::WindowMinimized))
+	{
+		adjustControls(geometry());
+	}
+	else if (t_event->oldState().testFlag(Qt::WindowNoState) && 
+			 this->windowState() == Qt::WindowMaximized)
+	{
+		adjustControls(geometry());
+	}
+}

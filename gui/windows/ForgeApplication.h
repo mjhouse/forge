@@ -93,7 +93,9 @@ public:
 
 	void onView(bool t_checked);
 
-	void onPlace(bool t_checked);
+	void onMove(bool t_checked);
+
+	void onCreate(bool t_checked);
 
 	void onOptions(bool t_checked);
 };

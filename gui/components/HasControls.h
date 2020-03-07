@@ -17,10 +17,14 @@ namespace components {
 	class HasControls{
 	private:
 
+		QRect m_old;
+
 		QWindow* m_parent;
 
 		std::map<uint, IsControl*> m_controls;
 		
+		int findClosest(QRect& t_rect, QPoint t_point);
+
 	public:
 		HasControls(QWindow* t_parent);
 

@@ -107,21 +107,16 @@ void ForgeApplication::initialize() {
 
 	(void)this->connect(mainMenu, &ForgeMainMenu::exitCommand, this, &ForgeApplication::onExit);
 	(void)this->connect(mainMenu, &ForgeMainMenu::viewCommand, this, &ForgeApplication::onView);
-	(void)this->connect(mainMenu, &ForgeMainMenu::placeCommand, this, &ForgeApplication::onPlace);
+	(void)this->connect(mainMenu, &ForgeMainMenu::moveCommand, this, &ForgeApplication::onMove);
+	(void)this->connect(mainMenu, &ForgeMainMenu::createCommand, this, &ForgeApplication::onCreate);
 	(void)this->connect(mainMenu, &ForgeMainMenu::optionsCommand, this, &ForgeApplication::onOptions);
 
 	controls.push_back(mainMenu);
-	mainMenu->show();
 
-	/*Davids test stuff.*/
-
-	
 	auto transformMenu = new ForgeTransformMenu();
-
-	(void)this->connect(transformMenu, &ForgeTransformMenu::exitCommand, this, &ForgeApplication::onExit);
-	(void)this->connect(transformMenu, &ForgeTransformMenu::optionsCommand, this, &ForgeApplication::onOptions);
-
 	controls.push_back(transformMenu);
+
+	mainMenu->show();
 	transformMenu->showAt(100, 100);
 }
 
@@ -164,7 +159,11 @@ void ForgeApplication::onView(bool t_checked) {
 	newWindow();
 }
 
-void ForgeApplication::onPlace(bool t_checked) {
+void ForgeApplication::onMove(bool t_checked) {
+
+}
+
+void ForgeApplication::onCreate(bool t_checked) {
 
 }
 

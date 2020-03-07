@@ -27,6 +27,15 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
+class StateEventFilter : public QObject {
+	Q_OBJECT
+public:
+	StateEventFilter(QObject* parent) : QObject(parent) {}
+
+protected:
+	bool eventFilter(QObject* obj, QEvent* event);
+};
+
 
 
 class ForgeWindow:  public QWindow, 
@@ -58,6 +67,8 @@ public:
 	QtCamera* getCamera();
 
 	void moveEvent(QMoveEvent* t_event) override;
+
+	void changeEvent(QWindowStateChangeEvent* t_event);
 
 signals:
 	void onFocus(ForgeWindow* window);

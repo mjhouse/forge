@@ -1,10 +1,14 @@
 ﻿cmake_minimum_required (VERSION 3.8)
+add_library(forge_core)
 
-# Add source to this project's executable.
-file(GLOB INCLUDES "include/*.h")
-file(GLOB CSOURCES "source/*.cpp")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_library(forge_core ${INCLUDES} ${CSOURCES})
+target_sources(forge_core PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/FCrossSection.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/FGeometry.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/FModel.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Resources.cpp"
+)
 
 # link QT5 libraries
 target_link_libraries(forge_core 

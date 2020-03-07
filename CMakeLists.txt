@@ -10,13 +10,12 @@ set(CMAKE_PREFIX_PATH ${QT5_INSTALL})
 
 include_directories("${QT5_INSTALL}/include/")
 
-include_directories("core/include")
+include_directories("core/")
 include_directories("gui/windows")
 include_directories("gui/components")
 include_directories("gui/controls")
 
 link_directories("${QT5_INSTALL}/lib")
-
 find_package(Qt5 COMPONENTS Widgets Core Gui 3DCore 3DExtras 3DRender 3DInput Network Gamepad Concurrent REQUIRED)
 
 # Include sub-projects.
