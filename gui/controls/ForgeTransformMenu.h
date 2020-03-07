@@ -9,13 +9,28 @@ class ForgeTransformMenu : public ForgeControl {
 
 private:
 
+	QLineEdit* px;
+
+	QLineEdit* py;
+
+	QLineEdit* pz;
+
+	QLineEdit* rx;
+
+	QLineEdit* ry;
+
+	QLineEdit* rz;
+
+	QPushButton *m_button;
+
 	inline QMenu* bind(QMenuBar* t_menu, const char* t_name);
 
 	inline void bind(QMenu* t_menu, const char* t_name, void(ForgeTransformMenu::*callback)(bool));
 
 public:
 	ForgeTransformMenu();
-	void onChange();
+	void onChange(bool checked);
+	void onSet(bool checked);
 
 	void showAt(int ax, int ay)
 	{
