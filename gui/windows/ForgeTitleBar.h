@@ -17,6 +17,7 @@ class ForgeTitleBar : public FWidget {
 private:
 
 public:
+		
 	ForgeTitleBar(QWidget* t_parent);
 
 	void closeControl();

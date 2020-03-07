@@ -1,10 +1,8 @@
 ﻿cmake_minimum_required (VERSION 3.8)
+add_library(forge_gui)
 
-file(GLOB INCLUDES "include/*.h")
-file(GLOB CSOURCES "source/*.cpp")
-
-# Add source to this project's executable.
-add_library(forge_gui ${INCLUDES} ${CSOURCES})
+add_subdirectory("components")
+add_subdirectory("windows")
 
 # link QT5 libraries
 target_link_libraries(forge_gui 

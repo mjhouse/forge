@@ -13,15 +13,13 @@
 #include <Qt3DRender/QLineWidth>
 
 #include "ForgeWindow.h"
+#include "ForgeControl.h"
+#include "Defines.h"
 #include "Config.h"
-#include "FCrossSection.h"
-#include "FDefaultMaterial.h"
 
 #define WHITE 0xffffff
 #define BLACK 0x000000
 #define GRAY  0x212121
-
-int ForgeWindow::count = 0;
 
 bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
 	if (event->type() == QEvent::Close) {
@@ -33,7 +31,7 @@ bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
 }
 
 ForgeWindow::ForgeWindow()
-	: id(count++)
+	: controls()
 	, camera(new QtCamera())
 	, renderer(new QtForwardRenderer())
 {
@@ -75,11 +73,42 @@ void ForgeWindow::resizeEvent(QResizeEvent* event) {
 		lens->nearPlane(),
 		lens->farPlane()
 	);
+
+	auto g = geometry();
+
+	auto pr = g.right();
+	auto pl = g.left();
+	auto pb = g.bottom();
+	auto pt = g.top();
+
+	for (auto it = controls.begin(); it != controls.end(); ++it) {
+		auto c = it->second->geometry();
+
+		auto x = it->second->pos().x();
+		auto y = it->second->pos().y();
+
+		auto cr = c.right();
+		auto cl = c.left();
+		auto cb = c.bottom();
+		auto ct = c.top();
+
+		int dx = 0;
+		dx += cr > pr ? x + (pr - cr) : x;
+		dx += cl < pl ? x + (pl - cl) : x;
+		x   = dx / 2;
+
+		int dy = 0;
+		dy += cb > pb ? y + (pb - cb) : y;
+		dy += ct < pt ? y + (pt - ct) : y;
+		y   = dy / 2;
+
+		it->second->setGeometry(x, y, 
+			it->second->width(), 
+			it->second->height());
+	}
+
 }
 
-bool ForgeWindow::isWindow(ForgeWindow* t_window) {
-	return t_window->id == this->id;
-}
 void ForgeWindow::clearParent() {
 	renderer->setParent((QtFrameGraphNode*)nullptr);
 	camera->setParent((QtEntity*)nullptr);
@@ -87,6 +116,21 @@ void ForgeWindow::clearParent() {
 
 QtCamera* ForgeWindow::getCamera() { 
 	return camera; 
+}
+
+void ForgeWindow::addControl(ForgeControl* t_control) {
+	controls[t_control->id()] = t_control;
+}
+
+void ForgeWindow::moveEvent(QMoveEvent* t_event) {
+	auto ch = t_event->pos() - t_event->oldPos();
+	for (auto it = controls.begin(); it != controls.end(); ++it) {
+		it->second->move(it->second->pos() + ch);
+	}
+}
+
+void ForgeWindow::removeControl(ForgeControl* t_control) {
+	controls.erase(t_control->id());
 }
 
 

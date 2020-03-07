@@ -10,9 +10,9 @@ set(CMAKE_PREFIX_PATH ${QT5_INSTALL})
 
 include_directories("${QT5_INSTALL}/include/")
 
-include_directories("forge/include")
 include_directories("core/include")
-include_directories("gui/include")
+include_directories("gui/windows")
+include_directories("gui/components")
 
 link_directories("${QT5_INSTALL}/lib")
 

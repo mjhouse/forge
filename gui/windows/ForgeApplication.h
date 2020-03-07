@@ -12,8 +12,10 @@
 #include <Qt3DInput/QInputAspect>
 #include <Qt3DLogic/QLogicAspect>
 
+#include "IdentifierList.h"
 #include "ForgeWindow.h"
 #include "ForgeControl.h"
+#include "FModel.h"
 
 typedef Qt3DExtras::QOrbitCameraController QtController;
 typedef Qt3DInput::QInputSettings QtInputSettings;
@@ -25,15 +27,17 @@ typedef Qt3DInput::QInputAspect QtInputAspect;
 typedef Qt3DLogic::QLogicAspect QtLogicAspect;
 typedef Qt3DCore::QEntityPtr QtEntityPtr;
 
+using namespace components;
+
 class ForgeApplication : public QApplication {
 private:
 	
 	QDir rootPath;
 
 	QDir resourcesPath;
-	
-	std::vector<ForgeWindow*> windows;
 
+	IdentifierList<ForgeWindow> container;
+	
 	std::vector<ForgeControl*> controls;
 
 	QtInputSettings* inputSettings;
@@ -73,6 +77,8 @@ public:
 	QDir resources();
 	
 	ForgeWindow* newWindow();
+
+	ForgeWindow* findWindow(QPoint t_point);
 
 	void render(FModel* t_model);
 	

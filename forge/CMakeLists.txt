@@ -1,10 +1,8 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 
-# Add source to this project's executable.
-file(GLOB INCLUDES "include/*.h")
-file(GLOB CSOURCES "source/*.cpp")
-
-add_executable(Forge WIN32 ${INCLUDES} ${CSOURCES})
+add_executable(Forge WIN32 
+    "main.cpp"
+)
 
 # link QT5 libraries
 target_link_libraries(Forge 

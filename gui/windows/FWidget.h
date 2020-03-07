@@ -6,6 +6,8 @@
 class FWidget : public QWidget {
 private:
 
+	bool moving;
+
 	QWidget* target;
 
 	bool drag;
@@ -15,18 +17,24 @@ private:
 	int oY = 0;
 
 	void mousePressEvent(QMouseEvent* t_event) override {
-		auto r = this->rect().topLeft();
-		oX = t_event->x() - r.x();
-		oY = t_event->y() + r.y();
+		if (drag && target != nullptr) {
+			auto r = this->rect().topLeft();
+			oX = t_event->x() - r.x();
+			oY = t_event->y() + r.y();
+			moving = true;
+		}
 	}
 
 	void mouseReleaseEvent(QMouseEvent* t_event) override {
-		oX = 0;
-		oY = 0;
+		if (drag && target != nullptr) {
+			oX = 0;
+			oY = 0;
+			moving = false;
+		}
 	}
 
 	void mouseMoveEvent(QMouseEvent* t_event) override {
-		if (drag && target != nullptr) {
+		if (drag && moving && target != nullptr) {
 			target->move(t_event->globalPos().x() - oX,
 						 t_event->globalPos().y() - oY);
 		}
@@ -34,12 +42,14 @@ private:
 
 public:
 	FWidget() 
-		: target(nullptr)
+		: moving(false)
+		, target(nullptr)
 		, drag(false)
 	{}
 
 	FWidget(QWidget* t_parent) 
 		: QWidget(t_parent)
+		, moving(false)
 		, target(nullptr)
 		, drag(false)
 	{}
@@ -51,4 +61,9 @@ public:
 	void setDrag(bool t_drag) {
 		this->drag = t_drag;
 	}
+
+	bool isDragging() {
+		return moving;
+	}
+
 };

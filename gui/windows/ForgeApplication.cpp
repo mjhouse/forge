@@ -3,7 +3,6 @@
 
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
-	, windows()
 	, inputSettings(new QtInputSettings())
 	, frameGraph(new QtFrameGraphNode())
 	, renderSettings(new QtRenderSettings())
@@ -64,6 +63,7 @@ void ForgeApplication::setActive(ForgeWindow* t_window) {
 	if (t_window != nullptr) {
 		controller->setCamera(t_window->getCamera());
 		inputSettings->setEventSource(t_window);
+		container.prioritize(t_window->id());
 	}
 }
 
@@ -73,15 +73,12 @@ void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
 	t_window->clearParent();
 
 	// remove window from window collection
-	windows.erase(std::remove_if(windows.begin(), windows.end(),
-		[t_window](auto w) {
-			return t_window->isWindow(w);
-		}),windows.end());
+	container.remove(t_window);
 
 	// if there is another window in the collection
 	// set it as active. otherwise, close all controls
-	if (windows.size() > 0) {
-		setActive(windows.at(0));
+	if (container.size() > 0) {
+		setActive(container.high());
 	}
 	else {
 		for (auto control : controls) {
@@ -100,9 +97,7 @@ void ForgeApplication::initialize() {
 	(void)this->connect(mainMenu, &ForgeMainMenu::placeCommand, this, &ForgeApplication::onPlace);
 	(void)this->connect(mainMenu, &ForgeMainMenu::optionsCommand, this, &ForgeApplication::onOptions);
 
-
 	controls.push_back(mainMenu);
-
 	mainMenu->show();
 }
 
@@ -118,10 +113,19 @@ ForgeWindow* ForgeApplication::newWindow() {
 	(void)this->connect(window, &ForgeWindow::onClose,
 		this, &ForgeApplication::onWindowClose);
 
-	windows.push_back(window);
+	container.add(window);
 	setActive(window);
 	window->show();
 	return window;
+}
+
+ForgeWindow* ForgeApplication::findWindow(QPoint t_point) {
+	for (auto window : container.priority()) {
+		if (window->geometry().contains(t_point)) {
+			return window;
+		}
+	}
+	return nullptr;
 }
 
 void ForgeApplication::render(FModel* t_model) {

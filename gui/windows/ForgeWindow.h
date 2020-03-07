@@ -8,12 +8,16 @@
 #include <QtGui/QWindow>
 #include <QtCore/QDir>
 
-#include "FCrossSection.h"
-#include "Config.h"
+#include "HasIdentifier.h"
+#include "Defines.h"
+
+class ForgeControl;
 
 typedef Qt3DRender::QCamera QtCamera;
 typedef Qt3DExtras::QForwardRenderer QtForwardRenderer;
 typedef Qt3DRender::QFrameGraphNode QtFrameGraphNode;
+
+using namespace components;
 
 class CloseEventFilter : public QObject {
 	Q_OBJECT
@@ -24,14 +28,12 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
-class ForgeWindow: public QWindow {
+class ForgeWindow: public QWindow, public HasIdentifier {
 	Q_OBJECT
 
 private:
-	
-	static int count;
 
-	int id;
+	std::map<int,ForgeControl*> controls;
 
 	QtCamera* camera;
 
@@ -49,11 +51,15 @@ public:
 
 	void setRoot(QtEntity* t_root);
 	
-	bool isWindow(ForgeWindow* t_window);
-
 	void clearParent();
 
 	QtCamera* getCamera();
+
+	void addControl(ForgeControl* t_control);
+
+	void removeControl(ForgeControl* t_control);
+
+	void moveEvent(QMoveEvent* t_event) override;
 
 signals:
 	void onFocus(ForgeWindow* window);
