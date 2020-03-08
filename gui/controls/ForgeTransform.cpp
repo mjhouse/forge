@@ -1,18 +1,18 @@
-#include "ForgeTransformMenu.h"
+#include "ForgeTransform.h"
 #include "ForgeApplication.h"
 
-inline QMenu* ForgeTransformMenu::bind(QMenuBar* t_menu, const char* t_name) {
+inline QMenu* ForgeTransform::bind(QMenuBar* t_menu, const char* t_name) {
 	auto menu = new QMenu(tr(t_name), this);
 	t_menu->addMenu(menu);
 	return menu;
 }
 
-inline void ForgeTransformMenu::bind(QMenu* t_menu, const char* t_name, void(ForgeTransformMenu::*t_callback)(bool)) {
+inline void ForgeTransform::bind(QMenu* t_menu, const char* t_name, void(ForgeTransform::*t_callback)(bool)) {
 	(void)this->connect(t_menu->addAction(tr(t_name)), &QAction::triggered,
 						this, t_callback);
 }
 
-ForgeTransformMenu::ForgeTransformMenu() 
+ForgeTransform::ForgeTransform() 
 	: px(new QLineEdit())
 	, py(new QLineEdit())
 	, pz(new QLineEdit())
@@ -65,21 +65,23 @@ ForgeTransformMenu::ForgeTransformMenu()
 
 	// Settings Menu
 	auto s = bind(menu, "Settings");
-	bind(s, "Options", &ForgeTransformMenu::optionsCommand);
+	bind(s, "Options", &ForgeTransform::optionsCommand);
 	
 	
 
 	auto proptions = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
 
-	QPushButton* get_button = new QPushButton("Update", this);
-	proptions->addWidget(get_button);
+	//QPushButton* get_button = new QPushButton("Update", this);
+	//proptions->addWidget(get_button);
 
-	this->connect(get_button, &QPushButton::clicked, this, &ForgeTransformMenu::onChange);
+	//this->connect(get_button, &QPushButton::clicked, this, &ForgeTransform::onChange);
+
+	this->connect(ForgeApplication::instance(), &ForgeApplication::selectionChanged, this, &ForgeTransform::onChange);
 
 	QPushButton* set_button = new QPushButton("Set", this);
 	proptions->addWidget(set_button);
 
-	this->connect(set_button, &QPushButton::clicked, this, &ForgeTransformMenu::onSet);
+	this->connect(set_button, &QPushButton::clicked, this, &ForgeTransform::onSet);
 
 	auto translationoptionsswidget = new FWidget();
 	translationoptionsswidget->setLayout(proptions);
@@ -89,7 +91,7 @@ ForgeTransformMenu::ForgeTransformMenu()
 	layout->addWidget(positionswidget);
 	layout->addWidget(rotationsswidget);
 	layout->addWidget(translationoptionsswidget);
-	layout->addWidget(get_button);
+	//layout->addWidget(get_button);
 	layout->addStretch(1);
 
 	//widget->setDrag(true);
@@ -102,7 +104,7 @@ ForgeTransformMenu::ForgeTransformMenu()
 
 }
 
-void ForgeTransformMenu::onChange(bool checked)
+void ForgeTransform::onChange()
 {
 	auto selected = ForgeApplication::instance()->getSelected();
 	if (selected != nullptr)
@@ -131,7 +133,7 @@ void ForgeTransformMenu::onChange(bool checked)
 	}
 }
 
-void ForgeTransformMenu::onSet(bool checked)
+void ForgeTransform::onSet(bool checked)
 {
 	auto selected = ForgeApplication::instance()->getSelected();
 	if (selected != nullptr)
