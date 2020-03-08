@@ -27,6 +27,8 @@ class FCrossSection;
 
 		QtRenderer* renderer;
 
+		bool selectable;
+
 	public:
 
 		FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material);
@@ -46,6 +48,10 @@ class FCrossSection;
 		FGeometry* getGeometry();
 
 		QtRenderer* getRenderer();
+
+		void setSelectable(bool t_selectable);
+
+		bool getSelectable();
 
 		void unSelect();
 

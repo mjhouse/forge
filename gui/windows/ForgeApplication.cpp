@@ -81,6 +81,11 @@ void ForgeApplication::onClick(Qt3DRender::QPickEvent* t_event)
 
 void ForgeApplication::setSelected(FModel* t_model)
 {
+	if (!t_model->getSelectable())
+	{
+		return;
+	}
+
 	if (m_selected != nullptr)
 	{
 		m_selected->unSelect();
