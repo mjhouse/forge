@@ -17,15 +17,6 @@
 #include "ForgeControl.h"
 #include "FModel.h"
 
-typedef Qt3DExtras::QOrbitCameraController QtController;
-typedef Qt3DInput::QInputSettings QtInputSettings;
-typedef Qt3DRender::QFrameGraphNode QtFrameGraphNode;
-typedef Qt3DRender::QRenderSettings QtRenderSettings;
-typedef Qt3DCore::QAspectEngine QtAspectEngine;
-typedef Qt3DRender::QRenderAspect QtRenderAspect;
-typedef Qt3DInput::QInputAspect QtInputAspect;
-typedef Qt3DLogic::QLogicAspect QtLogicAspect;
-typedef Qt3DCore::QEntityPtr QtEntityPtr;
 
 using namespace components;
 
@@ -59,7 +50,7 @@ private:
 
 	QtEntityPtr rootEntity;
 
-	QtController* controller;
+	QtOrbitController* controller;
 
 	FModel* m_selected;
 

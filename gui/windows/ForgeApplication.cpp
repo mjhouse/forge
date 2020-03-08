@@ -1,6 +1,6 @@
 #include "ForgeApplication.h"
 #include "ForgeMainMenu.h"
-#include "ForgeTransformMenu.h"
+#include "ForgeTransform.h"
 
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
@@ -12,7 +12,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, inputAspect(new QtInputAspect())
 	, logicAspect(new QtLogicAspect())
 	, rootEntity(new QtEntity())
-	, controller(new QtController())
+	, controller(new QtOrbitController())
 	, m_selected(nullptr)
 {
 	rootPath = applicationDirPath();
@@ -121,7 +121,7 @@ void ForgeApplication::initialize() {
 	auto window = newWindow();
 
 	auto mainMenu = new ForgeMainMenu();
-	auto moveControl = new ForgeTransformMenu();
+	auto moveControl = new ForgeTransform();
 
 	(void)this->connect(mainMenu, &ForgeMainMenu::exitCommand, this, &ForgeApplication::onExit);
 	(void)this->connect(mainMenu, &ForgeMainMenu::viewCommand, this, &ForgeApplication::onView);

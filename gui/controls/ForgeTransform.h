@@ -4,7 +4,7 @@
 
 #include "ForgeControl.h"
 
-class ForgeTransformMenu : public ForgeControl {
+class ForgeTransform : public ForgeControl {
 	Q_OBJECT
 
 private:
@@ -25,11 +25,11 @@ private:
 
 	inline QMenu* bind(QMenuBar* t_menu, const char* t_name);
 
-	inline void bind(QMenu* t_menu, const char* t_name, void(ForgeTransformMenu::*callback)(bool));
+	inline void bind(QMenu* t_menu, const char* t_name, void(ForgeTransform::*callback)(bool));
 
 public:
-	ForgeTransformMenu();
-	void onChange(bool checked);
+	ForgeTransform();
+	void onChange();
 	void onSet(bool checked);
 
 	void showAt(int ax, int ay)
