@@ -111,7 +111,7 @@ void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
 		setActive(container.high());
 	}
 	else {
-		for (auto control : controls) {
+		for (auto control : m_controls.priority()) {
 			control->close();
 		}
 	}
@@ -121,20 +121,17 @@ void ForgeApplication::initialize() {
 	auto window = newWindow();
 
 	auto mainMenu = new ForgeMainMenu();
+	auto moveControl = new ForgeTransformMenu();
 
 	(void)this->connect(mainMenu, &ForgeMainMenu::exitCommand, this, &ForgeApplication::onExit);
 	(void)this->connect(mainMenu, &ForgeMainMenu::viewCommand, this, &ForgeApplication::onView);
-	(void)this->connect(mainMenu, &ForgeMainMenu::moveCommand, this, &ForgeApplication::onMove);
-	(void)this->connect(mainMenu, &ForgeMainMenu::createCommand, this, &ForgeApplication::onCreate);
-	(void)this->connect(mainMenu, &ForgeMainMenu::optionsCommand, this, &ForgeApplication::onOptions);
+	(void)this->connect(mainMenu, &ForgeMainMenu::launchCommand, this, &ForgeApplication::onLaunch);
 
-	controls.push_back(mainMenu);
+	m_controls.add(mainMenu);
+	m_controls.add(moveControl);
 
-	auto transformMenu = new ForgeTransformMenu();
-	controls.push_back(transformMenu);
-
+	mainMenu->addLauncher(RootMenu::View, "Move", moveControl);
 	mainMenu->show();
-	transformMenu->showAt(100, 100);
 }
 
 ForgeWindow* ForgeApplication::newWindow() {
@@ -176,14 +173,6 @@ void ForgeApplication::onView(bool t_checked) {
 	newWindow();
 }
 
-void ForgeApplication::onMove(bool t_checked) {
-
-}
-
-void ForgeApplication::onCreate(bool t_checked) {
-
-}
-
-void ForgeApplication::onOptions(bool t_checked) {
-
+void ForgeApplication::onLaunch(int t_id) {
+	//transformMenu->showAt(100, 100);
 }

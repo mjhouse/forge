@@ -37,8 +37,8 @@ private:
 	QDir resourcesPath;
 
 	IdentifierList<ForgeWindow> container;
-	
-	std::vector<ForgeControl*> controls;
+
+	IdentifierList<ForgeControl> m_controls;
 
 	QtInputSettings* inputSettings;
 
@@ -95,9 +95,5 @@ public:
 
 	void onView(bool t_checked);
 
-	void onMove(bool t_checked);
-
-	void onCreate(bool t_checked);
-
-	void onOptions(bool t_checked);
+	void onLaunch(int t_id);
 };

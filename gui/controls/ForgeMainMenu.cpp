@@ -19,18 +19,15 @@ ForgeMainMenu::ForgeMainMenu() {
 	auto menu   = new QMenuBar();
 
 	// File Menu
-	auto f = bind(menu, "File");
-	bind(f, "Exit", &ForgeMainMenu::exitCommand);
+	m_fileMenu = bind(menu, "File");
+	bind(m_fileMenu, "Exit", &ForgeMainMenu::exitCommand);
 
 	// View Menu
-	auto v = bind(menu, "View");
-	bind(v, "3D Window", &ForgeMainMenu::viewCommand);
-	bind(v, "Move", &ForgeMainMenu::moveCommand);
-	bind(v, "Create", &ForgeMainMenu::createCommand);
+	m_viewMenu = bind(menu, "View");
+	bind(m_viewMenu, "3D View", &ForgeMainMenu::viewCommand);
 	
 	// Settings Menu
-	auto s = bind(menu, "Settings");
-	bind(s, "Options", &ForgeMainMenu::optionsCommand);
+	m_settingsMenu = bind(menu, "Settings");
 
 	layout->addWidget(menu);
 	layout->addStretch(1);
@@ -42,4 +39,12 @@ ForgeMainMenu::ForgeMainMenu() {
 	this->setHandle(widget);
 	this->setCentralWidget(widget);
 	this->setObjectName("MainMenu");
+}
+
+void ForgeMainMenu::addLauncher(RootMenu t_root, const char* label, ForgeControl* t_control) {
+	auto menu = getMenu(t_root);
+	(void)this->connect(menu->addAction(tr(label)), &QAction::triggered,
+		[t_control](bool c) {
+			t_control->show();
+	});
 }
