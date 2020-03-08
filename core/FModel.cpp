@@ -16,6 +16,7 @@ FModel::FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_
 	this->addComponent(transform);
 	this->addComponent(objectPicker);
 
+
 	(void)this->connect(objectPicker, &QtObjectPicker::clicked, this, &FModel::onClick);
 }
 
@@ -68,12 +69,12 @@ void FModel::onClick(Qt3DRender::QPickEvent* t_event)
 
 void FModel::unSelect()
 {
-
+	material->resetColor();
 }
 
 void FModel::select()
 {
-
+	material->setColor(100, 100, 100);
 }
 
 void FModel::hide() {

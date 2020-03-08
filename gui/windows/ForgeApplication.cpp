@@ -70,9 +70,12 @@ void ForgeApplication::setSelected(FModel* t_model)
 {
 	if (m_selected != nullptr)
 	{
+		m_selected->unSelect();
 	}
 
 	this->m_selected = t_model;
+
+	m_selected->select();
 }
 
 
