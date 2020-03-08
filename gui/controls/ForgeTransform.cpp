@@ -75,22 +75,22 @@ ForgeTransform::ForgeTransform()
 	(void)this->connect(ForgeApplication::instance(), &ForgeApplication::selectionChanged,
 						this, &ForgeTransform::updateView);
 
-	(void)this->connect(px, &QLineEdit::textChanged,
+	(void)this->connect(px, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(py, &QLineEdit::textChanged,
+	(void)this->connect(py, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(pz, &QLineEdit::textChanged,
+	(void)this->connect(pz, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(rx, &QLineEdit::textChanged, 
+	(void)this->connect(rx, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(ry, &QLineEdit::textChanged,
+	(void)this->connect(ry, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(rz, &QLineEdit::textChanged,
+	(void)this->connect(rz, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
 	widget->setLayout(layout);
@@ -135,8 +135,12 @@ void ForgeTransform::updateModel()
 	if (selected != nullptr)
 	{
 		auto p = selected->getTransform();
-		p->setTranslation(*new QVector3D(px->text().toFloat(), py->text().toFloat(), pz->text().toFloat()));
-		//p->setRotation(*new QQuaternion(rx->text().toFloat(), ry->text().toFloat(), rz->text().toFloat(), 0));
+
+		auto x = px->text().toFloat();
+		auto y = py->text().toFloat();
+		auto z = pz->text().toFloat();
+
+		p->setTranslation(QVector3D(x, y, z));
 		p->setRotationX(rx->text().toFloat());
 		p->setRotationY(ry->text().toFloat());
 		p->setRotationZ(rz->text().toFloat());
