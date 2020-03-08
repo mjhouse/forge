@@ -48,9 +48,10 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	controller->setParent(rootEntity.data());
 	controller->setLinearSpeed(50.0f);
 	controller->setLookSpeed(100.0f);
+	
 
 	initialize();
-	(void)this->connect(objectPicker, &QtObjectPicker::clicked, this, &ForgeApplication::onClick);
+	(void)this->connect(objectPicker, &QtObjectPicker::pressed, this, &ForgeApplication::onClick);
 }
 
 ForgeApplication* ForgeApplication::instance() {
@@ -73,7 +74,10 @@ FModel* ForgeApplication::getSelected()
 void ForgeApplication::onClick(Qt3DRender::QPickEvent* t_event)
 {
 	auto model = (FModel*)t_event->entity();
-	setSelected(model);
+	if (model != nullptr)
+	{
+		setSelected(model);
+	}
 }
 
 void ForgeApplication::setSelected(FModel* t_model)
