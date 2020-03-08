@@ -1,6 +1,7 @@
 #include "ForgeApplication.h"
 #include "ForgeMainMenu.h"
 #include "ForgeTransformMenu.h"
+#include "ForgeCreate.h"
 
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
@@ -76,7 +77,7 @@ void ForgeApplication::setSelected(FModel* t_model)
 	this->m_selected = t_model;
 	m_selected->select();
 	emit selectionChanged(t_model);
-	reset(m_selected->getTransform()->translation());
+	//reset(m_selected->getTransform()->translation());
 }
 
 void ForgeApplication::reset(QVector3D pivot)
@@ -122,6 +123,7 @@ void ForgeApplication::initialize() {
 
 	auto mainMenu = new ForgeMainMenu();
 	auto moveControl = new ForgeTransformMenu();
+	auto createControl = new ForgeCreate();
 
 	(void)this->connect(mainMenu, &ForgeMainMenu::exitCommand, this, &ForgeApplication::onExit);
 	(void)this->connect(mainMenu, &ForgeMainMenu::viewCommand, this, &ForgeApplication::onView);
@@ -129,8 +131,11 @@ void ForgeApplication::initialize() {
 
 	m_controls.add(mainMenu);
 	m_controls.add(moveControl);
+	m_controls.add(createControl);
 
 	mainMenu->addLauncher(RootMenu::View, "Move", moveControl);
+	mainMenu->addLauncher(RootMenu::View, "Create", createControl);
+
 	mainMenu->show();
 }
 

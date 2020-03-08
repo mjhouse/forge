@@ -1,18 +1,27 @@
 #ifndef __FORGECREATE_H__
-#define 
+#define __FORGECREATE_H__
 
 #include "ForgeControl.h"
+#include "FModel.h"
 
 class ForgeCreate : public ForgeControl {
 private:
 	QPushButton* button;
 
-	FModel* active = nullptr;
-
 	float length = 0.5;
 
+	FModel* m_model;
+	
 public:
+	ForgeCreate();
 
+	void cancelCreate();
+
+	void finishCreate();
+
+	void startCreate();
+
+	void lengthChanged(QString t_input);
 };
 
 #endif

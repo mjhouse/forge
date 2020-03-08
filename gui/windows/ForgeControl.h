@@ -20,6 +20,8 @@ private:
 
 	FWidget* m_handle;
 
+	bool m_hasTitle;
+
 	void moveEvent(QMoveEvent* t_event) override;
 
 public:

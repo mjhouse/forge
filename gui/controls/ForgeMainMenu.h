@@ -31,6 +31,7 @@ private:
 			case RootMenu::File: return m_fileMenu;
 			case RootMenu::View: return m_viewMenu;
 			case RootMenu::Settings: return m_settingsMenu;
+			default: return nullptr;
 		}
 	}
 

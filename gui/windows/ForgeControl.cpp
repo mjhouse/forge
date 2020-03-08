@@ -7,6 +7,7 @@ ForgeControl::ForgeControl()
 	, m_title(new ForgeTitleBar(this))
 	, m_body(new QWidget())
 	, m_handle(m_title)
+	, m_hasTitle(true)
 {
 	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool);
 	auto layout = new QVBoxLayout();
@@ -30,11 +31,13 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 }
 
 void ForgeControl::hasTitle(bool t_title) {
-	if (t_title) {
+	if (t_title && !m_hasTitle) {
 		layout()->addWidget(m_title);
+		m_hasTitle = true;
 	}
-	else {
+	else if(!t_title && m_hasTitle) {
 		layout()->removeWidget(m_title);
+		m_hasTitle = false;
 	}
 }
 

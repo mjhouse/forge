@@ -69,6 +69,7 @@ public:
 	void moveEvent(QMoveEvent* t_event) override;
 
 	void changeEvent(QWindowStateChangeEvent* t_event);
+	
 
 signals:
 	void onFocus(ForgeWindow* window);
