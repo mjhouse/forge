@@ -1,25 +1,24 @@
 #include "FModel.h"
 #include "ForgeApplication.h"
 
-FModel::FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_material)
-	: section(t_section)
-	, geometry(t_section->toGeometry())
+FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material)
+	: geometry(t_section)
 	, transform(t_transform)
 	, material(t_material)
 {
 	renderer = geometry->getRenderer(
-		QtRenderType::Triangles);
+		QtRenderType::LineLoop);
 
 	this->addComponent(renderer);
 	this->addComponent(material);
 	this->addComponent(transform);
 }
 
-FModel::FModel(FCrossSection* t_section, QColor t_color)
+FModel::FModel(FGeometry* t_section, QColor t_color)
 	: FModel(t_section, new QtTransform(), new FDefaultMaterial(t_color))
 {}
 
-FModel::FModel(FCrossSection* t_section)
+FModel::FModel(FGeometry* t_section)
 	: FModel(t_section, new QtTransform(), new FDefaultMaterial(RED))
 {}
 
@@ -57,6 +56,14 @@ bool FModel::isVisible() {
 	return this->isEnabled();
 }
 
+FGeometry* FModel::getGeometry() {
+	return geometry;
+}
+
+QtRenderer* FModel::getRenderer() {
+	return renderer;
+}
+
 void FModel::unSelect()
 {
 	material->resetColor();
@@ -75,7 +82,3 @@ void FModel::show() {
 	this->setEnabled(true);
 }
 
-void FModel::setLength(float t_length) {
-	section->setLength(t_length);
-	section->updateGeometry(geometry);
-}

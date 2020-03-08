@@ -19,8 +19,6 @@ class FCrossSection;
 	class FModel : public QtEntity, public components::HasIdentifier {
 	private:
 
-		FCrossSection* section;
-
 		FGeometry* geometry;
 
 		QtTransform* transform;
@@ -31,11 +29,11 @@ class FCrossSection;
 
 	public:
 
-		FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_material);
+		FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material);
 
-		FModel(FCrossSection* t_section, QColor t_color);
+		FModel(FGeometry* t_section, QColor t_color);
 
-		FModel(FCrossSection* t_section);
+		FModel(FGeometry* t_section);
 
 		QVector3D getCentroid(std::vector<QVector3D> points);
 
@@ -45,6 +43,10 @@ class FCrossSection;
 
 		bool isVisible();
 
+		FGeometry* getGeometry();
+
+		QtRenderer* getRenderer();
+
 		void unSelect();
 
 		void select();
@@ -52,8 +54,4 @@ class FCrossSection;
 		void hide();
 
 		void show();
-
-		void onClick(Qt3DRender::QPickEvent* t_event);
-
-		void setLength(float t_length);
 	};

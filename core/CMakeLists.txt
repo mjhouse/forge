@@ -7,6 +7,7 @@ target_sources(forge_core PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/FCrossSection.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/FGeometry.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/FModel.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/FModelExtruded.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Resources.cpp"
 )
 
