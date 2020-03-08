@@ -3,6 +3,7 @@
 
 #include "ForgeControl.h"
 #include "FModel.h"
+#include "FModelExtruded.h"
 
 class ForgeCreate : public ForgeControl {
 private:
@@ -10,7 +11,7 @@ private:
 
 	float length = 0.5;
 
-	FModel* m_model;
+	FModelExtruded* m_model;
 	
 public:
 	ForgeCreate();

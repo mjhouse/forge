@@ -1,6 +1,7 @@
 #include "ForgeCreate.h"
 #include "FCrossSection.h"
 #include "ForgeApplication.h"
+#include "FModelExtruded.h"
 
 ForgeCreate::ForgeCreate() : m_model(nullptr) {
 	this->hasTitle(true);
@@ -56,7 +57,7 @@ void ForgeCreate::startCreate() {
 		});
 
 	cs->setLength(length);
-	m_model = new FModel(cs);
+	m_model = new FModelExtruded(cs);
 
 	ForgeApplication::instance()->render(m_model);
 	ForgeApplication::instance()->setSelected(m_model);
