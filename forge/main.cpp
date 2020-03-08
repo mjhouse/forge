@@ -26,6 +26,8 @@ int main(int argc, char* argv[])
 
 	cs->setLength(0.25);
 	auto model = new FModel(cs);
+	auto model2 = new FModel(cs);
 	app.render(model);
+	app.render(model2);
 	return app.exec();
 }

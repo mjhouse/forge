@@ -121,7 +121,7 @@ void ForgeTransformMenu::onChange(bool checked)
 	}
 	else
 	{
-		px->setText("");
+		px->clear();
 		py->clear();
 		pz->clear();
 

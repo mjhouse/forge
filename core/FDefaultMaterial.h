@@ -48,11 +48,13 @@ public:
 class FMaterial : public QtMaterial {
 public:
 	virtual void setColor(float r, float g, float b) = 0;
+
+	virtual void resetColor() = 0;
 };
 
 class FDefaultMaterial : public FMaterial {
 private:
-
+	QColor base_color;
 	QtParameter* surfaceColor;
 
 public:
@@ -65,6 +67,7 @@ public:
 		this->addParameter(surfaceColor);
 
 		this->setColor(t_color);
+		base_color = t_color;
 	}
 
 	void setColor(QColor t_color) {
@@ -73,5 +76,10 @@ public:
 
 	void setColor(float r, float g, float b) {
 		setColor(QColor::fromRgbF(r, g, b));
+	}
+
+	void resetColor()
+	{
+		setColor(base_color);
 	}
 };
