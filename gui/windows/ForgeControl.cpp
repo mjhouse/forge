@@ -49,11 +49,12 @@ void ForgeControl::setCentralWidget(QWidget* t_widget) {
 }
 
 void ForgeControl::stateChanged(Qt::ApplicationState state) {
+	auto shown = isVisible();
 	if (state == Qt::ApplicationActive) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 	}
 	else {
 		setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
 	}
-	show();
+	if(shown) show();
 }
