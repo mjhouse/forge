@@ -29,8 +29,6 @@ class FCrossSection;
 
 		QtRenderer* renderer;
 
-		QtObjectPicker* objectPicker;
-
 	public:
 
 		FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_material);

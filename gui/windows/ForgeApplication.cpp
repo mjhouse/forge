@@ -38,8 +38,10 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 
 	renderSettings->setActiveFrameGraph(frameGraph);
 
+	auto objectPicker = new QtObjectPicker;
 	rootEntity->addComponent(renderSettings);
 	rootEntity->addComponent(inputSettings);
+	rootEntity->addComponent(objectPicker);
 
 	aspectEngine.setRootEntity(rootEntity);
 
@@ -48,6 +50,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	controller->setLookSpeed(100.0f);
 
 	initialize();
+	(void)this->connect(objectPicker, &QtObjectPicker::clicked, this, &ForgeApplication::onClick);
 }
 
 ForgeApplication* ForgeApplication::instance() {
@@ -65,6 +68,12 @@ QDir ForgeApplication::resources() {
 FModel* ForgeApplication::getSelected()
 {
 	return this->m_selected;
+}
+
+void ForgeApplication::onClick(Qt3DRender::QPickEvent* t_event)
+{
+	auto model = (FModel*)t_event->entity();
+	setSelected(model);
 }
 
 void ForgeApplication::setSelected(FModel* t_model)

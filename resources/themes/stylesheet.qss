@@ -12,6 +12,11 @@ QWidget {
 	background-color: #6d6d6d; 
 }
 
+
+#TitleBar {
+	margin: 5
+}
+
 QMainWindow::separator {
 	width: 1px; 
 	border: none;

@@ -60,6 +60,8 @@ private:
 
 	void onWindowClose(ForgeWindow* t_window);
 
+	void onClick(Qt3DRender::QPickEvent* t_event);
+
 	void initialize();
 
 public:

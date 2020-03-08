@@ -26,6 +26,8 @@ ForgeTitleBar::ForgeTitleBar(QWidget* t_parent)
 	layout->addWidget(close);
 	this->setLayout(layout);
 	this->setMinimumWidth(100);
+
+	this->setObjectName("TitleBar");
 }
 
 void ForgeTitleBar::closeControl() {

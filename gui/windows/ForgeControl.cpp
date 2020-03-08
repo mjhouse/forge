@@ -21,6 +21,7 @@ ForgeControl::ForgeControl()
 	this->setLayout(layout);
 	(void)this->connect(ForgeApplication::instance(), &QGuiApplication::applicationStateChanged,
 						this, &ForgeControl::stateChanged);
+
 }
 
 void ForgeControl::moveEvent(QMoveEvent* t_event) {

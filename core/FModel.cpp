@@ -6,7 +6,6 @@ FModel::FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_
 	, geometry(t_section->toGeometry())
 	, transform(t_transform)
 	, material(t_material)
-	, objectPicker(new QtObjectPicker())
 {
 	renderer = geometry->getRenderer(
 		QtRenderType::Triangles);
@@ -14,10 +13,6 @@ FModel::FModel(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_
 	this->addComponent(renderer);
 	this->addComponent(material);
 	this->addComponent(transform);
-	this->addComponent(objectPicker);
-
-
-	(void)this->connect(objectPicker, &QtObjectPicker::clicked, this, &FModel::onClick);
 }
 
 FModel::FModel(FCrossSection* t_section, QColor t_color)
@@ -60,11 +55,6 @@ QtTransform* FModel::getTransform() {
 
 bool FModel::isVisible() {
 	return this->isEnabled();
-}
-
-void FModel::onClick(Qt3DRender::QPickEvent* t_event)
-{
-	ForgeApplication::instance()->setSelected(this);
 }
 
 void FModel::unSelect()
