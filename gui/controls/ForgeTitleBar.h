@@ -16,10 +16,14 @@ public:
 class ForgeTitleBar : public FWidget {
 private:
 
+	QLabel* m_name;
+
 public:
 		
 	ForgeTitleBar(QWidget* t_parent);
 
 	void closeControl();
+
+	void setTitle(QString t_title);
 
 };

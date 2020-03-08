@@ -101,6 +101,7 @@ ForgeTransform::ForgeTransform()
 	//this->setHandle(widget);
 	this->setCentralWidget(widget);
 	this->setObjectName("TransformMenu");
+	this->setTitle("Move Object");
 
 }
 

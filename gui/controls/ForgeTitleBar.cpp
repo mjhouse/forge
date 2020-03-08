@@ -7,6 +7,7 @@ ForgeTitleButton::ForgeTitleButton(QString t_icon) {
 
 ForgeTitleBar::ForgeTitleBar(QWidget* t_parent)
 	: FWidget(t_parent)
+	, m_name(new QLabel(""))
 {
 	setDrag(true);
 	setDragTarget(t_parent);
@@ -20,6 +21,7 @@ ForgeTitleBar::ForgeTitleBar(QWidget* t_parent)
 	(void)this->connect(close, &QPushButton::released,
 		this, &ForgeTitleBar::closeControl);
 
+	layout->addWidget(m_name);
 	layout->addStretch(1);
 	layout->addWidget(close);
 	this->setLayout(layout);
@@ -30,4 +32,8 @@ void ForgeTitleBar::closeControl() {
 	auto p = (QDialog*)parent();
 	if (p != nullptr)
 		p->close();
+}
+
+void ForgeTitleBar::setTitle(QString t_title) {
+	m_name->setText(t_title);
 }

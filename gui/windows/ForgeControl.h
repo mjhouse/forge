@@ -30,6 +30,8 @@ public:
 
 	void hasTitle(bool t_title);
 
+	void setTitle(QString t_title);
+
 	void setCentralWidget(QWidget* t_widget);
 
 	void setHandle(FWidget* t_handle);

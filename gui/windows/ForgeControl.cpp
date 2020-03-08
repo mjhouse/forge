@@ -19,7 +19,6 @@ ForgeControl::ForgeControl()
 	layout->addWidget(m_body);
 
 	this->setLayout(layout);
-
 	(void)this->connect(ForgeApplication::instance(), &QGuiApplication::applicationStateChanged,
 						this, &ForgeControl::stateChanged);
 }
@@ -39,6 +38,10 @@ void ForgeControl::hasTitle(bool t_title) {
 		layout()->removeWidget(m_title);
 		m_hasTitle = false;
 	}
+}
+
+void ForgeControl::setTitle(QString t_title) {
+	m_title->setTitle(t_title);
 }
 
 void ForgeControl::setHandle(FWidget* t_handle) {

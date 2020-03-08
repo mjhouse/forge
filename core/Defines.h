@@ -49,6 +49,7 @@ typedef Qt3DCore::QAspectEngine						QtAspectEngine;
 typedef Qt3DCore::QEntityPtr						QtEntityPtr;
 
 typedef Qt3DExtras::Qt3DWindow						Qt3DWindow;
+typedef Qt3DExtras::QOrbitCameraController      	QtOrbitController;
 typedef Qt3DExtras::QFirstPersonCameraController	QtFpsController;
 
 typedef Qt3DLogic::QLogicAspect						QtLogicAspect;

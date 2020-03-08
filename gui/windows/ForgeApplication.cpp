@@ -13,7 +13,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, inputAspect(new QtInputAspect())
 	, logicAspect(new QtLogicAspect())
 	, rootEntity(new QtEntity())
-	, controller(new QtFpsController())
+	, controller(new QtOrbitController())
 	, m_selected(nullptr)
 {
 	rootPath = applicationDirPath();
