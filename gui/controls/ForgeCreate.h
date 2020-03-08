@@ -10,6 +10,9 @@ private:
 	FModel* active = nullptr;
 
 	float length = 0.5;
+
+public:
+
 };
 
 #endif

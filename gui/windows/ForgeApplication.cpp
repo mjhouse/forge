@@ -74,8 +74,8 @@ void ForgeApplication::setSelected(FModel* t_model)
 	}
 
 	this->m_selected = t_model;
-
 	m_selected->select();
+	emit selectionChanged(t_model);
 }
 
 

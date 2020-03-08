@@ -30,6 +30,9 @@ typedef Qt3DCore::QEntityPtr QtEntityPtr;
 using namespace components;
 
 class ForgeApplication : public QApplication {
+
+	Q_OBJECT
+
 private:
 	
 	QDir rootPath;
@@ -94,4 +97,7 @@ public:
 	void onView(bool t_checked);
 
 	void onLaunch(int t_id);
+
+signals:
+	void selectionChanged(FModel* t_model);
 };
