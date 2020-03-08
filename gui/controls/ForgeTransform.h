@@ -29,8 +29,8 @@ private:
 
 public:
 	ForgeTransform();
-	void onChange();
-	void onSet(bool checked);
+	void updateView();
+	void updateModel();
 
 	void showAt(int ax, int ay)
 	{

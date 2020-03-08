@@ -12,11 +12,6 @@ QWidget {
 	background-color: #6d6d6d; 
 }
 
-
-#TitleBar {
-	margin: 5
-}
-
 QMainWindow::separator {
 	width: 1px; 
 	border: none;
@@ -31,4 +26,21 @@ QPushButton {
 
 QPushButton:disabled {
 	color: #a8a8a8;
+}
+
+
+/* Title Bar */
+#TitleBar {
+	background-color: #333333;
+}
+
+#TitleBar QLabel {
+	margin: 1;
+	background-color: #333333;
+}
+
+#TitleButton {
+	border-radius: 10;
+	height: 20;
+	width: 20;
 }

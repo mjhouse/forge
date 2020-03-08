@@ -20,92 +20,87 @@ ForgeTransform::ForgeTransform()
 	, ry(new QLineEdit())
 	, rz(new QLineEdit())
 {
-	//this->hasTitle(false);
-
-	auto layout = new QBoxLayout(QBoxLayout::Direction::TopToBottom);
+	auto layout = new QVBoxLayout();
 	auto widget = new FWidget();
-	auto menu   = new QMenuBar();
-
+	
 	//positions options
-	auto positions = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
-
+	auto inputs = new QGridLayout();
+	
+	auto pl = new QLabel("Translation");
+	auto pxl = new QLabel("X");
 	px->setValidator(new QDoubleValidator(this));
-	px->setPlaceholderText("PositionX");
+	px->setPlaceholderText("N/A");
 
+	auto pyl = new QLabel("Y");
 	py->setValidator(new QDoubleValidator(this));
-	py->setPlaceholderText("PositionY");
+	py->setPlaceholderText("N/A");
 
+	auto pzl = new QLabel("Z");
 	pz->setValidator(new QDoubleValidator(this));
-	pz->setPlaceholderText("PositionZ");
-	positions->addWidget(px);
-	positions->addWidget(py);
-	positions->addWidget(pz);	
+	pz->setPlaceholderText("N/A");
 
-	auto positionswidget = new FWidget();
-	positionswidget->setLayout(positions);
+	inputs->addWidget(pl,  0, 0, 1, 2);
+	inputs->addWidget(pxl, 1, 0, Qt::AlignRight);
+	inputs->addWidget(pyl, 2, 0, Qt::AlignRight);
+	inputs->addWidget(pzl, 3, 0, Qt::AlignRight);
 
-	//rotations options
-	auto rotations = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
+	inputs->addWidget(px, 1, 1);
+	inputs->addWidget(py, 2, 1);
+	inputs->addWidget(pz, 3, 1);
 
+	auto rl  = new QLabel("Rotation");
+	auto rxl = new QLabel("X");
 	rx->setValidator(new QDoubleValidator(this));
-	rx->setPlaceholderText("RotationX");
+	rx->setPlaceholderText("N/A");
 
+	auto ryl = new QLabel("Y");
 	ry->setValidator(new QDoubleValidator(this));
-	ry->setPlaceholderText("RotationY");
+	ry->setPlaceholderText("N/A");
 
+	auto rzl = new QLabel("Z");
 	rz->setValidator(new QDoubleValidator(this));
-	rz->setPlaceholderText("RotationZ");
+	rz->setPlaceholderText("N/A");
 
-	rotations->addWidget(rx);
-	rotations->addWidget(ry);
-	rotations->addWidget(rz);	
+	inputs->addWidget(rl, 4, 0, 1, 2);
+	inputs->addWidget(rxl, 5, 0, Qt::AlignRight);
+	inputs->addWidget(ryl, 6, 0, Qt::AlignRight);
+	inputs->addWidget(rzl, 7, 0, Qt::AlignRight);
 
-	auto rotationsswidget = new FWidget();
-	rotationsswidget->setLayout(rotations);
+	inputs->addWidget(rx, 5, 1);
+	inputs->addWidget(ry, 6, 1);
+	inputs->addWidget(rz, 7, 1);
 
-	// Settings Menu
-	auto s = bind(menu, "Settings");
-	bind(s, "Options", &ForgeTransform::optionsCommand);
-	
-	
+	widget->setLayout(inputs);
 
-	auto proptions = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
+	(void)this->connect(ForgeApplication::instance(), &ForgeApplication::selectionChanged,
+						this, &ForgeTransform::updateView);
 
-	//QPushButton* get_button = new QPushButton("Update", this);
-	//proptions->addWidget(get_button);
+	(void)this->connect(px, &QLineEdit::textChanged,
+		this, &ForgeTransform::updateModel);
 
-	//this->connect(get_button, &QPushButton::clicked, this, &ForgeTransform::onChange);
+	(void)this->connect(py, &QLineEdit::textChanged,
+		this, &ForgeTransform::updateModel);
 
-	this->connect(ForgeApplication::instance(), &ForgeApplication::selectionChanged, this, &ForgeTransform::onChange);
+	(void)this->connect(pz, &QLineEdit::textChanged,
+		this, &ForgeTransform::updateModel);
 
-	QPushButton* set_button = new QPushButton("Set", this);
-	proptions->addWidget(set_button);
+	(void)this->connect(rx, &QLineEdit::textChanged, 
+		this, &ForgeTransform::updateModel);
 
-	this->connect(set_button, &QPushButton::clicked, this, &ForgeTransform::onSet);
+	(void)this->connect(ry, &QLineEdit::textChanged,
+		this, &ForgeTransform::updateModel);
 
-	auto translationoptionsswidget = new FWidget();
-	translationoptionsswidget->setLayout(proptions);
-	
+	(void)this->connect(rz, &QLineEdit::textChanged,
+		this, &ForgeTransform::updateModel);
 
-	layout->addWidget(menu);
-	layout->addWidget(positionswidget);
-	layout->addWidget(rotationsswidget);
-	layout->addWidget(translationoptionsswidget);
-	//layout->addWidget(get_button);
-	layout->addStretch(1);
-
-	//widget->setDrag(true);
-	//widget->setDragTarget(this);
 	widget->setLayout(layout);
-
-	//this->setHandle(widget);
 	this->setCentralWidget(widget);
 	this->setObjectName("TransformMenu");
 	this->setTitle("Move Object");
-
+	this->setFixedWidth(100);
 }
 
-void ForgeTransform::onChange()
+void ForgeTransform::updateView()
 {
 	auto selected = ForgeApplication::instance()->getSelected();
 	if (selected != nullptr)
@@ -134,7 +129,7 @@ void ForgeTransform::onChange()
 	}
 }
 
-void ForgeTransform::onSet(bool checked)
+void ForgeTransform::updateModel()
 {
 	auto selected = ForgeApplication::instance()->getSelected();
 	if (selected != nullptr)
