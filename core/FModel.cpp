@@ -5,7 +5,9 @@ FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_mate
 	: geometry(t_section)
 	, transform(t_transform)
 	, material(t_material)
+	, selectable(true)
 {
+
 	renderer = geometry->getRenderer(
 		QtRenderType::LineLoop);
 
@@ -62,6 +64,16 @@ FGeometry* FModel::getGeometry() {
 
 QtRenderer* FModel::getRenderer() {
 	return renderer;
+}
+
+void FModel::setSelectable(bool t_selectable)
+{
+	selectable = t_selectable;
+}
+
+bool FModel::getSelectable()
+{
+	return selectable;
 }
 
 void FModel::unSelect()
