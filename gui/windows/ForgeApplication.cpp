@@ -76,6 +76,16 @@ void ForgeApplication::setSelected(FModel* t_model)
 	this->m_selected = t_model;
 	m_selected->select();
 	emit selectionChanged(t_model);
+	reset(m_selected->getTransform()->translation());
+}
+
+void ForgeApplication::reset(QVector3D pivot)
+{
+	auto camera = controller->camera();
+	
+	camera->setPosition(pivot + (camera->position() - camera->viewCenter()));
+	camera->setViewCenter(pivot);
+	camera->setUpVector(QVector3D(0, 0, 1));
 }
 
 

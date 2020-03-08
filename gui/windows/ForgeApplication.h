@@ -63,6 +63,8 @@ private:
 
 	FModel* m_selected;
 
+	void reset(QVector3D pivot);
+
 	void setActive(ForgeWindow* t_window);
 
 	void onWindowClose(ForgeWindow* t_window);
