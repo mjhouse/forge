@@ -22,7 +22,6 @@ class FCrossSection;
 	private:
 
 		FCrossSection* section;
-
 	public:
 
 		FModelExtruded(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_material);
@@ -32,4 +31,6 @@ class FCrossSection;
 		FModelExtruded(FCrossSection* t_section);
 
 		void setLength(float t_length);
+
+		float length();
 	};

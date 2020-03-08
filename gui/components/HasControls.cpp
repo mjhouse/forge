@@ -1,59 +1,51 @@
 #include "HasControls.h"
 
+#include <QDebug>
+#include <QVector2D>
+
 namespace components {
 
 	HasControls::~HasControls() {
 	};
 	
-	HasControls::HasControls(QWindow* t_parent)
-		: m_parent(t_parent) 
-		, m_controls() 
-	{
+	HasControls::HasControls()
+		: m_controls() 
+	{}
 
+	void HasControls::updateRect(QRect t_rect) {
+		m_rect = t_rect;
 	}
 
-	void HasControls::adjustControls(QRect t_rect) {
-		auto pr = t_rect.right();
-		auto pl = t_rect.left();
-		auto pb = t_rect.bottom();
-		auto pt = t_rect.top();
-
-		for (auto it = m_controls.begin(); it != m_controls.end(); ++it) {
-			auto control = it->second->getControl();
-			auto c = control->geometry();
-
-			auto x = control->pos().x();
-			auto y = control->pos().y();
-
-			auto cr = c.right();
-			auto cl = c.left();
-			auto cb = c.bottom();
-			auto ct = c.top();
-
-			int dx = 0;
-			dx += cr > pr ? x + (pr - cr) : x;
-			dx += cl < pl ? x + (pl - cl) : x;
-			x = dx / 2;
-
-			int dy = 0;
-			dy += cb > pb ? y + (pb - cb) : y;
-			dy += ct < pt ? y + (pt - ct) : y;
-			y = dy / 2;
-
-			control->setGeometry(x, y,
-				control->width(),
-				control->height());
-		}
-
-		m_old = t_rect;
+	void HasControls::updatePosition(QPoint t_point) {
+		m_point = t_point;
 	}
 
-	void HasControls::moveControls(QPoint t_old, QPoint t_new) {
-		if (m_controls.empty()) return;
-		auto ch = t_new - t_old;
+	void HasControls::updateControls() {
+
 		for (auto it = m_controls.begin(); it != m_controls.end(); ++it) {
-			auto control = it->second->getControl();
-			control->move(control->pos() + ch);
+			auto control = it->second;
+			QVector2D anchor = control->getAnchor();
+
+			auto tl = QVector2D(m_rect.topLeft());
+			auto tr = QVector2D(m_rect.topRight());
+			auto br = QVector2D(m_rect.bottomRight());
+			auto bl = QVector2D(m_rect.bottomLeft());
+
+			switch (control->getSide()) {
+				case WindowSide::TopLeft:
+					anchor += tl;
+					break;
+				case WindowSide::TopRight:
+					anchor += tr;
+					break;
+				case WindowSide::BottomRight:
+					anchor += br;
+					break;
+				case WindowSide::BottomLeft:
+					anchor += bl;
+					break;
+			}
+			control->setPosition(QPoint(anchor.x(),anchor.y()));
 		}
 	}
 
@@ -72,6 +64,14 @@ namespace components {
 
 	void HasControls::removeControl(IsControl* t_control) {
 		m_controls.erase(t_control->id());
+	}
+
+	QRect HasControls::rect() {
+		return m_rect;
+	}
+
+	QPoint HasControls::point() {
+		return m_point;
 	}
 
 }

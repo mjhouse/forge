@@ -43,8 +43,7 @@ bool StateEventFilter::eventFilter(QObject* obj, QEvent* event) {
 
 
 ForgeWindow::ForgeWindow()
-	: HasControls(this)
-	, camera(new QtCamera())
+	: camera(new QtCamera())
 	, renderer(new QtForwardRenderer())
 {
 
@@ -87,7 +86,8 @@ void ForgeWindow::resizeEvent(QResizeEvent* event) {
 		lens->farPlane()
 	);
 
-	adjustControls(geometry());
+	updateRect(geometry());
+	updateControls();
 }
 
 void ForgeWindow::clearParent() {
@@ -100,17 +100,16 @@ QtCamera* ForgeWindow::getCamera() {
 }
 
 void ForgeWindow::moveEvent(QMoveEvent* t_event) {
-	moveControls(t_event->oldPos(), t_event->pos());
+	updateRect(geometry());
+	updateControls();
 }
 
 void ForgeWindow::changeEvent(QWindowStateChangeEvent* t_event) {
-	if (t_event->oldState().testFlag(Qt::WindowMinimized))
+	if (t_event->oldState().testFlag(Qt::WindowMinimized) ||
+	   (t_event->oldState().testFlag(Qt::WindowNoState)   &&
+		this->windowState() == Qt::WindowMaximized))
 	{
-		adjustControls(geometry());
-	}
-	else if (t_event->oldState().testFlag(Qt::WindowNoState) && 
-			 this->windowState() == Qt::WindowMaximized)
-	{
-		adjustControls(geometry());
+		updateRect(geometry());
+		updateControls();
 	}
 }

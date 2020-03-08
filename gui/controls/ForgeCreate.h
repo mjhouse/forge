@@ -7,22 +7,24 @@
 
 class ForgeCreate : public ForgeControl {
 private:
-	QPushButton* button;
-
+	
 	float length = 0.5;
 
 	FModelExtruded* m_model;
+
+	QLineEdit* m_lengthInput;
 	
+	QPushButton* m_button;
+
+	void updateView();
+
 public:
 	ForgeCreate();
-
-	void cancelCreate();
-
-	void finishCreate();
-
+	
 	void startCreate();
 
 	void lengthChanged(QString t_input);
+
 };
 
 #endif

@@ -24,7 +24,7 @@ private:
 
 	std::vector<uint> indices;
 
-	float length;
+	float m_length;
 
 	void initialize(std::vector<QVector2D> t_coordinates);
 
@@ -38,4 +38,7 @@ public:
 	void updateGeometry(FGeometry* t_geometry);
 
 	void setLength(float t_length);
+
+	float length();
+
 };

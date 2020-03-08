@@ -17,29 +17,33 @@ namespace components {
 	class HasControls{
 	private:
 
-		QRect m_old;
+		QRect m_rect;
 
-		QWindow* m_parent;
+		QPoint m_point;
 
 		std::map<uint, IsControl*> m_controls;
-		
-		int findClosest(QRect& t_rect, QPoint t_point);
 
 	public:
-		HasControls(QWindow* t_parent);
+		HasControls();
 
 		// HasControls cannot be instantiated
 		virtual ~HasControls() = 0;
 
-		void adjustControls(QRect t_rect);
-		
-		void moveControls(QPoint t_old, QPoint t_new);
+		void updateRect(QRect t_rect);
+
+		void updatePosition(QPoint t_point);
+
+		void updateControls();
 
 		IsControl* findControl(uint t_id);
 
 		void addControl(IsControl* t_control);
 
 		void removeControl(IsControl* t_control);
+
+		QRect rect();
+
+		QPoint point();
 
 	};
 

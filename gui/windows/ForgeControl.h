@@ -37,6 +37,12 @@ public:
 	void setHandle(FWidget* t_handle);
 	
 	void stateChanged(Qt::ApplicationState state);
+
+	void setPosition(QPoint t_point) {
+		setGeometry(t_point.x(), t_point.y(),
+			width(), height());
+		updateControl(geometry());
+	}
 };
 
 #endif

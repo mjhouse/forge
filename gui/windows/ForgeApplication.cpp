@@ -49,7 +49,6 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	controller->setLinearSpeed(50.0f);
 	controller->setLookSpeed(100.0f);
 	
-
 	initialize();
 	(void)this->connect(objectPicker, &QtObjectPicker::pressed, this, &ForgeApplication::onClick);
 }
@@ -90,18 +89,7 @@ void ForgeApplication::setSelected(FModel* t_model)
 	this->m_selected = t_model;
 	m_selected->select();
 	emit selectionChanged(t_model);
-	//reset(m_selected->getTransform()->translation());
 }
-
-void ForgeApplication::reset(QVector3D pivot)
-{
-	auto camera = controller->camera();
-	
-	camera->setPosition(pivot + (camera->position() - camera->viewCenter()));
-	camera->setViewCenter(pivot);
-	camera->setUpVector(QVector3D(0, 0, 1));
-}
-
 
 void ForgeApplication::setActive(ForgeWindow* t_window) {
 	if (t_window != nullptr) {

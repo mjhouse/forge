@@ -2,9 +2,7 @@
 #include "ForgeApplication.h"
 
 ForgeControl::ForgeControl()
-	: QDialog()
-	, IsControl(this)
-	, m_title(new ForgeTitleBar(this))
+	: m_title(new ForgeTitleBar(this))
 	, m_body(new QWidget())
 	, m_handle(m_title)
 	, m_hasTitle(true)
@@ -21,12 +19,12 @@ ForgeControl::ForgeControl()
 	this->setLayout(layout);
 	(void)this->connect(ForgeApplication::instance(), &QGuiApplication::applicationStateChanged,
 						this, &ForgeControl::stateChanged);
-
 }
 
 void ForgeControl::moveEvent(QMoveEvent* t_event) {
-	if (!controlled() || (m_handle && m_handle->isDragging())) {
-		findController();
+	updateControl(geometry());
+	if (!isControlled() || (m_handle && m_handle->isDragging())) {
+		positionControl();
 	}
 }
 

@@ -38,7 +38,7 @@ void FCrossSection::tessellate() {
 }
 
 FCrossSection::FCrossSection(std::vector<QVector2D> t_coordinates) 
-	: length(DEPTH_LENGTH)
+	: m_length(DEPTH_LENGTH)
 {
 	initialize(t_coordinates);
 }
@@ -51,7 +51,7 @@ FGeometry* FCrossSection::toGeometry() {
 
 void FCrossSection::updateGeometry(FGeometry* t_geometry) {
 	// find the offset for the new end face
-	auto offset = DEPTH_NORMAL * (length * -1);
+	auto offset = DEPTH_NORMAL * (m_length * -1);
 
 	auto nvertices = vertices;
 	auto nnormals  = normals;
@@ -117,5 +117,9 @@ void FCrossSection::updateGeometry(FGeometry* t_geometry) {
 }
 
 void FCrossSection::setLength(float t_length) {
-	length = t_length > 0 ? t_length : 0.1;
+	m_length = t_length > 0 ? t_length : 0.1;
 };
+
+float FCrossSection::length() {
+	return m_length;
+}

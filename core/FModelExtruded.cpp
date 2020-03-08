@@ -22,3 +22,7 @@ void FModelExtruded::setLength(float t_length) {
 	section->setLength(t_length);
 	section->updateGeometry(getGeometry());
 }
+
+float FModelExtruded::length() {
+	return section->length();
+}

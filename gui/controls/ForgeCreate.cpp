@@ -3,41 +3,38 @@
 #include "ForgeApplication.h"
 #include "FModelExtruded.h"
 
-ForgeCreate::ForgeCreate() : m_model(nullptr) {
+ForgeCreate::ForgeCreate() 
+	: m_model(nullptr) 
+	, m_lengthInput(new QLineEdit())
+	, m_button(new QPushButton("Create"))
+{
 	this->hasTitle(true);
 
 	auto widget = new QWidget();
-	auto layout = new QVBoxLayout();
-	auto row = new QHBoxLayout();
+	auto layout = new QGridLayout();
 
-	auto length = new QLineEdit();
-	length->setValidator(new QDoubleValidator(this));
-	length->setPlaceholderText("Length");
+	auto lengthLabel = new QLabel("Length:");
 
-	button = new QPushButton("Create");
-	row->addStretch(1);
-	row->addWidget(button);
+	m_lengthInput->setValidator(new QDoubleValidator(this));
+	m_lengthInput->setPlaceholderText("N/A");
 
-	layout->addWidget(length);
-	layout->addItem(row);
+	layout->addWidget(lengthLabel, 0, 0);
+	layout->addWidget(m_lengthInput, 0, 1);
+	layout->addWidget(m_button, 1, 1);
 
-	(void)this->connect(button, &QPushButton::pressed,
+	(void)this->connect(ForgeApplication::instance(), &ForgeApplication::selectionChanged,
+		this, &ForgeCreate::updateView);
+
+	(void)this->connect(m_button, &QPushButton::pressed,
 		this, &ForgeCreate::startCreate);
 
-	(void)this->connect(length, &QLineEdit::textChanged,
+	(void)this->connect(m_lengthInput, &QLineEdit::textEdited,
 		this, &ForgeCreate::lengthChanged);
 
-	layout->addStretch(1);
 	widget->setLayout(layout);
 	this->setCentralWidget(widget);
-}
-
-void ForgeCreate::cancelCreate() {
-	auto k = 0;
-}
-
-void ForgeCreate::finishCreate() {
-	auto k = 0;
+	this->setTitle("Create Object");
+	this->setFixedWidth(120);
 }
 
 void ForgeCreate::startCreate() {
@@ -70,5 +67,18 @@ void ForgeCreate::lengthChanged(QString t_input) {
 		length = l;
 		if (m_model)
 			m_model->setLength(length);
+	}
+}
+
+void ForgeCreate::updateView() {
+	auto selected = ForgeApplication::instance()->getSelected();
+	auto model = dynamic_cast<FModelExtruded*>(selected);
+	if (model != nullptr) {
+		m_lengthInput->setText(QString::number(model->length()));
+		m_model = model;
+	}
+	else {
+		m_lengthInput->setText("");
+		m_model = nullptr;
 	}
 }
