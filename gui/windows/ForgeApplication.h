@@ -50,7 +50,7 @@ private:
 
 	QtEntityPtr rootEntity;
 
-	QtOrbitController* controller;
+	QtFpsController* controller;
 
 	FModel* m_selected;
 
