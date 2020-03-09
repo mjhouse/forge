@@ -15,8 +15,11 @@
 #include "IdentifierList.h"
 #include "ForgeWindow.h"
 #include "ForgeControl.h"
+#include "FCameraController.h"
 #include "FModel.h"
+#include "Defines.h"
 
+class FCameraController;
 
 using namespace components;
 
@@ -50,7 +53,7 @@ private:
 
 	QtEntityPtr rootEntity;
 
-	QtOrbitController* controller;
+	FCameraController* controller;
 
 	FModel* m_selected;
 

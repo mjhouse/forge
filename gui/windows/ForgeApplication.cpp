@@ -3,6 +3,8 @@
 #include "ForgeCreate.h"
 #include "ForgeTransform.h"
 
+#include <QPickingSettings>
+
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
 	, inputSettings(new QtInputSettings())
@@ -13,12 +15,14 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, inputAspect(new QtInputAspect())
 	, logicAspect(new QtLogicAspect())
 	, rootEntity(new QtEntity())
-	, controller(new QtOrbitController())
 	, m_selected(nullptr)
 {
 	rootPath = applicationDirPath();
 	resourcesPath = QDir(rootPath.filePath("resources"));
 	resources::initialize(resources());
+
+	// needs to be created after resources are initialized
+	controller = new FCameraController();
 
 	// initialize the default surface formate for all 
 	// QWindow and QWindow derived components
@@ -39,16 +43,20 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	renderSettings->setActiveFrameGraph(frameGraph);
 
 	auto objectPicker = new QtObjectPicker;
+
+	renderSettings->pickingSettings()->setPickMethod(
+		Qt3DRender::QPickingSettings::TrianglePicking);
+
 	rootEntity->addComponent(renderSettings);
 	rootEntity->addComponent(inputSettings);
 	rootEntity->addComponent(objectPicker);
-
+	
 	aspectEngine.setRootEntity(rootEntity);
 
 	controller->setParent(rootEntity.data());
 	controller->setLinearSpeed(50.0f);
 	controller->setLookSpeed(100.0f);
-	
+
 	initialize();
 	(void)this->connect(objectPicker, &QtObjectPicker::pressed, this, &ForgeApplication::onClick);
 }
@@ -185,5 +193,5 @@ void ForgeApplication::onView(bool t_checked) {
 }
 
 void ForgeApplication::onLaunch(int t_id) {
-	//transformMenu->showAt(100, 100);
+
 }

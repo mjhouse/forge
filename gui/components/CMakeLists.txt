@@ -6,4 +6,5 @@ target_sources(forge_gui PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/HasIdentifier.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/HasControls.cpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/IsControl.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/FCameraController.cpp"
 )

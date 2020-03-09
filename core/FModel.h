@@ -37,6 +37,8 @@ class FCrossSection;
 
 		FModel(FGeometry* t_section);
 
+		FModel();
+
 		QVector3D getCentroid(std::vector<QVector3D> points);
 
 		QVector3D getCentroid();

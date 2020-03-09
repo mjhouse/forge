@@ -7,12 +7,13 @@ FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_mate
 	, material(t_material)
 	, selectable(true)
 {
+	if (geometry) {
+		renderer = geometry->getRenderer(
+			QtRenderType::LineLoop);
 
-	renderer = geometry->getRenderer(
-		QtRenderType::LineLoop);
-
-	this->addComponent(renderer);
-	this->addComponent(material);
+		this->addComponent(renderer);
+		this->addComponent(material);
+	}
 	this->addComponent(transform);
 }
 
@@ -23,6 +24,14 @@ FModel::FModel(FGeometry* t_section, QColor t_color)
 FModel::FModel(FGeometry* t_section)
 	: FModel(t_section, new QtTransform(), new FDefaultMaterial(RED))
 {}
+
+FModel::FModel()
+	: geometry(nullptr)
+	, transform(new QtTransform())
+	, material(nullptr)
+	, selectable(false) {
+	this->addComponent(transform);
+}
 
 QVector3D FModel::getCentroid(std::vector<QVector3D> points) {
 	float x = 0;
@@ -46,8 +55,11 @@ QVector3D FModel::getCentroid(std::vector<QVector3D> points) {
 }
 
 QVector3D FModel::getCentroid() {
-	auto points = geometry->getVertices();
-	return getCentroid(points);
+	if (geometry) {
+		auto points = geometry->getVertices();
+		return getCentroid(points);
+	}
+	return QVector3D(0,0,0);
 }
 
 QtTransform* FModel::getTransform() {
@@ -78,12 +90,15 @@ bool FModel::getSelectable()
 
 void FModel::unSelect()
 {
-	material->resetColor();
+	if(material != nullptr) material->resetColor();
 }
 
 void FModel::select()
 {
-	material->setColor(100, 100, 100);
+	if (material != nullptr) {
+		auto color = material->color();
+		material->setColor(color.lighter());
+	}
 }
 
 void FModel::hide() {
