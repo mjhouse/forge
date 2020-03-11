@@ -12,9 +12,9 @@ FModelLine::FModelLine(FLine* t_section, QtTransform* t_transform, FMaterial* t_
 }
 
 FModelLine::FModelLine(FLine* t_section, QColor t_color)
-	: FModelLine(t_section, new QtTransform(), new FDefaultMaterial(t_color))
+	: FModelLine(t_section, new QtTransform(), new FMaterial(t_color))
 {}
 
 FModelLine::FModelLine(FLine* t_section)
-	: FModelLine(t_section, new QtTransform(), new FDefaultMaterial(WHITE))
+	: FModelLine(t_section, new QtTransform(), new FMaterial(WHITE))
 {}

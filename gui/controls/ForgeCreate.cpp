@@ -37,6 +37,10 @@ ForgeCreate::ForgeCreate()
 	this->setFixedWidth(120);
 }
 
+void ForgeCreate::onMouseMove(QMouseEvent* t_event) {
+
+}
+
 void ForgeCreate::startCreate() {
 	FCrossSection* cs = new FCrossSection({
 		{-3.0f, 3.0f},

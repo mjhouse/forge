@@ -105,4 +105,5 @@ public:
 
 signals:
 	void selectionChanged(FModel* t_model);
+
 };

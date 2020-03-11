@@ -67,6 +67,10 @@ ForgeWindow::ForgeWindow()
 
 ForgeWindow::~ForgeWindow() {}
 
+//void ForgeWindow::mouseMoveEvent(QMouseEvent* t_event) {
+//	//emit onMouseMove(t_event);
+//}
+
 void ForgeWindow::setRenderSource(QtFrameGraphNode* t_framegraph) {
 	renderer->setParent(t_framegraph);
 }
@@ -129,3 +133,4 @@ void ForgeWindow::closing(ForgeWindow* t_window) {
 		}
 	}
 }
+

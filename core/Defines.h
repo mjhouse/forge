@@ -22,11 +22,14 @@
 #include <Qt3DRender/QRenderStateSet>
 #include <Qt3DRender/QLineWidth>
 
-
 #include <Qt3DInput/QMouseHandler>
 
-typedef Qt3DRender::QGeometryRenderer::PrimitiveType QtRenderType;
+// typedefs for Qt enums
+typedef Qt3DRender::QGeometryRenderer::PrimitiveType    QtRenderType;
+typedef Qt3DRender::QGraphicsApiFilter::Api             QtRenderApi;
+typedef Qt3DRender::QGraphicsApiFilter::OpenGLProfile   QtOpenGLProfile;
 
+// typedefs for Qt classes
 typedef Qt3DRender::QBuffer							QtBuffer;
 typedef Qt3DRender::QAttribute						QtAttribute;
 typedef Qt3DRender::QGeometry						QtGeometry;
@@ -40,6 +43,10 @@ typedef Qt3DRender::QRenderSettings					QtRenderSettings;
 typedef Qt3DRender::QRenderAspect					QtRenderAspect;
 typedef Qt3DRender::QRenderStateSet                 QtRenderStateSet;
 typedef Qt3DRender::QLineWidth                      QtLineWidth;
+typedef Qt3DRender::QShaderProgram                  QtShaderProgram;
+typedef Qt3DRender::QRenderPass                     QtRenderPass;
+typedef Qt3DRender::QFilterKey                      QtFilterKey;
+typedef Qt3DRender::QTechnique                      QtTechnique;
 
 typedef Qt3DInput::QMouseHandler					QtMouseHandler;
 typedef Qt3DInput::QInputSettings					QtInputSettings;

@@ -10,11 +10,11 @@ FModelExtruded::FModelExtruded(FCrossSection* t_section, QtTransform* t_transfor
 }
 
 FModelExtruded::FModelExtruded(FCrossSection* t_section, QColor t_color)
-	: FModelExtruded(t_section, new QtTransform(), new FDefaultMaterial(t_color))
+	: FModelExtruded(t_section, new QtTransform(), new FMaterial(t_color))
 {}
 
 FModelExtruded::FModelExtruded(FCrossSection* t_section)
-	: FModelExtruded(t_section, new QtTransform(), new FDefaultMaterial(RED))
+	: FModelExtruded(t_section, new QtTransform(), new FMaterial(RED))
 {}
 
 

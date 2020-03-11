@@ -47,6 +47,7 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 	if (m_parent == nullptr || isMoving()) {
 		auto rect = geometry();
 		auto window = ForgeApplication::instance()->findWindow(rect.center());
+		disconnectEvents();
 
 		if (window == nullptr) {
 			if (m_parent != nullptr) {
@@ -62,9 +63,28 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 			m_parent = window;
 		}
 
+		connectEvents();
 		findSide(rect);
 	}
 }
+
+void ForgeControl::disconnectEvents() {
+	//if (m_parent != nullptr) {
+	//	(void)this->disconnect(m_parent, &ForgeWindow::onMouseMove,
+	//		this, &ForgeControl::onMouseMove);
+	//}
+}
+
+void ForgeControl::connectEvents() {
+	//if (m_parent != nullptr) {
+	//	(void)this->connect(m_parent, &ForgeWindow::onMouseMove,
+	//		this, &ForgeControl::onMouseMove);
+	//}
+}
+
+//void ForgeControl::onMouseMove(QMouseEvent* t_event) {
+//
+//}
 
 void ForgeControl::setControlled(ForgeWindow* t_parent) {
 	if (m_parent)

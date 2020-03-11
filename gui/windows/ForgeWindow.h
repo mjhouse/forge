@@ -54,6 +54,8 @@ private:
 
 	void resizeEvent(QResizeEvent* event) override;
 
+	//void mouseMoveEvent(QMouseEvent* t_event) override;
+
 public:
 	ForgeWindow();
 	~ForgeWindow();
@@ -84,6 +86,8 @@ signals:
 	void onClose(ForgeWindow* window);
 
 	void onShow(ForgeWindow* window);
+
+	//void onMouseMove(QMouseEvent* t_event);
 
 };
 

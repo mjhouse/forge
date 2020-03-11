@@ -18,6 +18,8 @@ private:
 
 	void updateView();
 
+	void onMouseMove(QMouseEvent* t_event);
+
 public:
 	ForgeCreate();
 	

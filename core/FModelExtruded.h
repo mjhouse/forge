@@ -7,7 +7,7 @@
 
 #include <HasIdentifier.h>
 
-#include "FDefaultMaterial.h"
+#include "FMaterial.h"
 #include "FCrossSection.h"
 #include "FGeometry.h"
 #include "Defines.h"

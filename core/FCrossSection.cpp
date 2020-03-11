@@ -1,61 +1,82 @@
 #include "FCrossSection.h"
 #include "earcut.h"
+#include "exceptions.h"
 
 #include <array>
 #include <vector>
 
+/*! \brief Initialize the surface given points defining a  
+ *		   counter-clockwise border.
+ */
 void FCrossSection::initialize(std::vector<QVector2D> t_coordinates) {
 	size_t size = t_coordinates.size();
 
 	// convert coordinates to 3d points
-	vertices.resize(size);
+	m_vertices.resize(size);
 	for (size_t i = 0; i < size; ++i) {
 		auto p = t_coordinates[i];
-		vertices[i] = QVector3D(p.x(), p.y(), 0.0);
+		m_vertices[i] = QVector3D(p.x(), p.y(), 0.0);
 	}
 
 	QVector3D n = QVector3D::normal(
-		vertices[0],
-		vertices[1],
-		vertices[2]);
+		m_vertices[0],
+		m_vertices[1],
+		m_vertices[2]);
 
-	normals.resize(size);
+	m_normals.resize(size);
 	for (int i = 0; i < size; ++i)
-		normals[i] = n;
+		m_normals[i] = n;
 
 	// generate surface triangles
 	tessellate();
 }
 
+/*! \brief Use the earcut algorithm in earcut.h to tessellate
+ *		   the surface before initial thickening.
+ */
 void FCrossSection::tessellate() {
 	std::vector<std::vector<std::array<double, 2>>> polygon{ {} };
 
-	for (const auto& p : vertices) {
+	for (const auto& p : m_vertices) {
 		polygon[0].push_back(std::array<double, 2>{p.x(), p.y()});
 	}
 
-	indices = mapbox::earcut<uint>(polygon);
+	m_indices = mapbox::earcut<uint>(polygon);
 }
 
+/*! \brief The constructor takes counter-clockwise points defining
+ *		   a 2D surface around a local origin.
+ */
 FCrossSection::FCrossSection(std::vector<QVector2D> t_coordinates) 
-	: m_length(DEPTH_LENGTH)
+	: m_vertices()
+	, m_normals()
+	, m_indices()
+	, m_length(DEPTH_LENGTH)
 {
 	initialize(t_coordinates);
 }
 
+/*! \brief Create a 3D FGeometry object from the crosssection
+ *		   given a length.
+ */
 FGeometry* FCrossSection::toGeometry() {
 	FGeometry* geometry = new FGeometry();
 	updateGeometry(geometry);
 	return geometry;
 }
 
+/*! \brief Create a 3D FGeometry object by performing a 
+ *		   simple extrusion on the crosssection surface.
+ */
 void FCrossSection::updateGeometry(FGeometry* t_geometry) {
+	check_null(t_geometry,"Geometry cannot be null");
+
 	// find the offset for the new end face
 	auto offset = DEPTH_NORMAL * (m_length * -1);
 
-	auto nvertices = vertices;
-	auto nnormals  = normals;
-	auto nindices  = indices;
+	auto nvertices = m_vertices;
+	auto nnormals  = m_normals;
+	auto nindices  = m_indices;
 
 	// find new sizes for vertex, index and normal 
 	// buffers
@@ -116,10 +137,14 @@ void FCrossSection::updateGeometry(FGeometry* t_geometry) {
 	t_geometry->setIndices(nindices);
 }
 
+/*! \brief Set the length.
+ */
 void FCrossSection::setLength(float t_length) {
-	m_length = t_length > 0 ? t_length : 0.1;
-};
+	m_length = t_length;
+}
 
+/*! \brief Get the length.
+ */
 float FCrossSection::length() {
 	return m_length;
 }

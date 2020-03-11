@@ -47,6 +47,12 @@ private:
 		}
 	}
 
+	void disconnectEvents();
+
+	void connectEvents();
+
+	//void onMouseMove(QMouseEvent* t_event);
+
 public:
 
 	ForgeControl();
@@ -85,7 +91,7 @@ public:
 	WindowSide side() { 
 		return m_side; 
 	}
-
+	
 };
 
 #endif

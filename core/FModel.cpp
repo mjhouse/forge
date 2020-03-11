@@ -18,11 +18,11 @@ FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_mate
 }
 
 FModel::FModel(FGeometry* t_section, QColor t_color)
-	: FModel(t_section, new QtTransform(), new FDefaultMaterial(t_color))
+	: FModel(t_section, new QtTransform(), new FMaterial(t_color))
 {}
 
 FModel::FModel(FGeometry* t_section)
-	: FModel(t_section, new QtTransform(), new FDefaultMaterial(RED))
+	: FModel(t_section, new QtTransform(), new FMaterial(RED))
 {}
 
 FModel::FModel()

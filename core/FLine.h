@@ -5,7 +5,7 @@
 #include <QtWidgets/QWidget>
 #include <Qt3DRender/QMaterial>
 
-#include "FDefaultMaterial.h"
+#include "FMaterial.h"
 #include "FGeometry.h"
 #include "FModel.h"
 #include "Defines.h"
