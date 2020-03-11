@@ -78,7 +78,7 @@ FModel* ForgeApplication::getSelected()
 	return this->m_selected;
 }
 
-void ForgeApplication::onClick(Qt3DRender::QPickEvent* t_event)
+void ForgeApplication::onClick(QtPickEvent* t_event)
 {
 	auto model = (FModel*)t_event->entity();
 	if (model != nullptr)
@@ -89,18 +89,18 @@ void ForgeApplication::onClick(Qt3DRender::QPickEvent* t_event)
 
 void ForgeApplication::setSelected(FModel* t_model)
 {
-	if (!t_model->getSelectable())
+	if (!t_model->selectable())
 	{
 		return;
 	}
 
 	if (m_selected != nullptr)
 	{
-		m_selected->unSelect();
+		m_selected->unHighlight();
 	}
 
 	this->m_selected = t_model;
-	m_selected->select();
+	m_selected->highlight();
 	emit selectionChanged(t_model);
 }
 

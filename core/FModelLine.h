@@ -1,35 +1,25 @@
-#pragma once
-
-#include <Qt3DCore/QEntity>
-#include <QtWidgets/QWidget>
-#include <Qt3DRender/QGeometryRenderer>
-#include <Qt3DRender/QPickEvent>
-
-#include <HasIdentifier.h>
+#ifndef __FMODELLINE_H__
+#define __FMODELLINE_H__
 
 #include "FMaterial.h"
-#include "FCrossSection.h"
-#include "FGeometry.h"
-#include "Defines.h"
-
 #include "FModel.h"
 #include "FLine.h"
+#include "Defines.h"
 
-#define RED   QColor::fromRgbF(1.0,0.3,0.3)
 #define WHITE QColor::fromRgbF(1.0,1.0,1.0)
 
-class FLine;
-
-	class FModelLine : public FModel {
-	private:
+class FModelLine : public FModel {
+private:
 		
-		FLine* m_section;
+	FLine* m_section;	/*!< The line symbol used to define this model */
 
-	public:
+public:
 
-		FModelLine(FLine* t_section, QtTransform* t_transform, FMaterial* t_material);
+	FModelLine(FLine* t_section, QtTransform* t_transform, FMaterial* t_material);
 
-		FModelLine(FLine* t_section, QColor t_color);
+	FModelLine(FLine* t_section, QColor t_color);
 
-		FModelLine(FLine* t_section);
-	};
+	FModelLine(FLine* t_section);
+};
+
+#endif // __FMODELLINE_H__

@@ -1,110 +1,118 @@
 #include "FModel.h"
+
+#include "FCrossSection.h"
 #include "ForgeApplication.h"
 
+/*! \brief Constructor for model.
+ */
 FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material)
-	: geometry(t_section)
-	, transform(t_transform)
-	, material(t_material)
-	, selectable(true)
+	: m_geometry(t_section)
+	, m_transform(t_transform)
+	, m_material(t_material)
+	, m_renderer(nullptr)
+	, m_selectable(true)
 {
-	if (geometry) {
-		renderer = geometry->getRenderer(
-			QtRenderType::LineLoop);
+	if (m_geometry != nullptr) {
+		m_renderer = m_geometry->getRenderer(
+			QtRenderType::Points);
 
-		this->addComponent(renderer);
-		this->addComponent(material);
+		this->addComponent(m_renderer);
 	}
-	this->addComponent(transform);
+
+	if(m_transform != nullptr) 
+		this->addComponent(m_transform);
+	if(m_material != nullptr)
+		this->addComponent(m_material);
+
 }
 
+/*! \brief Secondary constructor for the FModel.
+ */
 FModel::FModel(FGeometry* t_section, QColor t_color)
 	: FModel(t_section, new QtTransform(), new FMaterial(t_color))
 {}
 
+/*! \brief Secondary constructor for the FModel.
+ */
 FModel::FModel(FGeometry* t_section)
 	: FModel(t_section, new QtTransform(), new FMaterial(RED))
 {}
 
+/*! \brief Default constructor for the FModel.
+ */
 FModel::FModel()
-	: geometry(nullptr)
-	, transform(new QtTransform())
-	, material(nullptr)
-	, selectable(false) {
-	this->addComponent(transform);
+	: FModel(nullptr, new QtTransform(), nullptr)
+{
 }
 
-QVector3D FModel::getCentroid(std::vector<QVector3D> points) {
-	float x = 0;
-	float y = 0;
-	float z = 0;
-	int c = 0;
+/*! \brief Get the QTransform for this entity.
+ */
+QtTransform* FModel::transform() {
+	return m_transform;
+}
 
-	auto r = transform->matrix();
-	auto t = transform->translation();
+/*! \brief Get the FGeometry of the model.
+ */
+FGeometry* FModel::geometry() {
+	return m_geometry;
+}
 
-	for (auto point : points) {
-		auto p = QVector4D(point, 1) * r + t;
-		x += p.x();
-		y += p.y();
-		z += p.z();
-		c++;
+/*! \brief Get the geometry renderer.
+ */
+QtRenderer* FModel::renderer() {
+	return m_renderer;
+}
+
+/*! \brief Set this model as selectable.
+ */
+void FModel::setSelectable(bool t_selectable)
+{
+	m_selectable = t_selectable;
+}
+
+/*! \brief Get the "selectable" flag. True if the user
+ *		   can interact with this model.
+ */
+bool FModel::selectable()
+{
+	return m_selectable;
+}
+
+/*! \brief Stop highlighting the model.
+ */
+void FModel::unHighlight()
+{
+	if (m_material != nullptr) {
+		m_material->resetColor();
 	}
-
-	return QVector3D(
-		x / c, y / c, z / c);
 }
 
-QVector3D FModel::getCentroid() {
-	if (geometry) {
-		auto points = geometry->getVertices();
-		return getCentroid(points);
+/*! \brief Highlight the model.
+ */
+void FModel::highlight() {
+	if (m_material != nullptr) {
+		auto color = m_material->color();
+		m_material->setColor(color.lighter());
 	}
-	return QVector3D(0,0,0);
 }
 
-QtTransform* FModel::getTransform() {
-	return transform;
-}
-
-bool FModel::isVisible() {
+/*! \brief If true, this entity/model is not visible
+ *		   in the 3D view.
+ */
+bool FModel::hidden() {
 	return this->isEnabled();
 }
 
-FGeometry* FModel::getGeometry() {
-	return geometry;
-}
-
-QtRenderer* FModel::getRenderer() {
-	return renderer;
-}
-
-void FModel::setSelectable(bool t_selectable)
-{
-	selectable = t_selectable;
-}
-
-bool FModel::getSelectable()
-{
-	return selectable;
-}
-
-void FModel::unSelect()
-{
-	if(material != nullptr) material->resetColor();
-}
-
-void FModel::select()
-{
-	if (material != nullptr) {
-		auto color = material->color();
-		material->setColor(color.lighter());
-	}
-}
-
+/*! \brief Hide the model. (make NOT visible 
+ *		   in the 3D view)
+ */
 void FModel::hide() {
 	this->setEnabled(false);
 }
 
+/*! \brief Show the model. (make VISIBLE in the 
+ *		   3D view)
+ */
 void FModel::show() {
 	this->setEnabled(true);
 }

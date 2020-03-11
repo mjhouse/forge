@@ -105,17 +105,17 @@ void ForgeTransform::updateView()
 	auto selected = ForgeApplication::instance()->getSelected();
 	if (selected != nullptr)
 	{
-		auto p = selected->getTransform()->translation();
+		auto p = selected->transform()->translation();
 
 		px->setText(QString::number(p.x()));
 		py->setText(QString::number(p.y()));
 		pz->setText(QString::number(p.z()));
 
-		auto r = selected->getTransform()->rotation();
+		auto r = selected->transform()->rotation();
 
-		rx->setText(QString::number(selected->getTransform()->rotationX()));
-		ry->setText(QString::number(selected->getTransform()->rotationY()));
-		rz->setText(QString::number(selected->getTransform()->rotationZ()));
+		rx->setText(QString::number(selected->transform()->rotationX()));
+		ry->setText(QString::number(selected->transform()->rotationY()));
+		rz->setText(QString::number(selected->transform()->rotationZ()));
 	}
 	else
 	{
@@ -134,7 +134,7 @@ void ForgeTransform::updateModel()
 	auto selected = ForgeApplication::instance()->getSelected();
 	if (selected != nullptr)
 	{
-		auto p = selected->getTransform();
+		auto p = selected->transform();
 
 		auto x = px->text().toFloat();
 		auto y = py->text().toFloat();

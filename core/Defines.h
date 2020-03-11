@@ -9,8 +9,11 @@
 #include <Qt3DCore/QEntity>             
 #include <Qt3DCore/QComponent>          
 #include <Qt3DCore/QTransform>   
-       
 
+#include <Qt3DRender/QGraphicsApiFilter>
+#include <Qt3DRender/QShaderProgram>
+#include <Qt3DRender/QRenderPass>
+#include <Qt3DRender/QFilterKey>
 #include <Qt3DRender/QBuffer>           
 #include <Qt3DRender/QAttribute>        
 #include <Qt3DRender/QGeometry>         
@@ -21,6 +24,7 @@
 #include <Qt3DRender/QObjectPicker>
 #include <Qt3DRender/QRenderStateSet>
 #include <Qt3DRender/QLineWidth>
+#include <Qt3DRender/QPickEvent>
 
 #include <Qt3DInput/QMouseHandler>
 
@@ -47,6 +51,7 @@ typedef Qt3DRender::QShaderProgram                  QtShaderProgram;
 typedef Qt3DRender::QRenderPass                     QtRenderPass;
 typedef Qt3DRender::QFilterKey                      QtFilterKey;
 typedef Qt3DRender::QTechnique                      QtTechnique;
+typedef Qt3DRender::QPickEvent						QtPickEvent;
 
 typedef Qt3DInput::QMouseHandler					QtMouseHandler;
 typedef Qt3DInput::QInputSettings					QtInputSettings;

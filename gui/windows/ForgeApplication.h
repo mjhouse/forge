@@ -24,8 +24,6 @@
 
 class FCameraController;
 
-using namespace components;
-
 class ForgeApplication : public QApplication {
 
 	Q_OBJECT

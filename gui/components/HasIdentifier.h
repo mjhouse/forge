@@ -2,24 +2,20 @@
 
 typedef unsigned int uint;
 
-namespace components {
+class HasIdentifier {
+private:
+	static uint count;
 
-	class HasIdentifier {
-	private:
-		static uint count;
+	uint m_id;
 
-		uint m_id;
+public:
+	HasIdentifier();
 
-	public:
-		HasIdentifier();
+	// HasIdentifier cannot be instantiated
+	virtual ~HasIdentifier() = 0;
 
-		// HasIdentifier cannot be instantiated
-		virtual ~HasIdentifier() = 0;
+	uint id();
 
-		uint id();
-
-		bool is(HasIdentifier* t_object);
-	};
-
-}
+	bool is(HasIdentifier* t_object);
+};
 

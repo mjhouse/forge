@@ -3,8 +3,8 @@
 
 #include <QtWidgets/QDialog>
 
+#include "HasIdentifier.h"
 #include "ForgeTitleBar.h"
-#include "IsControl.h"
 
 class ForgeWindow;
 
@@ -16,7 +16,7 @@ enum class WindowSide {
 	TopLeft
 };
 
-class ForgeControl : public QDialog, public components::HasIdentifier {
+class ForgeControl : public QDialog, public HasIdentifier {
 private:
 
 	ForgeTitleBar* m_title;

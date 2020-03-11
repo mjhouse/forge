@@ -16,8 +16,6 @@ typedef Qt3DRender::QCamera QtCamera;
 typedef Qt3DExtras::QForwardRenderer QtForwardRenderer;
 typedef Qt3DRender::QFrameGraphNode QtFrameGraphNode;
 
-using namespace components;
-
 class CloseEventFilter : public QObject {
 	Q_OBJECT
 public:

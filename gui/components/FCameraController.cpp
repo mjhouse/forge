@@ -38,7 +38,7 @@ void FCameraController::moveCamera(const InputState& state, float dt) {
 
 void FCameraController::onSelection(FModel* t_model) {
     if (t_model != nullptr) {
-        m_origin->getTransform()->setTranslation(
-            t_model->getTransform()->translation());
+        m_origin->transform()->setTranslation(
+            t_model->transform()->translation());
     }
 }

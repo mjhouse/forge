@@ -26,7 +26,7 @@ public:
 
 	void setColor(QColor t_color);
 
-	void setColor(float r, float g, float b);
+	void setColor(float t_r, float t_g, float t_b);
 
 	QColor color();
 

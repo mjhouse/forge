@@ -1,65 +1,61 @@
-#pragma once
+#ifndef __FMODEL_H__
+#define __FMODEL_H__
 
 #include <Qt3DCore/QEntity>
 #include <QtWidgets/QWidget>
 #include <Qt3DRender/QGeometryRenderer>
-#include <Qt3DRender/QPickEvent>
 
 #include <HasIdentifier.h>
 
 #include "FMaterial.h"
-#include "FCrossSection.h"
 #include "FGeometry.h"
 #include "Defines.h"
 
 #define RED QColor::fromRgbF(1.0,0.3,0.3)
 
-class FCrossSection;
+class FModel : public QtEntity, 
+			   public HasIdentifier {
+private:
 
-	class FModel : public QtEntity, public components::HasIdentifier {
-	private:
+	FGeometry* m_geometry;		/*!< The geometry of the model */
 
-		FGeometry* geometry;
+	QtTransform* m_transform;	/*!< Location and rotation */
 
-		QtTransform* transform;
+	FMaterial* m_material;		/*!< Rendering material */
 
-		FMaterial* material;
+	QtRenderer* m_renderer;		/*!< Renderer provided by FGeometry */
 
-		QtRenderer* renderer;
+	bool m_selectable;			/*!< True if user can interact with the model */
 
-		bool selectable;
+public:
 
-	public:
+	FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material);
 
-		FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material);
+	FModel(FGeometry* t_section, QColor t_color);
 
-		FModel(FGeometry* t_section, QColor t_color);
+	FModel(FGeometry* t_section);
 
-		FModel(FGeometry* t_section);
+	FModel();
+	
+	QtTransform* transform();
 
-		FModel();
+	FGeometry* geometry();
 
-		QVector3D getCentroid(std::vector<QVector3D> points);
+	QtRenderer* renderer();
+	
+	void setSelectable(bool t_selectable);
 
-		QVector3D getCentroid();
+	bool selectable();
 
-		QtTransform* getTransform();
+	void unHighlight();
 
-		bool isVisible();
+	void highlight();
 
-		FGeometry* getGeometry();
+	bool hidden();
 
-		QtRenderer* getRenderer();
+	void hide();
 
-		void setSelectable(bool t_selectable);
+	void show();
+};
 
-		bool getSelectable();
-
-		void unSelect();
-
-		void select();
-
-		void hide();
-
-		void show();
-	};
+#endif // __FMODEL_H__

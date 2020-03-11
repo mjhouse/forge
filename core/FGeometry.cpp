@@ -2,35 +2,140 @@
 #include <vector>
 
 #include "FGeometry.h"
+#include "exceptions.h"
 #include "earcut.h"
 
-std::vector<uint> FGeometry::tessellate(std::vector<QVector3D> points) {
+/*! \brief Helper function that finds index order to define surface
+ *         triangles given ordered (CCW) bounding points.
+ */
+std::vector<uint> FGeometry::tessellate(std::vector<QVector3D>& t_points) {
     std::vector<std::vector<std::array<double, 2>>> polygon{ {} };
 
-    for (const auto& p : points) {
+    for (const auto& p : t_points) {
         polygon[0].push_back(std::array<double, 2>{p.x(), p.y()});
     }
 
     return mapbox::earcut<uint>(polygon);
 }
 
+/*! \brief Sets buffer data given QVector3D vertex points.
+ */
+void FGeometry::setVertexData(std::vector<QVector3D>& t_vertices) {
+    QByteArray data = toData(t_vertices);
+    m_vertices->setData(data);
+}
+
+/*! \brief Sets buffer data given QVector3D normal points.
+ */
+void FGeometry::setNormalData(std::vector<QVector3D>& t_normals) {
+    QByteArray data = toData(t_normals);
+    m_normals->setData(data);
+}
+
+/*! \brief Sets buffer data given uint indices for the vertex buffer.
+ */
+void FGeometry::setIndexData(std::vector<uint>& t_indices) {
+    QByteArray data;
+    data.resize((uint)t_indices.size() * sizeof(uint));
+    uint* raw = reinterpret_cast<uint*>(data.data());
+
+    int i = 0;
+    for (const uint& v : t_indices) {
+        raw[i++] = v;
+    }
+
+    m_indices->setData(data);
+}
+
+/*! \brief Creates a vertex buffer attribute if none exists.
+ */
+void FGeometry::createVertexAttribute(QtBuffer* t_buffer, uint t_count) {
+    if (m_vertexAttribute == nullptr) {
+        check_null(t_buffer, "QBuffer parameter is null");
+        m_vertexAttribute = new QtAttribute();
+        m_vertexAttribute->setAttributeType(QtAttribute::VertexAttribute);
+        m_vertexAttribute->setBuffer(t_buffer);
+        m_vertexAttribute->setVertexBaseType(QtAttribute::Float);
+        m_vertexAttribute->setVertexSize(3);
+        m_vertexAttribute->setByteOffset(0);
+        m_vertexAttribute->setByteStride(3 * sizeof(float));
+        m_vertexAttribute->setCount(t_count);
+        m_vertexAttribute->setName(QtAttribute::defaultPositionAttributeName());
+        addAttribute(m_vertexAttribute);
+    }
+}
+
+/*! \brief Creates a normal buffer attribute if none exists.
+ */
+void FGeometry::createNormalAttribute(QtBuffer* t_buffer, uint t_count) {
+    if (m_normalAttribute == nullptr) {
+        check_null(t_buffer, "QBuffer parameter is null");
+        m_normalAttribute = new QtAttribute();
+        m_normalAttribute->setAttributeType(QtAttribute::VertexAttribute);
+        m_normalAttribute->setBuffer(t_buffer);
+        m_normalAttribute->setVertexBaseType(QtAttribute::Float);
+        m_normalAttribute->setVertexSize(3);
+        m_normalAttribute->setByteOffset(0);
+        m_normalAttribute->setByteStride(3 * sizeof(float));
+        m_normalAttribute->setCount(t_count);
+        m_normalAttribute->setName(QtAttribute::defaultNormalAttributeName());
+        addAttribute(m_normalAttribute);
+    }
+}
+
+/*! \brief Creates an index buffer attribute if none exists.
+ */
+void FGeometry::createIndexAttribute(Qt3DRender::QBuffer* t_buffer, uint t_count) {
+    if (m_indexAttribute == nullptr) {
+        check_null(t_buffer, "QBuffer parameter is null");
+        m_indexAttribute = new QtAttribute();
+        m_indexAttribute->setAttributeType(QtAttribute::IndexAttribute);
+        m_indexAttribute->setBuffer(t_buffer);
+        m_indexAttribute->setVertexBaseType(QtAttribute::UnsignedInt);
+        m_indexAttribute->setVertexSize(1);
+        m_indexAttribute->setByteOffset(0);
+        m_indexAttribute->setByteStride(0);
+        m_indexAttribute->setCount(t_count);
+        addAttribute(m_indexAttribute);
+    }
+}
+
+/*! \brief Constructor that initializes all values.
+ */
+FGeometry::FGeometry()
+    : m_vertices(new QtBuffer(this))
+    , m_normals(new QtBuffer(this))
+    , m_indices(new QtBuffer(this))
+    , m_vertexAttribute(nullptr)
+    , m_normalAttribute(nullptr)
+    , m_indexAttribute(nullptr)
+{}
+
+/*! \brief Creates or updates the vertex buffer.
+ */
 void FGeometry::setVertices(std::vector<QVector3D> t_vertices) {
     setVertexData(t_vertices);
-    setVertexBuffer(this->buffer, (uint)t_vertices.size());
+    createVertexAttribute(m_vertices, (uint)t_vertices.size());
 }
 
+/*! \brief Creates or updates the normal buffer.
+ */
 void FGeometry::setNormals(std::vector<QVector3D> t_normals) {
     setNormalData(t_normals);
-    setNormalBuffer(this->normals, (uint)t_normals.size());
+    createNormalAttribute(m_normals, (uint)t_normals.size());
 }
 
+/*! \brief Creates or updates the index buffer.
+ */
 void FGeometry::setIndices(std::vector<uint> t_indices) {
     setIndexData(t_indices);
-    setIndexBuffer(this->indices, (uint)t_indices.size());
+    createIndexAttribute(m_indices, (uint)t_indices.size());
 }
 
+/*! \brief Converts flat buffer data into a vector of QVector3D objects.
+ */
 std::vector<QVector3D> FGeometry::getVertices() {
-    QByteArray data = this->buffer->data();
+    QByteArray data = m_vertices->data();
     std::vector<QVector3D> points;
 
     int count = data.size() / sizeof(float);
@@ -47,8 +152,10 @@ std::vector<QVector3D> FGeometry::getVertices() {
     return points;
 }
 
+/*! \brief Converts flat buffer data into a vector of QVector3D objects.
+ */
 std::vector<QVector3D> FGeometry::getNormals() {
-    QByteArray data = this->normals->data();
+    QByteArray data = m_normals->data();
     std::vector<QVector3D> points;
 
     int count = data.size() / sizeof(float);
@@ -61,12 +168,14 @@ std::vector<QVector3D> FGeometry::getNormals() {
         float z = raw[i++];
         points.push_back(QVector3D(x, y, z));
     }
-    
+
     return points;
 }
 
+/*! \brief Converts flat buffer data into a vector of uint indices.
+ */
 std::vector<uint> FGeometry::getIndices() {
-    QByteArray data = this->indices->data();
+    QByteArray data = m_indices->data();
     int count = data.size() / sizeof(uint);
     std::vector<uint> index(count);
 
@@ -78,112 +187,37 @@ std::vector<uint> FGeometry::getIndices() {
     return index;
 }
 
-FGeometry::FGeometry()
-    : buffer(new QtBuffer(this))
-    , normals(new QtBuffer(this))
-    , indices(new QtBuffer(this))
-    , posAttribute(nullptr)
-    , normAttribute(nullptr)
-    , idxAttribute(nullptr)
-{
+/*! \brief Creates and returns a configured Qt GeometryRenderer for
+ *         for this Geometry instance.
+ */
+QtRenderer* FGeometry::getRenderer(QtRenderType t_type) {
+    auto parent = this->parentNode();
+    check_null(parent,"Parent node cannot be null");
 
-}
-
-void FGeometry::setVertexData(std::vector<QVector3D> vertices) {
-    QByteArray data;
-
-    // size the output bytearray and get direct access
-    data.resize((uint)vertices.size() * 3 * sizeof(float));
-    float* raw = reinterpret_cast<float*>(data.data());
-
-    // transfer data from vertices to the raw array
-    int idx = 0;
-    for (const QVector3D& vertex : vertices) {
-        raw[idx++] = vertex.x();
-        raw[idx++] = vertex.y();
-        raw[idx++] = vertex.z();
-    }
-
-    this->buffer->setData(data);
-}
-
-void FGeometry::setNormalData(std::vector<QVector3D> normals) {
-    QByteArray data;
-
-    // size the output bytearray and get direct access
-    data.resize((uint)normals.size() * 3 * sizeof(float));
-    float* raw = reinterpret_cast<float*>(data.data());
-
-    // transfer data from vertices to the raw array
-    int idx = 0;
-    for (const QVector3D& vertex : normals) {
-        raw[idx++] = vertex.x();
-        raw[idx++] = vertex.y();
-        raw[idx++] = vertex.z();
-    }
-
-    this->normals->setData(data);
-}
-
-void FGeometry::setIndexData(std::vector<uint> indices) {
-    QByteArray data;
-    data.resize((uint)indices.size() * sizeof(uint));
-    uint* raw = reinterpret_cast<uint*>(data.data());
-
-    int i = 0;
-    for (const uint& v : indices) {
-        raw[i++] = v;
-    }
-
-    this->indices->setData(data);
-}
-
-void FGeometry::setVertexBuffer(QtBuffer* buffer, uint count) {
-    posAttribute = new QtAttribute();
-    posAttribute->setAttributeType(QtAttribute::VertexAttribute);
-    posAttribute->setBuffer(buffer);
-    posAttribute->setVertexBaseType(QtAttribute::Float);
-    posAttribute->setVertexSize(3);
-    posAttribute->setByteOffset(0);
-    posAttribute->setByteStride(3*sizeof(float));
-    posAttribute->setCount(count);
-    posAttribute->setName(QtAttribute::defaultPositionAttributeName());
-	addAttribute(posAttribute);
-}
-
-void FGeometry::setNormalBuffer(QtBuffer* buffer, uint count) {
-    normAttribute = new QtAttribute();
-    normAttribute->setAttributeType(QtAttribute::VertexAttribute);
-    normAttribute->setBuffer(buffer);
-    normAttribute->setVertexBaseType(QtAttribute::Float);
-    normAttribute->setVertexSize(3);
-    normAttribute->setByteOffset(0);
-    normAttribute->setByteStride(3*sizeof(float));
-    normAttribute->setCount(count);
-    normAttribute->setName(QtAttribute::defaultNormalAttributeName());
-	addAttribute(normAttribute);
-}
-
-void FGeometry::setIndexBuffer(Qt3DRender::QBuffer* buffer, uint count) {
-    idxAttribute = new QtAttribute();
-    idxAttribute->setAttributeType(QtAttribute::IndexAttribute);
-    idxAttribute->setBuffer(buffer);
-    idxAttribute->setVertexBaseType(QtAttribute::UnsignedInt);
-    idxAttribute->setVertexSize(1);
-    idxAttribute->setByteOffset(0);
-    idxAttribute->setByteStride(0);
-    idxAttribute->setCount(count);
-	addAttribute(idxAttribute);
-}
-
-QtRenderer* FGeometry::getRenderer(QtRenderType type) {
-    auto renderer = new QtRenderer(this->parentNode());
+    auto renderer = new QtRenderer(parent);
     
     renderer->setInstanceCount(1);
     renderer->setFirstVertex(0);
     renderer->setFirstInstance(0);
-    renderer->setPrimitiveType(type);
+    renderer->setPrimitiveType(t_type);
     renderer->setGeometry(this);
 
     return renderer;
+}
+
+/*! \brief Verifies that the geometry is planar (all points lie in a plane).
+ */
+bool FGeometry::isPlanar() {
+    auto v = getVertices();
+    if (v.size() <= 3) return true;
+
+    auto normal = QVector3D::crossProduct(
+        v[1] - v[0], v[2] - v[0]).normalized();
+
+    for (auto it = v.begin() + 3; it != v.end(); ++it) {
+        if (QVector3D::dotProduct(*it - v[0], normal) != 0)
+            return false;
+    }
+
+    return true;
 }

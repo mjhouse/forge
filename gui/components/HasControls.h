@@ -10,35 +10,31 @@
 
 class ForgeControl;
 
-namespace components {
-	
-	class HasControls {
-	private:
+class HasControls {
+private:
 
-		QRect m_rect;
+	QRect m_rect;
 
-		QPoint m_point;
+	QPoint m_point;
 
-		std::map<uint, ForgeControl*> m_controls;
+	std::map<uint, ForgeControl*> m_controls;
 
-	public:
-		HasControls();
+public:
+	HasControls();
 
-		// HasControls cannot be instantiated
-		virtual ~HasControls() = 0;
+	// HasControls cannot be instantiated
+	virtual ~HasControls() = 0;
 
-		void updateControls(QRect& oldRect, QRect& newRect);
+	void updateControls(QRect& oldRect, QRect& newRect);
 
-		ForgeControl* findControl(uint t_id);
+	ForgeControl* findControl(uint t_id);
 
-		void addControl(ForgeControl* t_control);
+	void addControl(ForgeControl* t_control);
 
-		void removeControl(ForgeControl* t_control);
+	void removeControl(ForgeControl* t_control);
 
-		std::vector<ForgeControl*> allControls();
+	std::vector<ForgeControl*> allControls();
 
-	};
-
-}
+};
 
 #endif

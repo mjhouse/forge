@@ -60,7 +60,7 @@ FCrossSection::FCrossSection(std::vector<QVector2D> t_coordinates)
  *		   given a length.
  */
 FGeometry* FCrossSection::toGeometry() {
-	FGeometry* geometry = new FGeometry();
+	auto geometry = new FGeometry();
 	updateGeometry(geometry);
 	return geometry;
 }
