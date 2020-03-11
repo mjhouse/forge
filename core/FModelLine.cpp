@@ -3,10 +3,11 @@
 
 FModelLine::FModelLine(FLine* t_section, QtTransform* t_transform, FMaterial* t_material)
 	: FModel(t_section->toGeometry(), t_transform, t_material)
-	, section(t_section)
+	, m_section(t_section)
 {
 	setSelectable(false);
 	auto renderer = getRenderer();
+
 	renderer->setPrimitiveType(QtRenderType::Lines);
 }
 

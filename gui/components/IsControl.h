@@ -7,54 +7,58 @@
 #include "HasIdentifier.h"
 #include "HasControls.h"
 
-namespace components {
+//namespace components {
 
-	class HasControls;
+	//class HasControls;
 
-	enum class WindowSide {
-		None,
-		TopRight,
-		BottomRight,
-		BottomLeft,
-		TopLeft
-	};
-	
-	class IsControl : public HasIdentifier {
-	private:
+	//enum class WindowSide {
+	//	None,
+	//	TopRight,
+	//	BottomRight,
+	//	BottomLeft,
+	//	TopLeft
+	//};
+	//
+	//class IsControl : public QDialog, public HasIdentifier {
+	//private:
 
-		WindowSide m_side;
+	//	WindowSide m_side;
 
-		float m_offset;
+	//	QVector2D m_anchor;
+	//	
+	//	HasControls* m_parent;
 
-		QRect m_rect;
+	//	bool m_persistent;
 
-		QVector2D m_anchor;
-		
-		HasControls* m_parent;
+	//	void positionWithin(HasControls* t_parent);
 
-	public:
-		IsControl();
+	//	void moveEvent(QMoveEvent* t_event) override;
 
-		bool isControlled();
+	//	void findSide(QRect t_rect);
 
-		void updateControl(QRect t_rect);
+	//public:
+	//	IsControl();
 
-		void positionControl();
+	//	//bool isControlled();
 
-		void findSide(QRect t_rect);
+	//	void setControlled(HasControls* t_parent);
 
-		QRect getRect() { return m_rect; }
+	//	HasControls* controller() { return m_parent; }
 
-		WindowSide getSide() { return m_side; }
+	//	QVector2D anchor() { return m_anchor; }
 
-		float getOffset() { return m_offset; }
+	//	WindowSide side() { return m_side; }
 
-		QVector2D getAnchor() { return m_anchor; }
+	//	bool persistent() { return m_persistent; }
 
-		virtual void setPosition(QPoint t_point) = 0;
+	//	void setPersistent(bool t_persistent);
 
-	};
+	//	void reassign() { moveEvent(nullptr); }
 
-}
+	//	virtual bool isMoving() = 0;
+
+	//};
+
+//}
 
 #endif

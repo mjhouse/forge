@@ -70,11 +70,20 @@ public:
 
 	void changeEvent(QWindowStateChangeEvent* t_event);
 	
+	void closing(ForgeWindow* t_window);
+
+	void show() {
+		QWindow::show();
+		QApplication::processEvents();
+		emit onShow(this);
+	}
 
 signals:
 	void onFocus(ForgeWindow* window);
 
 	void onClose(ForgeWindow* window);
+
+	void onShow(ForgeWindow* window);
 
 };
 

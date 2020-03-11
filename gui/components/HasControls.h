@@ -5,23 +5,21 @@
 #include <QWidget>
 #include <QEvent>
 
-#include "IsControl.h"
-
 #include <vector>
 #include <map>
 
+class ForgeControl;
+
 namespace components {
-
-	class IsControl;
-
-	class HasControls{
+	
+	class HasControls {
 	private:
 
 		QRect m_rect;
 
 		QPoint m_point;
 
-		std::map<uint, IsControl*> m_controls;
+		std::map<uint, ForgeControl*> m_controls;
 
 	public:
 		HasControls();
@@ -29,21 +27,15 @@ namespace components {
 		// HasControls cannot be instantiated
 		virtual ~HasControls() = 0;
 
-		void updateRect(QRect t_rect);
+		void updateControls(QRect& oldRect, QRect& newRect);
 
-		void updatePosition(QPoint t_point);
+		ForgeControl* findControl(uint t_id);
 
-		void updateControls();
+		void addControl(ForgeControl* t_control);
 
-		IsControl* findControl(uint t_id);
+		void removeControl(ForgeControl* t_control);
 
-		void addControl(IsControl* t_control);
-
-		void removeControl(IsControl* t_control);
-
-		QRect rect();
-
-		QPoint point();
+		std::vector<ForgeControl*> allControls();
 
 	};
 

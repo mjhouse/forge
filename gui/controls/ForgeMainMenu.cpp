@@ -13,6 +13,7 @@ inline void ForgeMainMenu::bind(QMenu* t_menu, const char* t_name, void(ForgeMai
 
 ForgeMainMenu::ForgeMainMenu() {
 	this->hasTitle(false);
+	this->setPersistent(true);
 
 	auto layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
 	auto widget = new FWidget();

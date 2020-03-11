@@ -61,7 +61,7 @@ std::vector<QVector3D> FGeometry::getNormals() {
         float z = raw[i++];
         points.push_back(QVector3D(x, y, z));
     }
-
+    
     return points;
 }
 
@@ -178,7 +178,7 @@ void FGeometry::setIndexBuffer(Qt3DRender::QBuffer* buffer, uint count) {
 
 QtRenderer* FGeometry::getRenderer(QtRenderType type) {
     auto renderer = new QtRenderer(this->parentNode());
-
+    
     renderer->setInstanceCount(1);
     renderer->setFirstVertex(0);
     renderer->setFirstInstance(0);

@@ -15,15 +15,15 @@
 #include "FModel.h"
 #include "FLine.h"
 
-#define RED QColor::fromRgbF(1.0,0.3,0.3)
+#define RED   QColor::fromRgbF(1.0,0.3,0.3)
 #define WHITE QColor::fromRgbF(1.0,1.0,1.0)
 
 class FLine;
 
 	class FModelLine : public FModel {
 	private:
-
-		FLine* section;
+		
+		FLine* m_section;
 
 	public:
 

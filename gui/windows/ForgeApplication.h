@@ -11,6 +11,9 @@
 #include <Qt3DRender/QRenderAspect>
 #include <Qt3DInput/QInputAspect>
 #include <Qt3DLogic/QLogicAspect>
+#include <QPickingSettings>
+#include <Qt3DRender/QRenderStateSet>
+#include <Qt3DRender/QLineWidth>
 
 #include "IdentifierList.h"
 #include "ForgeWindow.h"
@@ -55,10 +58,10 @@ private:
 
 	FCameraController* controller;
 
+	QtObjectPicker* m_picker;
+	
 	FModel* m_selected;
-
-	void reset(QVector3D pivot);
-
+	
 	void setActive(ForgeWindow* t_window);
 
 	void onWindowClose(ForgeWindow* t_window);
@@ -74,13 +77,14 @@ public:
 	~ForgeApplication(){}
 
 	static ForgeApplication* instance();
-	
 
 	QDir root();
 
 	QDir resources();
 	
 	ForgeWindow* newWindow();
+
+	void onShownWindow(ForgeWindow* t_window);
 
 	ForgeWindow* findWindow(QPoint t_point);
 
@@ -95,6 +99,9 @@ public:
 	void onView(bool t_checked);
 
 	void onLaunch(int t_id);
+
+	void reassign(ForgeWindow* t_parent, ForgeControl* t_control);
+
 
 signals:
 	void selectionChanged(FModel* t_model);

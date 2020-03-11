@@ -2,8 +2,10 @@
 #include "ForgeMainMenu.h"
 #include "ForgeCreate.h"
 #include "ForgeTransform.h"
+#include "ForgeControl.h"
 
-#include <QPickingSettings>
+#include <Qt3DRender/QMultiSampleAntiAliasing>
+#include <Qt3DRender/QDepthTest>
 
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
@@ -15,6 +17,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, inputAspect(new QtInputAspect())
 	, logicAspect(new QtLogicAspect())
 	, rootEntity(new QtEntity())
+	, m_picker(new QtObjectPicker)
 	, m_selected(nullptr)
 {
 	rootPath = applicationDirPath();
@@ -32,24 +35,21 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	format.setDepthBufferSize(24);
 	format.setSamples(4);
 	format.setStencilBufferSize(8);
-
+	
 	QSurfaceFormat::setDefaultFormat(format);
 
 	// register aspects and set a base framegraph
 	aspectEngine.registerAspect(renderAspect);
 	aspectEngine.registerAspect(inputAspect);
 	aspectEngine.registerAspect(logicAspect);
-
+	
 	renderSettings->setActiveFrameGraph(frameGraph);
-
-	auto objectPicker = new QtObjectPicker;
-
 	renderSettings->pickingSettings()->setPickMethod(
 		Qt3DRender::QPickingSettings::TrianglePicking);
 
 	rootEntity->addComponent(renderSettings);
 	rootEntity->addComponent(inputSettings);
-	rootEntity->addComponent(objectPicker);
+	rootEntity->addComponent(m_picker);
 	
 	aspectEngine.setRootEntity(rootEntity);
 
@@ -58,7 +58,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	controller->setLookSpeed(100.0f);
 
 	initialize();
-	(void)this->connect(objectPicker, &QtObjectPicker::pressed, this, &ForgeApplication::onClick);
+	(void)this->connect(m_picker, &QtObjectPicker::pressed, this, &ForgeApplication::onClick);
 }
 
 ForgeApplication* ForgeApplication::instance() {
@@ -121,13 +121,13 @@ void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
 	container.remove(t_window);
 
 	// if there is another window in the collection
-	// set it as active. otherwise, close all controls
+	// set it as active.
 	if (container.size() > 0) {
 		setActive(container.high());
 	}
 	else {
-		for (auto control : m_controls.priority()) {
-			control->close();
+		for (auto child : m_controls.priority()) {
+			child->close();
 		}
 	}
 }
@@ -194,4 +194,21 @@ void ForgeApplication::onView(bool t_checked) {
 
 void ForgeApplication::onLaunch(int t_id) {
 
+}
+
+void ForgeApplication::reassign(ForgeWindow* t_parent, ForgeControl* t_control) {
+	if (t_parent == nullptr) {
+		if(t_control != nullptr)
+			t_control->close();
+		return;
+	}
+
+	for (auto window : container.priority()) {
+		if (!window->is(t_parent)) {
+			t_control->setControlled(window);
+			return;
+		}
+	}
+
+	t_control->close();
 }

@@ -19,6 +19,8 @@
 #include <Qt3DRender/QParameter>
 #include <Qt3DRender/QEffect>
 #include <Qt3DRender/QObjectPicker>
+#include <Qt3DRender/QRenderStateSet>
+#include <Qt3DRender/QLineWidth>
 
 
 #include <Qt3DInput/QMouseHandler>
@@ -36,6 +38,8 @@ typedef Qt3DRender::QObjectPicker					QtObjectPicker;
 typedef Qt3DRender::QFrameGraphNode					QtFrameGraphNode;
 typedef Qt3DRender::QRenderSettings					QtRenderSettings;
 typedef Qt3DRender::QRenderAspect					QtRenderAspect;
+typedef Qt3DRender::QRenderStateSet                 QtRenderStateSet;
+typedef Qt3DRender::QLineWidth                      QtLineWidth;
 
 typedef Qt3DInput::QMouseHandler					QtMouseHandler;
 typedef Qt3DInput::QInputSettings					QtInputSettings;

@@ -12,12 +12,12 @@
 #include <Qt3DCore/QTransform>
 #include <Qt3DRender/QLineWidth>
 
+#include "ForgeApplication.h"
 #include "ForgeWindow.h"
 #include "ForgeControl.h"
 #include "Defines.h"
 #include "Config.h"
 
-#define WHITE 0xffffff
 #define BLACK 0x000000
 #define GRAY  0x212121
 
@@ -39,9 +39,6 @@ bool StateEventFilter::eventFilter(QObject* obj, QEvent* event) {
 	return QObject::eventFilter(obj, event);
 }
 
-
-
-
 ForgeWindow::ForgeWindow()
 	: camera(new QtCamera())
 	, renderer(new QtForwardRenderer())
@@ -49,6 +46,9 @@ ForgeWindow::ForgeWindow()
 
 	this->setSurfaceType(QWindow::OpenGLSurface);
 	this->resize(1024, 768);
+
+	setMinimumHeight(100);
+	setMinimumWidth(100);
 
 	camera->lens()->setPerspectiveProjection(45.0, (float)1024/768, 0.1f, 1000.0);
 	camera->setPosition(QVector3D(0, 10, 0));
@@ -61,6 +61,8 @@ ForgeWindow::ForgeWindow()
 
 	this->installEventFilter(new CloseEventFilter(this));
 	this->installEventFilter(new StateEventFilter(this));
+
+	(void)this->connect(this, &ForgeWindow::onClose, this, &ForgeWindow::closing);
 }
 
 ForgeWindow::~ForgeWindow() {}
@@ -86,8 +88,10 @@ void ForgeWindow::resizeEvent(QResizeEvent* event) {
 		lens->farPlane()
 	);
 
-	updateRect(geometry());
-	updateControls();
+	auto rect = geometry();
+	QRect oldRect(rect.topLeft(), event->oldSize());
+	QRect newRect(rect.topLeft(), size());
+	updateControls(oldRect, newRect);
 }
 
 void ForgeWindow::clearParent() {
@@ -100,8 +104,9 @@ QtCamera* ForgeWindow::getCamera() {
 }
 
 void ForgeWindow::moveEvent(QMoveEvent* t_event) {
-	updateRect(geometry());
-	updateControls();
+	QRect oldRect(t_event->oldPos(), size());
+	QRect newRect(t_event->pos(), size());
+	updateControls(oldRect,newRect);
 }
 
 void ForgeWindow::changeEvent(QWindowStateChangeEvent* t_event) {
@@ -109,7 +114,18 @@ void ForgeWindow::changeEvent(QWindowStateChangeEvent* t_event) {
 	   (t_event->oldState().testFlag(Qt::WindowNoState)   &&
 		this->windowState() == Qt::WindowMaximized))
 	{
-		updateRect(geometry());
-		updateControls();
+		//updateControls();
+	}
+}
+
+void ForgeWindow::closing(ForgeWindow* t_window) {
+	for (auto child : allControls()) {
+		if (!child->persistent()) {
+			child->close();
+		}
+		else {
+			ForgeApplication::instance()
+				->reassign(this,child);
+		}
 	}
 }

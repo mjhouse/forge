@@ -46,6 +46,15 @@ namespace components {
 			return m_objs[t_id];
 		}
 
+		T* first() {
+			gt_zero(m_objs.size());
+			return m_objs.begin()->second;
+		}
+
+		bool contains(T* t_obj) {
+			return m_objs.count(t_obj->id()) != 0;
+		}
+
 		void prioritize(uint t_id) {
 			// find a reverse iterator pointing to the id 't_id'
 			auto it = std::find_if(m_ids.rbegin(), m_ids.rend(), [t_id](auto i) {

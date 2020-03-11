@@ -16,19 +16,18 @@
 class FModelEffect : public QtEffect {
 private:
 
-
 public:
 	FModelEffect(QtMaterial* parent) 
 		: QtEffect(parent)
 	{
 		auto shader = new Qt3DRender::QShaderProgram(parent);
-		
+
 		shader->setVertexShaderCode(resources::shader("vertex_shader"));
 		shader->setFragmentShaderCode(resources::shader("fragment_shader"));
 
 		auto render = new Qt3DRender::QRenderPass(parent);
 		render->setShaderProgram(shader);
-
+		
 		auto filterKey = new Qt3DRender::QFilterKey;
 		filterKey->setName(QStringLiteral("renderingStyle"));
 		filterKey->setValue("forward");
@@ -40,7 +39,7 @@ public:
 		technique->graphicsApiFilter()->setProfile(Qt3DRender::QGraphicsApiFilter::OpenGLProfile::CoreProfile);
 		technique->graphicsApiFilter()->setMajorVersion(3);
 		technique->graphicsApiFilter()->setMinorVersion(3);
-
+		
 		this->addTechnique(technique);
 	}
 };
@@ -61,23 +60,23 @@ class FDefaultMaterial : public FMaterial {
 private:
 	QColor m_color;
 
-	QtParameter* surfaceColor;
+	QtParameter* m_surfaceColor;
 
 public:
 	FDefaultMaterial(QColor t_color)
-		: surfaceColor(new QtParameter())
+		: m_surfaceColor(new QtParameter())
 	{
 		this->setEffect(new FModelEffect(this));
 
-		surfaceColor->setName(QStringLiteral("surfaceColor"));
-		this->addParameter(surfaceColor);
+		m_surfaceColor->setName(QStringLiteral("surfaceColor"));
+		this->addParameter(m_surfaceColor);
 
 		this->setColor(t_color);
 		m_color = t_color;
 	}
 
 	void setColor(QColor t_color) {
-		surfaceColor->setValue(t_color);
+		m_surfaceColor->setValue(t_color);
 	}
 
 	void setColor(float r, float g, float b) {
