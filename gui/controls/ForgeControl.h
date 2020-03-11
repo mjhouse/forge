@@ -35,14 +35,17 @@ private:
 	
 	bool m_persistent;
 
-public:
 	QPoint positionWithin(QRect& t_parent, QRect& t_child);
-
-private:
 
 	void moveEvent(QMoveEvent* t_event) override;
 
 	void findSide(QRect& t_rect);
+
+	void keyPressEvent(QKeyEvent* t_event) override {
+		if (t_event->key() != Qt::Key_Escape) {
+			QDialog::keyPressEvent(t_event);
+		}
+	}
 
 public:
 

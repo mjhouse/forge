@@ -32,6 +32,11 @@ public:
 		filterKey->setName(QStringLiteral("renderingStyle"));
 		filterKey->setValue("forward");
 
+		auto lw = new QtLineWidth();
+		lw->setValue(10);
+		lw->setSmooth(true);
+		render->addRenderState(lw);
+
 		auto technique = new Qt3DRender::QTechnique();
 		technique->addRenderPass(render);
 		technique->addFilterKey(filterKey);
