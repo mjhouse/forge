@@ -58,7 +58,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	controller->setLookSpeed(100.0f);
 
 	initialize();
-	(void)this->connect(m_picker, &QtObjectPicker::pressed, this, &ForgeApplication::onClick);
+	(void)this->connect(m_picker, &QtObjectPicker::clicked, this, &ForgeApplication::onClick);
 }
 
 ForgeApplication* ForgeApplication::instance() {
@@ -141,7 +141,6 @@ void ForgeApplication::initialize() {
 
 	(void)this->connect(mainMenu, &ForgeMainMenu::exitCommand, this, &ForgeApplication::onExit);
 	(void)this->connect(mainMenu, &ForgeMainMenu::viewCommand, this, &ForgeApplication::onView);
-	(void)this->connect(mainMenu, &ForgeMainMenu::launchCommand, this, &ForgeApplication::onLaunch);
 
 	m_controls.add(mainMenu);
 	m_controls.add(moveControl);
@@ -190,10 +189,6 @@ void ForgeApplication::onExit(bool t_checked) {
 
 void ForgeApplication::onView(bool t_checked) {
 	newWindow();
-}
-
-void ForgeApplication::onLaunch(int t_id) {
-
 }
 
 void ForgeApplication::reassign(ForgeWindow* t_parent, ForgeControl* t_control) {

@@ -1,5 +1,8 @@
 #include "FOrigin.h"
 
+/*! \brief Construct the three FModel objects that make up the
+ *		   origin display (x, y and z axis lines).
+ */
 FOrigin::FOrigin() 
 	: FModel()
 {

@@ -8,51 +8,32 @@
 
 class ForgeWindow;
 
-enum class WindowSide {
-	None,
-	TopRight,
-	BottomRight,
-	BottomLeft,
-	TopLeft
-};
-
-class ForgeControl : public QDialog, public HasIdentifier {
+class ForgeControl : public QDialog, 
+					 public HasIdentifier {
 private:
 
-	ForgeTitleBar* m_title;
+	ForgeTitleBar* m_title;		/*!< The dialog title */
 
-	QWidget* m_body;
+	QWidget* m_body;			/*!< The central widget body */
 
-	FWidget* m_handle;
+	FWidget* m_handle;			/*!< A widget used as a handle for dragging */
 
-	bool m_hasTitle;
-
-	WindowSide m_side;
+	bool m_hasTitle;			/*!< Has a default title bar if true */
+		
+	QVector2D m_anchor;			/*!< A reference point relative to the parent */
 	
-	QVector2D m_anchor;
+	ForgeWindow* m_parent;		/*!< The current parent window */
 	
-	ForgeWindow* m_parent;
-	
-	bool m_persistent;
+	bool m_persistent;			/*!< Passed to another window when parent closes if true */
 
 	QPoint positionWithin(QRect& t_parent, QRect& t_child);
 
+	void findAnchor(QRect& t_rect);
+
 	void moveEvent(QMoveEvent* t_event) override;
 
-	void findSide(QRect& t_rect);
-
-	void keyPressEvent(QKeyEvent* t_event) override {
-		if (t_event->key() != Qt::Key_Escape) {
-			QDialog::keyPressEvent(t_event);
-		}
-	}
-
-	void disconnectEvents();
-
-	void connectEvents();
-
-	//void onMouseMove(QMouseEvent* t_event);
-
+	void keyPressEvent(QKeyEvent* t_event) override;
+	
 public:
 
 	ForgeControl();
@@ -67,31 +48,18 @@ public:
 	
 	void stateChanged(Qt::ApplicationState state);
 
-	void setPersistent(bool t_persistent);
-
 	void setControlled(ForgeWindow* t_parent);
 	
-	bool isMoving() {
-		return m_handle != nullptr && 
-			   m_handle->isDragging();
-	}
+	bool isMoving();
 
-	bool persistent() { 
-		return m_persistent; 
-	}
+	bool persistent();
 
-	QVector2D anchor() { 
-		return m_anchor; 
-	}
+	void setPersistent(bool t_persistent);
 
-	void setAnchor(QVector2D t_anchor) {
-		m_anchor = t_anchor;
-	}
+	QVector2D anchor();
 
-	WindowSide side() { 
-		return m_side; 
-	}
-	
+	void setAnchor(QVector2D t_anchor);
+
 };
 
-#endif
+#endif // __FORGECONTROL_H__

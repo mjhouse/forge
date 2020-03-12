@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __FORGETITLEBAR_H__
+#define __FORGETITLEBAR_H__
 
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QPushButton>
@@ -16,7 +17,7 @@ public:
 class ForgeTitleBar : public FWidget {
 private:
 
-	QLabel* m_name;
+	QLabel* m_name; /*!< The name to display in the title bar */
 
 public:
 		
@@ -27,3 +28,5 @@ public:
 	void setTitle(QString t_title);
 
 };
+
+#endif // __FORGETITLEBAR_H__

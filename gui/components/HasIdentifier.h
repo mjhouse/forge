@@ -1,17 +1,20 @@
-#pragma once
+#ifndef __HASIDENTIFIER_H__
+#define __HASIDENTIFIER_H__
 
 typedef unsigned int uint;
 
 class HasIdentifier {
 private:
-	static uint count;
+	static uint count;	/*!< The global id counter */
 
-	uint m_id;
+	uint m_id;			/*!< The id of this object */
 
 public:
 	HasIdentifier();
 
-	// HasIdentifier cannot be instantiated
+	/*! \brief HasIdentifier cannot be instantiated, although
+	 *		   no methods need to be implemented to use the class.
+	*/
 	virtual ~HasIdentifier() = 0;
 
 	uint id();
@@ -19,3 +22,4 @@ public:
 	bool is(HasIdentifier* t_object);
 };
 
+#endif // __HASIDENTIFIER_H__

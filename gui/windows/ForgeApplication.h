@@ -95,9 +95,7 @@ public:
 	void onExit(bool t_checked);
 
 	void onView(bool t_checked);
-
-	void onLaunch(int t_id);
-
+	
 	void reassign(ForgeWindow* t_parent, ForgeControl* t_control);
 
 

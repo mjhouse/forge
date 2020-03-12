@@ -1,16 +1,26 @@
 #include "ForgeMainMenu.h"
 
+/*! \brief Inline helper function to create a new root menu.
+ */
 inline QMenu* ForgeMainMenu::bind(QMenuBar* t_menu, const char* t_name) {
 	auto menu = new QMenu(tr(t_name), this);
 	t_menu->addMenu(menu);
 	return menu;
 }
 
-inline void ForgeMainMenu::bind(QMenu* t_menu, const char* t_name, void(ForgeMainMenu::*t_callback)(bool)) {
-	(void)this->connect(t_menu->addAction(tr(t_name)), &QAction::triggered,
-						this, t_callback);
+/*! \brief Map a RootMenu enum to a QMenu object.
+ */
+inline QMenu* ForgeMainMenu::getMenu(RootMenu t_id) {
+	switch (t_id) {
+		case RootMenu::File: return m_fileMenu;
+		case RootMenu::View: return m_viewMenu;
+		case RootMenu::Settings: return m_settingsMenu;
+		default: return nullptr;
+	}
 }
 
+/*! \brief The constructor for the main menu widget.
+ */
 ForgeMainMenu::ForgeMainMenu() {
 	this->hasTitle(false);
 	this->setPersistent(true);
@@ -21,11 +31,13 @@ ForgeMainMenu::ForgeMainMenu() {
 
 	// File Menu
 	m_fileMenu = bind(menu, "File");
-	bind(m_fileMenu, "Exit", &ForgeMainMenu::exitCommand);
+	(void)this->connect(m_fileMenu->addAction(tr("Exit")), &QAction::triggered,
+						this, &ForgeMainMenu::exitCommand);
 
 	// View Menu
 	m_viewMenu = bind(menu, "View");
-	bind(m_viewMenu, "3D View", &ForgeMainMenu::viewCommand);
+	(void)this->connect(m_viewMenu->addAction(tr("3D View")), &QAction::triggered,
+						this, &ForgeMainMenu::viewCommand);
 	
 	// Settings Menu
 	m_settingsMenu = bind(menu, "Settings");
@@ -42,6 +54,9 @@ ForgeMainMenu::ForgeMainMenu() {
 	this->setObjectName("MainMenu");
 }
 
+/*! \brief This binds an existing widget to a menu option,
+ *		   so that clicking the menu displays the widget.
+ */
 void ForgeMainMenu::addLauncher(RootMenu t_root, const char* label, ForgeControl* t_control) {
 	auto menu = getMenu(t_root);
 	(void)this->connect(menu->addAction(tr(label)), &QAction::triggered,

@@ -11,6 +11,10 @@ set(CMAKE_PREFIX_PATH ${QT5_INSTALL})
 include_directories("${QT5_INSTALL}/include/")
 
 include_directories("core/")
+include_directories("core/models")
+include_directories("core/symbols")
+include_directories("core/system")
+
 include_directories("gui/windows")
 include_directories("gui/components")
 include_directories("gui/controls")

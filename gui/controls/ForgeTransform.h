@@ -1,6 +1,8 @@
-#pragma once
+#ifndef __FORGETRANSFORM_H__
+#define __FORGETRANSFORM_H__
 
-#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 
 #include "ForgeControl.h"
 
@@ -9,36 +11,25 @@ class ForgeTransform : public ForgeControl {
 
 private:
 
-	QLineEdit* px;
+	QLineEdit* m_posX;		/*!< Translation X double input */
 
-	QLineEdit* py;
+	QLineEdit* m_posY;		/*!< Translation Y double input */
 
-	QLineEdit* pz;
+	QLineEdit* m_posZ;		/*!< Translation Z double input */
 
-	QLineEdit* rx;
+	QLineEdit* m_rotX;		/*!< Rotation X double input */
 
-	QLineEdit* ry;
+	QLineEdit* m_rotY;		/*!< Rotation Y double input */
 
-	QLineEdit* rz;
-
-	QPushButton *m_button;
-
-	inline QMenu* bind(QMenuBar* t_menu, const char* t_name);
-
-	inline void bind(QMenu* t_menu, const char* t_name, void(ForgeTransform::*callback)(bool));
+	QLineEdit* m_rotZ;		/*!< Rotation Z double input */
 
 public:
 	ForgeTransform();
+
 	void updateView();
+
 	void updateModel();
 
-	void showAt(int ax, int ay)
-	{
-		this->show();
-		this->move(ax, ay);
-	}
-
-signals:
-	void exitCommand(bool t_checked);
-	void optionsCommand(bool t_checked);
 };
+
+#endif // __FORGETRANSFORM_H__

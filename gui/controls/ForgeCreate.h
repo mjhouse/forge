@@ -2,23 +2,21 @@
 #define __FORGECREATE_H__
 
 #include "ForgeControl.h"
-#include "FModel.h"
 #include "FModelExtruded.h"
+#include "FModel.h"
 
 class ForgeCreate : public ForgeControl {
 private:
 	
-	float length = 0.5;
+	float m_length;				/*!< The length of the active model */
 
-	FModelExtruded* m_model;
+	FModelExtruded* m_model;	/*!< The active model */
 
-	QLineEdit* m_lengthInput;
+	QLineEdit* m_lengthInput;	/*!< A text input used for length input */
 	
-	QPushButton* m_button;
+	QPushButton* m_button;		/*!< A button that triggers a create-model action */
 
 	void updateView();
-
-	void onMouseMove(QMouseEvent* t_event);
 
 public:
 	ForgeCreate();

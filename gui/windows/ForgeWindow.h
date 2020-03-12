@@ -1,21 +1,18 @@
-﻿#pragma once
+﻿#ifndef __FORGEWINDOW_H__
+#define __FORGEWINDOW_H__
+
+#include <QtCore/QDir>
+
+#include "IdentifierList.h"
+#include "HasIdentifier.h"
+#include "Defines.h"
 
 #include <iostream>
 
-#include <QtWidgets/QMainWindow>
-#include <Qt3DRender/QCamera>
-#include <Qt3DExtras/QForwardRenderer>
-#include <QtGui/QWindow>
-#include <QtCore/QDir>
+class ForgeControl;
 
-#include "HasIdentifier.h"
-#include "HasControls.h"
-#include "Defines.h"
-
-typedef Qt3DRender::QCamera QtCamera;
-typedef Qt3DExtras::QForwardRenderer QtForwardRenderer;
-typedef Qt3DRender::QFrameGraphNode QtFrameGraphNode;
-
+/*! \brief Event filter for window close events
+ */
 class CloseEventFilter : public QObject {
 	Q_OBJECT
 public:
@@ -25,6 +22,8 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
+/*! \brief Event filter for window state changes 
+ */
 class StateEventFilter : public QObject {
 	Q_OBJECT
 public:
@@ -34,11 +33,10 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
-
-
+/*! \brief The main 3D window class
+ */
 class ForgeWindow:  public QWindow, 
-					public HasIdentifier, 
-					public HasControls 
+					public HasIdentifier
 {
 	Q_OBJECT
 
@@ -48,15 +46,18 @@ private:
 
 	QtForwardRenderer* renderer;
 
+	IdentifierList<ForgeControl> m_controls;
+
 	void focusInEvent(QFocusEvent* ev) override;
 
 	void resizeEvent(QResizeEvent* event) override;
 
-	//void mouseMoveEvent(QMouseEvent* t_event) override;
-
 public:
 	ForgeWindow();
+	
 	~ForgeWindow();
+
+	void updateControls(QRect& oldRect, QRect& newRect);
 
 	void setRenderSource(QtFrameGraphNode* t_framegraph);
 
@@ -72,11 +73,11 @@ public:
 	
 	void closing(ForgeWindow* t_window);
 
-	void show() {
-		QWindow::show();
-		QApplication::processEvents();
-		emit onShow(this);
-	}
+	void show();
+
+	void addControl(ForgeControl* t_control);
+
+	void removeControl(ForgeControl* t_control);
 
 signals:
 	void onFocus(ForgeWindow* window);
@@ -84,8 +85,6 @@ signals:
 	void onClose(ForgeWindow* window);
 
 	void onShow(ForgeWindow* window);
-
-	//void onMouseMove(QMouseEvent* t_event);
-
 };
 
+#endif // __FORGEWINDOW_H__

@@ -1,24 +1,15 @@
 #include "ForgeTransform.h"
 #include "ForgeApplication.h"
 
-inline QMenu* ForgeTransform::bind(QMenuBar* t_menu, const char* t_name) {
-	auto menu = new QMenu(tr(t_name), this);
-	t_menu->addMenu(menu);
-	return menu;
-}
-
-inline void ForgeTransform::bind(QMenu* t_menu, const char* t_name, void(ForgeTransform::*t_callback)(bool)) {
-	(void)this->connect(t_menu->addAction(tr(t_name)), &QAction::triggered,
-						this, t_callback);
-}
-
+/*! \brief The constructor of the transform control.
+ */
 ForgeTransform::ForgeTransform() 
-	: px(new QLineEdit())
-	, py(new QLineEdit())
-	, pz(new QLineEdit())
-	, rx(new QLineEdit())
-	, ry(new QLineEdit())
-	, rz(new QLineEdit())
+	: m_posX(new QLineEdit())
+	, m_posY(new QLineEdit())
+	, m_posZ(new QLineEdit())
+	, m_rotX(new QLineEdit())
+	, m_rotY(new QLineEdit())
+	, m_rotZ(new QLineEdit())
 {
 	auto layout = new QVBoxLayout();
 	auto widget = new FWidget();
@@ -28,69 +19,69 @@ ForgeTransform::ForgeTransform()
 	
 	auto pl = new QLabel("Translation");
 	auto pxl = new QLabel("X");
-	px->setValidator(new QDoubleValidator(this));
-	px->setPlaceholderText("N/A");
+	m_posX->setValidator(new QDoubleValidator(this));
+	m_posX->setPlaceholderText("N/A");
 
 	auto pyl = new QLabel("Y");
-	py->setValidator(new QDoubleValidator(this));
-	py->setPlaceholderText("N/A");
+	m_posY->setValidator(new QDoubleValidator(this));
+	m_posY->setPlaceholderText("N/A");
 
 	auto pzl = new QLabel("Z");
-	pz->setValidator(new QDoubleValidator(this));
-	pz->setPlaceholderText("N/A");
+	m_posZ->setValidator(new QDoubleValidator(this));
+	m_posZ->setPlaceholderText("N/A");
 
 	inputs->addWidget(pl,  0, 0, 1, 2);
 	inputs->addWidget(pxl, 1, 0, Qt::AlignRight);
 	inputs->addWidget(pyl, 2, 0, Qt::AlignRight);
 	inputs->addWidget(pzl, 3, 0, Qt::AlignRight);
 
-	inputs->addWidget(px, 1, 1);
-	inputs->addWidget(py, 2, 1);
-	inputs->addWidget(pz, 3, 1);
+	inputs->addWidget(m_posX, 1, 1);
+	inputs->addWidget(m_posY, 2, 1);
+	inputs->addWidget(m_posZ, 3, 1);
 
 	auto rl  = new QLabel("Rotation");
 	auto rxl = new QLabel("X");
-	rx->setValidator(new QDoubleValidator(this));
-	rx->setPlaceholderText("N/A");
+	m_rotX->setValidator(new QDoubleValidator(this));
+	m_rotX->setPlaceholderText("N/A");
 
 	auto ryl = new QLabel("Y");
-	ry->setValidator(new QDoubleValidator(this));
-	ry->setPlaceholderText("N/A");
+	m_rotY->setValidator(new QDoubleValidator(this));
+	m_rotY->setPlaceholderText("N/A");
 
 	auto rzl = new QLabel("Z");
-	rz->setValidator(new QDoubleValidator(this));
-	rz->setPlaceholderText("N/A");
+	m_rotZ->setValidator(new QDoubleValidator(this));
+	m_rotZ->setPlaceholderText("N/A");
 
 	inputs->addWidget(rl, 4, 0, 1, 2);
 	inputs->addWidget(rxl, 5, 0, Qt::AlignRight);
 	inputs->addWidget(ryl, 6, 0, Qt::AlignRight);
 	inputs->addWidget(rzl, 7, 0, Qt::AlignRight);
 
-	inputs->addWidget(rx, 5, 1);
-	inputs->addWidget(ry, 6, 1);
-	inputs->addWidget(rz, 7, 1);
+	inputs->addWidget(m_rotX, 5, 1);
+	inputs->addWidget(m_rotY, 6, 1);
+	inputs->addWidget(m_rotZ, 7, 1);
 
 	widget->setLayout(inputs);
 
 	(void)this->connect(ForgeApplication::instance(), &ForgeApplication::selectionChanged,
 						this, &ForgeTransform::updateView);
 
-	(void)this->connect(px, &QLineEdit::textEdited,
+	(void)this->connect(m_posX, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(py, &QLineEdit::textEdited,
+	(void)this->connect(m_posY, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(pz, &QLineEdit::textEdited,
+	(void)this->connect(m_posZ, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(rx, &QLineEdit::textEdited,
+	(void)this->connect(m_rotX, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(ry, &QLineEdit::textEdited,
+	(void)this->connect(m_rotY, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
-	(void)this->connect(rz, &QLineEdit::textEdited,
+	(void)this->connect(m_rotZ, &QLineEdit::textEdited,
 		this, &ForgeTransform::updateModel);
 
 	widget->setLayout(layout);
@@ -100,6 +91,9 @@ ForgeTransform::ForgeTransform()
 	this->setFixedWidth(100);
 }
 
+/*! \brief When the model selection changes, this callback 
+ *		   updates the displayed values.
+ */
 void ForgeTransform::updateView()
 {
 	auto selected = ForgeApplication::instance()->getSelected();
@@ -107,28 +101,31 @@ void ForgeTransform::updateView()
 	{
 		auto p = selected->transform()->translation();
 
-		px->setText(QString::number(p.x()));
-		py->setText(QString::number(p.y()));
-		pz->setText(QString::number(p.z()));
+		m_posX->setText(QString::number(p.x()));
+		m_posY->setText(QString::number(p.y()));
+		m_posZ->setText(QString::number(p.z()));
 
 		auto r = selected->transform()->rotation();
 
-		rx->setText(QString::number(selected->transform()->rotationX()));
-		ry->setText(QString::number(selected->transform()->rotationY()));
-		rz->setText(QString::number(selected->transform()->rotationZ()));
+		m_rotX->setText(QString::number(selected->transform()->rotationX()));
+		m_rotY->setText(QString::number(selected->transform()->rotationY()));
+		m_rotZ->setText(QString::number(selected->transform()->rotationZ()));
 	}
 	else
 	{
-		px->clear();
-		py->clear();
-		pz->clear();
+		m_posX->clear();
+		m_posY->clear();
+		m_posZ->clear();
 
-		rx->clear();
-		ry->clear();
-		rz->clear();
+		m_rotX->clear();
+		m_rotY->clear();
+		m_rotZ->clear();
 	}
 }
 
+/*! \brief When the input values change, this callback
+ *		   updates the selected model.
+ */
 void ForgeTransform::updateModel()
 {
 	auto selected = ForgeApplication::instance()->getSelected();
@@ -136,13 +133,13 @@ void ForgeTransform::updateModel()
 	{
 		auto p = selected->transform();
 
-		auto x = px->text().toFloat();
-		auto y = py->text().toFloat();
-		auto z = pz->text().toFloat();
+		auto x = m_posX->text().toFloat();
+		auto y = m_posY->text().toFloat();
+		auto z = m_posZ->text().toFloat();
 
 		p->setTranslation(QVector3D(x, y, z));
-		p->setRotationX(rx->text().toFloat());
-		p->setRotationY(ry->text().toFloat());
-		p->setRotationZ(rz->text().toFloat());
+		p->setRotationX(m_rotX->text().toFloat());
+		p->setRotationY(m_rotY->text().toFloat());
+		p->setRotationZ(m_rotZ->text().toFloat());
 	}
 }

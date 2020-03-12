@@ -191,10 +191,7 @@ std::vector<uint> FGeometry::getIndices() {
  *         for this Geometry instance.
  */
 QtRenderer* FGeometry::getRenderer(QtRenderType t_type) {
-    auto parent = this->parentNode();
-    check_null(parent,"Parent node cannot be null");
-
-    auto renderer = new QtRenderer(parent);
+    auto renderer = new QtRenderer();
     
     renderer->setInstanceCount(1);
     renderer->setFirstVertex(0);

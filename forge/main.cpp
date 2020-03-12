@@ -2,7 +2,6 @@
 
 #include "ForgeApplication.h"
 #include "Resources.h"
-#include "FModelLine.h"
 
 int main(int argc, char* argv[])
 {

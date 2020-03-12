@@ -3,8 +3,11 @@
 #include "ForgeApplication.h"
 #include "FModelExtruded.h"
 
+/*! \brief Constructor for the place object widget.
+ */
 ForgeCreate::ForgeCreate() 
-	: m_model(nullptr) 
+	: m_length(0.5)
+	, m_model(nullptr) 
 	, m_lengthInput(new QLineEdit())
 	, m_button(new QPushButton("Create"))
 {
@@ -33,15 +36,32 @@ ForgeCreate::ForgeCreate()
 
 	widget->setLayout(layout);
 	this->setCentralWidget(widget);
-	this->setTitle("Create Object");
+	this->setTitle("Place Object");
 	this->setFixedWidth(120);
 }
 
-void ForgeCreate::onMouseMove(QMouseEvent* t_event) {
-
+/*! \brief Update the displayed length when a new
+ *		   object is selected.
+ */
+void ForgeCreate::updateView() {
+	auto selected = ForgeApplication::instance()->getSelected();
+	auto model = dynamic_cast<FModelExtruded*>(selected);
+	if (model != nullptr) {
+		m_lengthInput->setText(QString::number(model->length()));
+		m_model = model;
+	}
+	else {
+		m_lengthInput->setText("");
+		m_model = nullptr;
+	}
 }
 
+/*! \brief Create a new object.
+ */
 void ForgeCreate::startCreate() {
+
+	// -----------------------------------------------------
+	// TEST TEST TEST
 	FCrossSection* cs = new FCrossSection({
 		{-3.0f, 3.0f},
 		{-3.0f, -3.0f},
@@ -57,32 +77,25 @@ void ForgeCreate::startCreate() {
 		{-1.5f, 3.0f}
 		});
 
-	cs->setLength(length);
+	cs->setLength(m_length);
 	m_model = new FModelExtruded(cs);
+	// TEST TEST TEST
+	// -----------------------------------------------------
 
 	ForgeApplication::instance()->render(m_model);
 	ForgeApplication::instance()->setSelected(m_model);
 }
 
+/*! \brief Update the active model when the user
+ *		   changes the selection.
+ */
 void ForgeCreate::lengthChanged(QString t_input) {
 	bool ok = false;
 	auto l = t_input.toFloat(&ok);
 	if (ok) {
-		length = l;
-		if (m_model)
-			m_model->setLength(length);
-	}
-}
-
-void ForgeCreate::updateView() {
-	auto selected = ForgeApplication::instance()->getSelected();
-	auto model = dynamic_cast<FModelExtruded*>(selected);
-	if (model != nullptr) {
-		m_lengthInput->setText(QString::number(model->length()));
-		m_model = model;
-	}
-	else {
-		m_lengthInput->setText("");
-		m_model = nullptr;
+		m_length = l;
+		if (m_model != nullptr) {
+			m_model->setLength(m_length);
+		}
 	}
 }

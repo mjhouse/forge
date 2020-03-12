@@ -1,16 +1,16 @@
 #include "FCameraController.h"
 
+/*! \brief The constructor
+ */
 FCameraController::FCameraController()
-    : m_focus(nullptr)
-    , m_origin(new FOrigin())
+    : m_origin(new FOrigin())
 {
     auto app = ForgeApplication::instance();
-    (void)app->connect(app, &ForgeApplication::selectionChanged, 
-                       this, &FCameraController::onSelection);
-
     app->render(m_origin);
 }
 
+/*! \brief The overriden camera control function
+ */
 void FCameraController::moveCamera(const InputState& state, float dt) {
     auto cam = camera();
 
@@ -34,11 +34,4 @@ void FCameraController::moveCamera(const InputState& state, float dt) {
                              clampInputs(0, state.tyAxisValue) * linearSpeed(),
                              state.tzAxisValue * linearSpeed()) * dt);
 
-}
-
-void FCameraController::onSelection(FModel* t_model) {
-    if (t_model != nullptr) {
-        m_origin->transform()->setTranslation(
-            t_model->transform()->translation());
-    }
 }

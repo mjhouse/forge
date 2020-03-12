@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __FORGEMAINMENU_H__
+#define __FORGEMAINMENU_H__
 
 #include <QtWidgets/QMenuBar>
 
@@ -15,34 +16,25 @@ class ForgeMainMenu : public ForgeControl {
 
 private:
 
-	QMenu* m_fileMenu;
+	QMenu* m_fileMenu;		/*!< the "File" menu */
 
-	QMenu* m_viewMenu;
+	QMenu* m_viewMenu;		/*!< the "View" menu */
 
-	QMenu* m_settingsMenu;
-
+	QMenu* m_settingsMenu;	/*!< the "Settings" menu */
 
 	inline QMenu* bind(QMenuBar* t_menu, const char* t_name);
 
-	inline void bind(QMenu* t_menu, const char* t_name, void(ForgeMainMenu::*callback)(bool));
-
-	inline QMenu* getMenu(RootMenu t_id) {
-		switch (t_id) {
-			case RootMenu::File: return m_fileMenu;
-			case RootMenu::View: return m_viewMenu;
-			case RootMenu::Settings: return m_settingsMenu;
-			default: return nullptr;
-		}
-	}
+	inline QMenu* getMenu(RootMenu t_id);
 
 public:
 	ForgeMainMenu();
 
 	void addLauncher(RootMenu t_root, const char* label, ForgeControl* t_control);
 
-
 signals:
 	void exitCommand(bool t_checked);
+	
 	void viewCommand(bool t_checked);
-	void launchCommand(int t_id);
 };
+
+#endif // __FORGEMAINMENU_H__

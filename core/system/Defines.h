@@ -1,9 +1,12 @@
 #pragma once 
 
+#include <QtGui/QWindow>
+
 #include <Qt3DExtras/QOrbitCameraController>
 #include <Qt3DExtras/QFirstPersonCameraController>
 #include <Qt3DRender/QGeometryRenderer> 
 #include <Qt3DExtras/Qt3DWindow>
+#include <Qt3DExtras/QForwardRenderer>
 
 #include <Qt3DCore/QNode>               
 #include <Qt3DCore/QEntity>             
@@ -25,6 +28,7 @@
 #include <Qt3DRender/QRenderStateSet>
 #include <Qt3DRender/QLineWidth>
 #include <Qt3DRender/QPickEvent>
+#include <Qt3DRender/QCamera>
 
 #include <Qt3DInput/QMouseHandler>
 
@@ -52,6 +56,7 @@ typedef Qt3DRender::QRenderPass                     QtRenderPass;
 typedef Qt3DRender::QFilterKey                      QtFilterKey;
 typedef Qt3DRender::QTechnique                      QtTechnique;
 typedef Qt3DRender::QPickEvent						QtPickEvent;
+typedef Qt3DRender::QCamera							QtCamera;
 
 typedef Qt3DInput::QMouseHandler					QtMouseHandler;
 typedef Qt3DInput::QInputSettings					QtInputSettings;
@@ -67,5 +72,8 @@ typedef Qt3DCore::QEntityPtr						QtEntityPtr;
 typedef Qt3DExtras::Qt3DWindow						Qt3DWindow;
 typedef Qt3DExtras::QOrbitCameraController      	QtOrbitController;
 typedef Qt3DExtras::QFirstPersonCameraController	QtFpsController;
+typedef Qt3DExtras::QAbstractCameraController		QtAbstractController;
+typedef Qt3DExtras::QForwardRenderer				QtForwardRenderer;
+typedef Qt3DRender::QFrameGraphNode					QtFrameGraphNode;
 
 typedef Qt3DLogic::QLogicAspect						QtLogicAspect;

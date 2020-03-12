@@ -7,11 +7,11 @@
 class FOrigin : public FModel {
 private:
 
-	FModelLine* xAxis;
+	FModelLine* xAxis;	/*!< the X-Axis FModel */
 
-	FModelLine* yAxis;
+	FModelLine* yAxis;	/*!< the Y-Axis FModel */
 
-	FModelLine* zAxis;
+	FModelLine* zAxis;	/*!< the Z-Axis FModel */
 
 public:
 	FOrigin();

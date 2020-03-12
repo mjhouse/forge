@@ -67,9 +67,35 @@ ForgeWindow::ForgeWindow()
 
 ForgeWindow::~ForgeWindow() {}
 
-//void ForgeWindow::mouseMoveEvent(QMouseEvent* t_event) {
-//	//emit onMouseMove(t_event);
-//}
+void ForgeWindow::updateControls(QRect& oldRect, QRect& newRect) {
+	auto cx = (float)newRect.width() / oldRect.width();
+	auto cy = (float)newRect.height() / oldRect.height();
+
+	auto controls = m_controls.priority();
+
+	for (auto control : controls) {
+		auto cr = control->geometry();
+		auto a = control->anchor();
+
+		// scale the anchor values to the new size
+		a.setX(a.x() * cx);
+		a.setY(a.y() * cy);
+
+		float x = a.x() + newRect.x() - (cr.width() / 2);
+		float y = a.y() + newRect.y() - (cr.height() / 2);
+
+		float l = newRect.x();
+		float t = newRect.y();
+		float r = l + newRect.width();
+		float b = t + newRect.height();
+
+		x = std::min(std::max(x, l), r - cr.width());
+		y = std::min(std::max(y, t), b - cr.height());
+
+		control->setAnchor(a);
+		control->move(x, y);
+	}
+}
 
 void ForgeWindow::setRenderSource(QtFrameGraphNode* t_framegraph) {
 	renderer->setParent(t_framegraph);
@@ -123,7 +149,7 @@ void ForgeWindow::changeEvent(QWindowStateChangeEvent* t_event) {
 }
 
 void ForgeWindow::closing(ForgeWindow* t_window) {
-	for (auto child : allControls()) {
+	for (auto child : m_controls.priority()) {
 		if (!child->persistent()) {
 			child->close();
 		}
@@ -134,3 +160,16 @@ void ForgeWindow::closing(ForgeWindow* t_window) {
 	}
 }
 
+void ForgeWindow::show() {
+	QWindow::show();
+	ForgeApplication::processEvents();
+	emit onShow(this);
+}
+
+void ForgeWindow::addControl(ForgeControl* t_control) {
+	m_controls.add(t_control);
+}
+
+void ForgeWindow::removeControl(ForgeControl* t_control) {
+	m_controls.remove(t_control);
+}
