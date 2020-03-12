@@ -16,7 +16,7 @@ private:
 	
 	QPushButton* m_button;		/*!< A button that triggers a create-model action */
 
-	void updateView();
+	void updateView(FModel* t_model);
 
 public:
 	ForgeCreate();

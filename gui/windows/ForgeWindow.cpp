@@ -15,12 +15,16 @@
 #include "ForgeApplication.h"
 #include "ForgeWindow.h"
 #include "ForgeControl.h"
+#include "exceptions.h"
 #include "Defines.h"
 #include "Config.h"
 
 #define BLACK 0x000000
 #define GRAY  0x212121
 
+/*! \brief Event filter to capture the close event and emit it
+ *		   as an "onClose" signal.
+ */
 bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
 	if (event->type() == QEvent::Close) {
 		auto window = (ForgeWindow*)obj;
@@ -30,87 +34,49 @@ bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
 	return QObject::eventFilter(obj, event);
 }
 
-bool StateEventFilter::eventFilter(QObject* obj, QEvent* event) {
-	if (event->type() == QEvent::WindowStateChange){
-		auto window = (ForgeWindow*)obj;
-		window->changeEvent((QWindowStateChangeEvent*)event);
-	}
-
-	return QObject::eventFilter(obj, event);
-}
-
+/*! \brief Constructor for ForgeWindow
+ */
 ForgeWindow::ForgeWindow()
-	: camera(new QtCamera())
-	, renderer(new QtForwardRenderer())
+	: m_camera(new QtCamera())
+	, m_renderer(new QtForwardRenderer())
+	, m_controls()
 {
-
 	this->setSurfaceType(QWindow::OpenGLSurface);
 	this->resize(1024, 768);
 
 	setMinimumHeight(100);
 	setMinimumWidth(100);
 
-	camera->lens()->setPerspectiveProjection(45.0, (float)1024/768, 0.1f, 1000.0);
-	camera->setPosition(QVector3D(0, 10, 0));
-	camera->setUpVector(QVector3D(0, 0, 1));
-	camera->setViewCenter(QVector3D(0, 0, 0));
+	m_camera->lens()->setPerspectiveProjection(
+		45.0, (float)1024/768, 0.1f, 1000.0);
+	
+	m_camera->setPosition(QVector3D(0, 10, 0));
+	m_camera->setUpVector(QVector3D(0, 0, 1));
+	m_camera->setViewCenter(QVector3D(0, 0, 0));
 
-	renderer->setCamera(camera);
-	renderer->setSurface(this);
-	renderer->setClearColor(GRAY);
+	m_renderer->setCamera(m_camera);
+	m_renderer->setSurface(this);
+	m_renderer->setClearColor(GRAY);
 
 	this->installEventFilter(new CloseEventFilter(this));
-	this->installEventFilter(new StateEventFilter(this));
-
-	(void)this->connect(this, &ForgeWindow::onClose, this, &ForgeWindow::closing);
+	(void)this->connect(this, &ForgeWindow::onClose, 
+						this, &ForgeWindow::closing);
 }
 
+/*! \brief Destructor for ForgeWindow
+ */
 ForgeWindow::~ForgeWindow() {}
 
-void ForgeWindow::updateControls(QRect& oldRect, QRect& newRect) {
-	auto cx = (float)newRect.width() / oldRect.width();
-	auto cy = (float)newRect.height() / oldRect.height();
-
-	auto controls = m_controls.priority();
-
-	for (auto control : controls) {
-		auto cr = control->geometry();
-		auto a = control->anchor();
-
-		// scale the anchor values to the new size
-		a.setX(a.x() * cx);
-		a.setY(a.y() * cy);
-
-		float x = a.x() + newRect.x() - (cr.width() / 2);
-		float y = a.y() + newRect.y() - (cr.height() / 2);
-
-		float l = newRect.x();
-		float t = newRect.y();
-		float r = l + newRect.width();
-		float b = t + newRect.height();
-
-		x = std::min(std::max(x, l), r - cr.width());
-		y = std::min(std::max(y, t), b - cr.height());
-
-		control->setAnchor(a);
-		control->move(x, y);
-	}
-}
-
-void ForgeWindow::setRenderSource(QtFrameGraphNode* t_framegraph) {
-	renderer->setParent(t_framegraph);
-}
-
-void ForgeWindow::setRoot(QtEntity* t_root) {
-	camera->setParent(t_root);
-}
-
+/*! \brief Redirects the focusInEvent to the onFocus signal.
+ */
 void ForgeWindow::focusInEvent(QFocusEvent* ev) {
 	emit onFocus(this);
 }
 
+/*! \brief Adjusts perspective and resizes children.
+ */
 void ForgeWindow::resizeEvent(QResizeEvent* event) {
-	auto lens = camera->lens();
+	auto lens = m_camera->lens();
 	lens->setPerspectiveProjection(
 		lens->fieldOfView(),
 		(float)width() / height(),
@@ -124,30 +90,17 @@ void ForgeWindow::resizeEvent(QResizeEvent* event) {
 	updateControls(oldRect, newRect);
 }
 
-void ForgeWindow::clearParent() {
-	renderer->setParent((QtFrameGraphNode*)nullptr);
-	camera->setParent((QtEntity*)nullptr);
-}
-
-QtCamera* ForgeWindow::getCamera() { 
-	return camera; 
-}
-
+/*! \brief Resizes children on move.
+ */
 void ForgeWindow::moveEvent(QMoveEvent* t_event) {
-	QRect oldRect(t_event->oldPos(), size());
-	QRect newRect(t_event->pos(), size());
-	updateControls(oldRect,newRect);
+	auto s = size();
+	QRect oldRect(t_event->oldPos(), s);
+	QRect newRect(t_event->pos(), s);
+	updateControls(oldRect, newRect);
 }
 
-void ForgeWindow::changeEvent(QWindowStateChangeEvent* t_event) {
-	if (t_event->oldState().testFlag(Qt::WindowMinimized) ||
-	   (t_event->oldState().testFlag(Qt::WindowNoState)   &&
-		this->windowState() == Qt::WindowMaximized))
-	{
-		//updateControls();
-	}
-}
-
+/*! \brief Close or reassign child controls on close.
+ */
 void ForgeWindow::closing(ForgeWindow* t_window) {
 	for (auto child : m_controls.priority()) {
 		if (!child->persistent()) {
@@ -155,21 +108,89 @@ void ForgeWindow::closing(ForgeWindow* t_window) {
 		}
 		else {
 			ForgeApplication::instance()
-				->reassign(this,child);
+				->reassign(this, child);
 		}
 	}
 }
 
-void ForgeWindow::show() {
-	QWindow::show();
-	ForgeApplication::processEvents();
-	emit onShow(this);
+/*! \brief Finds all current children and moves them to appropriate
+ *		   anchor points when the window is resized or moved.
+ */
+void ForgeWindow::updateControls(QRect& oldRect, QRect& newRect) {
+	auto cx = (float)newRect.width() / oldRect.width();
+	auto cy = (float)newRect.height() / oldRect.height();
+	
+	for (auto control : m_controls.priority()) {
+		auto c = control->geometry();
+		auto a = control->anchor();
+
+		auto w = c.width();
+		auto h = c.height();
+
+		// scale the anchor values to the new size
+		a.setX(a.x() * cx);
+		a.setY(a.y() * cy);
+
+		// find top-left point of the control 
+		// relative to the window
+		float x = a.x() + newRect.x() - (w / 2);
+		float y = a.y() + newRect.y() - (h / 2);
+
+		// find current bounds of the window
+		float l = newRect.x();
+		float t = newRect.y();
+		float r = l + newRect.width();
+		float b = t + newRect.height();
+
+		// move the new position to be inside the
+		// window bounds.
+		x = std::min(std::max(x, l), r - w);
+		y = std::min(std::max(y, t), b - h);
+
+		control->setAnchor(a);
+		control->move(x, y);
+	}
 }
 
+/*! \brief Sets the framegraph source for this window.
+ */
+void ForgeWindow::setRenderSource(QtFrameGraphNode* t_framegraph) {
+	check_null(t_framegraph, "FrameGraphNode cannot be null");
+	m_renderer->setParent(t_framegraph);
+}
+
+/*! \brief Sets the entity root for this window.
+ */
+void ForgeWindow::setRoot(QtEntity* t_root) {
+	check_null(t_root,"Entity cannot be null");
+	m_camera->setParent(t_root);
+}
+
+/*! \brief Removes the framegraph and entity parents.
+ */
+void ForgeWindow::clearParent() {
+	m_renderer->setParent((QtFrameGraphNode*)nullptr);
+	m_camera->setParent((QtEntity*)nullptr);
+}
+
+/*! \brief Get the camera for this window.
+ */
+QtCamera* ForgeWindow::camera() { 
+	return m_camera; 
+}
+
+/*! \brief Add a new child control.
+ */
 void ForgeWindow::addControl(ForgeControl* t_control) {
-	m_controls.add(t_control);
+	if (t_control != nullptr && !m_controls.contains(t_control)) {
+		m_controls.add(t_control);
+	}
 }
 
+/*! \brief Remove an existing child control.
+ */
 void ForgeWindow::removeControl(ForgeControl* t_control) {
-	m_controls.remove(t_control);
+	if (t_control != nullptr && m_controls.contains(t_control)) {
+		m_controls.remove(t_control);
+	}
 }

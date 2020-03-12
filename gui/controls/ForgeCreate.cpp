@@ -43,9 +43,8 @@ ForgeCreate::ForgeCreate()
 /*! \brief Update the displayed length when a new
  *		   object is selected.
  */
-void ForgeCreate::updateView() {
-	auto selected = ForgeApplication::instance()->getSelected();
-	auto model = dynamic_cast<FModelExtruded*>(selected);
+void ForgeCreate::updateView(FModel* t_model) {
+	auto model = dynamic_cast<FModelExtruded*>(t_model);
 	if (model != nullptr) {
 		m_lengthInput->setText(QString::number(model->length()));
 		m_model = model;

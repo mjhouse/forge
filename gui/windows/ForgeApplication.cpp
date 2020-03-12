@@ -9,23 +9,28 @@
 
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
-	, inputSettings(new QtInputSettings())
-	, frameGraph(new QtFrameGraphNode())
-	, renderSettings(new QtRenderSettings())
-	, aspectEngine()
-	, renderAspect(new QtRenderAspect())
-	, inputAspect(new QtInputAspect())
-	, logicAspect(new QtLogicAspect())
-	, rootEntity(new QtEntity())
+	, m_rootPath()
+	, m_resourcesPath()
+	, m_windows()
+	, m_controls()
+	, m_inputSettings(new QtInputSettings())
+	, m_frameGraph(new QtFrameGraphNode())
+	, m_renderSettings(new QtRenderSettings())
+	, m_aspectEngine()
+	, m_renderAspect(new QtRenderAspect())
+	, m_inputAspect(new QtInputAspect())
+	, m_logicAspect(new QtLogicAspect())
+	, m_rootEntity(new QtEntity())
+	, m_controller(nullptr)
 	, m_picker(new QtObjectPicker)
 	, m_selected(nullptr)
 {
-	rootPath = applicationDirPath();
-	resourcesPath = QDir(rootPath.filePath("resources"));
+	m_rootPath = applicationDirPath();
+	m_resourcesPath = QDir(m_rootPath.filePath("resources"));
 	resources::initialize(resources());
 
 	// needs to be created after resources are initialized
-	controller = new FCameraController();
+	m_controller = new FCameraController();
 
 	// initialize the default surface formate for all 
 	// QWindow and QWindow derived components
@@ -39,97 +44,26 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	QSurfaceFormat::setDefaultFormat(format);
 
 	// register aspects and set a base framegraph
-	aspectEngine.registerAspect(renderAspect);
-	aspectEngine.registerAspect(inputAspect);
-	aspectEngine.registerAspect(logicAspect);
+	m_aspectEngine.registerAspect(m_renderAspect);
+	m_aspectEngine.registerAspect(m_inputAspect);
+	m_aspectEngine.registerAspect(m_logicAspect);
 	
-	renderSettings->setActiveFrameGraph(frameGraph);
-	renderSettings->pickingSettings()->setPickMethod(
+	m_renderSettings->setActiveFrameGraph(m_frameGraph);
+	m_renderSettings->pickingSettings()->setPickMethod(
 		Qt3DRender::QPickingSettings::TrianglePicking);
 
-	rootEntity->addComponent(renderSettings);
-	rootEntity->addComponent(inputSettings);
-	rootEntity->addComponent(m_picker);
+	m_rootEntity->addComponent(m_renderSettings);
+	m_rootEntity->addComponent(m_inputSettings);
+	m_rootEntity->addComponent(m_picker);
 	
-	aspectEngine.setRootEntity(rootEntity);
+	m_aspectEngine.setRootEntity(m_rootEntity);
 
-	controller->setParent(rootEntity.data());
-	controller->setLinearSpeed(50.0f);
-	controller->setLookSpeed(100.0f);
+	m_controller->setParent(m_rootEntity.data());
+	m_controller->setLinearSpeed(50.0f);
+	m_controller->setLookSpeed(100.0f);
 
 	initialize();
 	(void)this->connect(m_picker, &QtObjectPicker::clicked, this, &ForgeApplication::onClick);
-}
-
-ForgeApplication* ForgeApplication::instance() {
-	return (ForgeApplication*)QApplication::instance();
-}
-
-QDir ForgeApplication::root() {
-	return this->rootPath;
-}
-
-QDir ForgeApplication::resources() {
-	return this->resourcesPath;
-}
-
-FModel* ForgeApplication::getSelected()
-{
-	return this->m_selected;
-}
-
-void ForgeApplication::onClick(QtPickEvent* t_event)
-{
-	auto model = (FModel*)t_event->entity();
-	if (model != nullptr)
-	{
-		setSelected(model);
-	}
-}
-
-void ForgeApplication::setSelected(FModel* t_model)
-{
-	if (!t_model->selectable())
-	{
-		return;
-	}
-
-	if (m_selected != nullptr)
-	{
-		m_selected->unHighlight();
-	}
-
-	this->m_selected = t_model;
-	m_selected->highlight();
-	emit selectionChanged(t_model);
-}
-
-void ForgeApplication::setActive(ForgeWindow* t_window) {
-	if (t_window != nullptr) {
-		controller->setCamera(t_window->getCamera());
-		inputSettings->setEventSource(t_window);
-		container.prioritize(t_window->id());
-	}
-}
-
-void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
-
-	// clear parent node and framegraph
-	t_window->clearParent();
-
-	// remove window from window collection
-	container.remove(t_window);
-
-	// if there is another window in the collection
-	// set it as active.
-	if (container.size() > 0) {
-		setActive(container.high());
-	}
-	else {
-		for (auto child : m_controls.priority()) {
-			child->close();
-		}
-	}
 }
 
 void ForgeApplication::initialize() {
@@ -152,11 +86,39 @@ void ForgeApplication::initialize() {
 	mainMenu->show();
 }
 
+void ForgeApplication::setActive(ForgeWindow* t_window) {
+	if (t_window != nullptr) {
+		m_controller->setCamera(t_window->camera());
+		m_inputSettings->setEventSource(t_window);
+		m_windows.prioritize(t_window->id());
+	}
+}
+
+void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
+
+	// clear parent node and framegraph
+	t_window->clearParent();
+
+	// remove window from window collection
+	m_windows.remove(t_window);
+
+	// if there is another window in the collection
+	// set it as active.
+	if (m_windows.size() > 0) {
+		setActive(m_windows.high());
+	}
+	else {
+		for (auto child : m_controls.priority()) {
+			child->close();
+		}
+	}
+}
+
 ForgeWindow* ForgeApplication::newWindow() {
 	auto window = new ForgeWindow();
 
-	window->setRenderSource(frameGraph);
-	window->setRoot(rootEntity.data());
+	window->setRenderSource(m_frameGraph);
+	window->setRoot(m_rootEntity.data());
 
 	(void)this->connect(window, &ForgeWindow::onFocus,
 		this, &ForgeApplication::setActive);
@@ -164,23 +126,19 @@ ForgeWindow* ForgeApplication::newWindow() {
 	(void)this->connect(window, &ForgeWindow::onClose,
 		this, &ForgeApplication::onWindowClose);
 
-	container.add(window);
+	m_windows.add(window);
 	setActive(window);
 	window->show();
 	return window;
 }
 
-ForgeWindow* ForgeApplication::findWindow(QPoint t_point) {
-	for (auto window : container.priority()) {
-		if (window->geometry().contains(t_point)) {
-			return window;
-		}
+void ForgeApplication::onClick(QtPickEvent* t_event)
+{
+	auto model = (FModel*)t_event->entity();
+	if (model != nullptr)
+	{
+		setSelected(model);
 	}
-	return nullptr;
-}
-
-void ForgeApplication::render(FModel* t_model) {
-	t_model->setParent(rootEntity.data());
 }
 
 void ForgeApplication::onExit(bool t_checked) {
@@ -191,6 +149,49 @@ void ForgeApplication::onView(bool t_checked) {
 	newWindow();
 }
 
+ForgeApplication* ForgeApplication::instance() {
+	return (ForgeApplication*)QApplication::instance();
+}
+
+QDir ForgeApplication::root() {
+	return this->m_rootPath;
+}
+
+QDir ForgeApplication::resources() {
+	return this->m_resourcesPath;
+}
+
+ForgeWindow* ForgeApplication::findWindow(QPoint t_point) {
+	for (auto window : m_windows.priority()) {
+		if (window->geometry().contains(t_point)) {
+			return window;
+		}
+	}
+	return nullptr;
+}
+
+FModel* ForgeApplication::selected()
+{
+	return this->m_selected;
+}
+
+void ForgeApplication::setSelected(FModel* t_model)
+{
+	if (!t_model->selectable())
+		return;
+
+	if (m_selected != nullptr)
+		m_selected->unHighlight();
+
+	m_selected = t_model;
+	m_selected->highlight();
+	emit selectionChanged(t_model);
+}
+
+void ForgeApplication::render(FModel* t_model) {
+	t_model->setParent(m_rootEntity.data());
+}
+
 void ForgeApplication::reassign(ForgeWindow* t_parent, ForgeControl* t_control) {
 	if (t_parent == nullptr) {
 		if(t_control != nullptr)
@@ -198,7 +199,7 @@ void ForgeApplication::reassign(ForgeWindow* t_parent, ForgeControl* t_control) 
 		return;
 	}
 
-	for (auto window : container.priority()) {
+	for (auto window : m_windows.priority()) {
 		if (!window->is(t_parent)) {
 			t_control->setControlled(window);
 			return;

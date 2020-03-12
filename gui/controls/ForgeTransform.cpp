@@ -94,22 +94,21 @@ ForgeTransform::ForgeTransform()
 /*! \brief When the model selection changes, this callback 
  *		   updates the displayed values.
  */
-void ForgeTransform::updateView()
+void ForgeTransform::updateView(FModel* t_model)
 {
-	auto selected = ForgeApplication::instance()->getSelected();
-	if (selected != nullptr)
+	if (t_model != nullptr)
 	{
-		auto p = selected->transform()->translation();
+		auto p = t_model->transform()->translation();
 
 		m_posX->setText(QString::number(p.x()));
 		m_posY->setText(QString::number(p.y()));
 		m_posZ->setText(QString::number(p.z()));
 
-		auto r = selected->transform()->rotation();
+		auto r = t_model->transform()->rotation();
 
-		m_rotX->setText(QString::number(selected->transform()->rotationX()));
-		m_rotY->setText(QString::number(selected->transform()->rotationY()));
-		m_rotZ->setText(QString::number(selected->transform()->rotationZ()));
+		m_rotX->setText(QString::number(t_model->transform()->rotationX()));
+		m_rotY->setText(QString::number(t_model->transform()->rotationY()));
+		m_rotZ->setText(QString::number(t_model->transform()->rotationZ()));
 	}
 	else
 	{
@@ -128,7 +127,7 @@ void ForgeTransform::updateView()
  */
 void ForgeTransform::updateModel()
 {
-	auto selected = ForgeApplication::instance()->getSelected();
+	auto selected = ForgeApplication::instance()->selected();
 	if (selected != nullptr)
 	{
 		auto p = selected->transform();

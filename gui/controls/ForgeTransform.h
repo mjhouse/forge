@@ -5,6 +5,7 @@
 #include <QtWidgets/QPushButton>
 
 #include "ForgeControl.h"
+#include "FModel.h"
 
 class ForgeTransform : public ForgeControl {
 	Q_OBJECT
@@ -26,7 +27,7 @@ private:
 public:
 	ForgeTransform();
 
-	void updateView();
+	void updateView(FModel* t_model);
 
 	void updateModel();
 

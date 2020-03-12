@@ -22,17 +22,6 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
-/*! \brief Event filter for window state changes 
- */
-class StateEventFilter : public QObject {
-	Q_OBJECT
-public:
-	StateEventFilter(QObject* parent) : QObject(parent) {}
-
-protected:
-	bool eventFilter(QObject* obj, QEvent* event);
-};
-
 /*! \brief The main 3D window class
  */
 class ForgeWindow:  public QWindow, 
@@ -42,22 +31,26 @@ class ForgeWindow:  public QWindow,
 
 private:
 
-	QtCamera* camera;
+	QtCamera* m_camera;							/*!< The camera for this 3D window */
 
-	QtForwardRenderer* renderer;
+	QtForwardRenderer* m_renderer;				/*!< The renderer for this window */
 
-	IdentifierList<ForgeControl> m_controls;
+	IdentifierList<ForgeControl> m_controls;	/*!< A collection of currently active child controls */
 
 	void focusInEvent(QFocusEvent* ev) override;
 
 	void resizeEvent(QResizeEvent* event) override;
 
+	void moveEvent(QMoveEvent* t_event) override;
+
+	void closing(ForgeWindow* t_window);
+
+	void updateControls(QRect& oldRect, QRect& newRect);
+
 public:
 	ForgeWindow();
 	
 	~ForgeWindow();
-
-	void updateControls(QRect& oldRect, QRect& newRect);
 
 	void setRenderSource(QtFrameGraphNode* t_framegraph);
 
@@ -65,16 +58,8 @@ public:
 	
 	void clearParent();
 
-	QtCamera* getCamera();
-
-	void moveEvent(QMoveEvent* t_event) override;
-
-	void changeEvent(QWindowStateChangeEvent* t_event);
+	QtCamera* camera();
 	
-	void closing(ForgeWindow* t_window);
-
-	void show();
-
 	void addControl(ForgeControl* t_control);
 
 	void removeControl(ForgeControl* t_control);
@@ -83,8 +68,6 @@ signals:
 	void onFocus(ForgeWindow* window);
 
 	void onClose(ForgeWindow* window);
-
-	void onShow(ForgeWindow* window);
 };
 
 #endif // __FORGEWINDOW_H__

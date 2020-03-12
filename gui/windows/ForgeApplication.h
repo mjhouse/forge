@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __FORGEAPPLICATION_H__
+#define __FORGEAPPLICATION_H__
 
 #include <algorithm>
 
@@ -30,43 +31,49 @@ class ForgeApplication : public QApplication {
 
 private:
 	
-	QDir rootPath;
+	QDir m_rootPath;							/*!< The directory path to the executable */
 
-	QDir resourcesPath;
+	QDir m_resourcesPath;						/*!< Path to the resources directory */
 
-	IdentifierList<ForgeWindow> container;
+	IdentifierList<ForgeWindow> m_windows;		/*!< The collection of all windows */
 
-	IdentifierList<ForgeControl> m_controls;
+	IdentifierList<ForgeControl> m_controls;	/*!< The collection of all controls */
 
-	QtInputSettings* inputSettings;
+	QtInputSettings* m_inputSettings;			/*!< Input control logic */
 
-	QtFrameGraphNode* frameGraph;
+	QtFrameGraphNode* m_frameGraph;				/*!< The shared framegraph for all windows */
 
-	QtRenderSettings* renderSettings;
+	QtRenderSettings* m_renderSettings;			/*!< Render settings control object */
 
-	QtAspectEngine aspectEngine;
+	QtAspectEngine m_aspectEngine;				/*!< Aspect management engine */
 
-	QtRenderAspect* renderAspect;
+	QtRenderAspect* m_renderAspect;				/*!< Allows render events/configuration */
 
-	QtInputAspect* inputAspect;
+	QtInputAspect* m_inputAspect;				/*!< Allows input events/configuration */
 
-	QtLogicAspect* logicAspect;
+	QtLogicAspect* m_logicAspect;				/*!< Seems to manage event routing */
 
-	QtEntityPtr rootEntity;
+	QtEntityPtr m_rootEntity;					/*!< The root entity for the 3D view */
 
-	FCameraController* controller;
+	FCameraController* m_controller;			/*!< The single camera controller */
 
-	QtObjectPicker* m_picker;
+	QtObjectPicker* m_picker;					/*!< The object selection controller */
 	
-	FModel* m_selected;
+	FModel* m_selected;							/*!< The currently selected model */
 	
+	void initialize();
+
 	void setActive(ForgeWindow* t_window);
 
 	void onWindowClose(ForgeWindow* t_window);
-
+	
+	ForgeWindow* newWindow();
+	
 	void onClick(Qt3DRender::QPickEvent* t_event);
 
-	void initialize();
+	void onExit(bool t_checked);
+
+	void onView(bool t_checked);
 
 public:
 
@@ -80,26 +87,19 @@ public:
 
 	QDir resources();
 	
-	ForgeWindow* newWindow();
-
-	void onShownWindow(ForgeWindow* t_window);
-
 	ForgeWindow* findWindow(QPoint t_point);
 
-	FModel* getSelected();
+	FModel* selected();
 
 	void setSelected(FModel* t_model);
 
 	void render(FModel* t_model);
-	
-	void onExit(bool t_checked);
-
-	void onView(bool t_checked);
-	
+		
 	void reassign(ForgeWindow* t_parent, ForgeControl* t_control);
-
 
 signals:
 	void selectionChanged(FModel* t_model);
 
 };
+
+#endif // __FORGEAPPLICATION_H__

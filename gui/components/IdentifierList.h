@@ -24,12 +24,16 @@ public:
 	IdentifierList() : m_objs() {}
 
 	void add(T* t_obj) {
-		m_objs[t_obj->id()] = t_obj;
-		m_ids.push_back(t_obj->id());
+		if (!contains(t_obj)) {
+			m_objs[t_obj->id()] = t_obj;
+			m_ids.push_back(t_obj->id());
+		}
 	}
 
 	void remove(T* t_obj) {
-		remove(t_obj->id());
+		if (contains(t_obj)) {
+			remove(t_obj->id());
+		}
 	}
 
 	void remove(uint t_id) {
