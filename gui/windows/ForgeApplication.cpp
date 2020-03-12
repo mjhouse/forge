@@ -7,6 +7,8 @@
 #include <Qt3DRender/QMultiSampleAntiAliasing>
 #include <Qt3DRender/QDepthTest>
 
+/* \brief Constructor and main entry for the application.
+ */
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
 	, m_rootPath()
@@ -66,6 +68,8 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	(void)this->connect(m_picker, &QtObjectPicker::clicked, this, &ForgeApplication::onClick);
 }
 
+/* \brief Creates and initializes controls.
+ */
 void ForgeApplication::initialize() {
 	auto window = newWindow();
 
@@ -86,6 +90,8 @@ void ForgeApplication::initialize() {
 	mainMenu->show();
 }
 
+/* \brief Set a window as active (respond to events from the window)
+ */
 void ForgeApplication::setActive(ForgeWindow* t_window) {
 	if (t_window != nullptr) {
 		m_controller->setCamera(t_window->camera());
@@ -94,6 +100,8 @@ void ForgeApplication::setActive(ForgeWindow* t_window) {
 	}
 }
 
+/* \brief Clean up when a 3D window closes.
+ */
 void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
 
 	// clear parent node and framegraph
@@ -114,6 +122,8 @@ void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
 	}
 }
 
+/* \brief Create and configure a new window.
+ */
 ForgeWindow* ForgeApplication::newWindow() {
 	auto window = new ForgeWindow();
 
@@ -132,6 +142,8 @@ ForgeWindow* ForgeApplication::newWindow() {
 	return window;
 }
 
+/* \brief On click handle pick events.
+ */
 void ForgeApplication::onClick(QtPickEvent* t_event)
 {
 	auto model = (FModel*)t_event->entity();
@@ -141,26 +153,38 @@ void ForgeApplication::onClick(QtPickEvent* t_event)
 	}
 }
 
+/* \brief On mainmenu -> "Exit" command, clean up and close.
+ */
 void ForgeApplication::onExit(bool t_checked) {
 	this->quit();
 }
 
+/* \brief On mainmenu -> "3D Window".
+ */
 void ForgeApplication::onView(bool t_checked) {
 	newWindow();
 }
 
+/* \brief Get the ForgeApplication instance.
+ */
 ForgeApplication* ForgeApplication::instance() {
 	return (ForgeApplication*)QApplication::instance();
 }
 
+/* \brief Get the path to the root directory.
+ */
 QDir ForgeApplication::root() {
 	return this->m_rootPath;
 }
 
+/* \brief Get the path to the resources directory.
+ */
 QDir ForgeApplication::resources() {
 	return this->m_resourcesPath;
 }
 
+/* \brief Find a window that contains a point.
+ */
 ForgeWindow* ForgeApplication::findWindow(QPoint t_point) {
 	for (auto window : m_windows.priority()) {
 		if (window->geometry().contains(t_point)) {
@@ -170,11 +194,15 @@ ForgeWindow* ForgeApplication::findWindow(QPoint t_point) {
 	return nullptr;
 }
 
+/* \brief Get the currently selected FModel.
+ */
 FModel* ForgeApplication::selected()
 {
 	return this->m_selected;
 }
 
+/* \brief Set the selected FModel.
+ */
 void ForgeApplication::setSelected(FModel* t_model)
 {
 	if (!t_model->selectable())
@@ -188,10 +216,14 @@ void ForgeApplication::setSelected(FModel* t_model)
 	emit selectionChanged(t_model);
 }
 
+/* \brief Display a new FModel.
+ */
 void ForgeApplication::render(FModel* t_model) {
 	t_model->setParent(m_rootEntity.data());
 }
 
+/* \brief Reassign a control to a new parent.
+ */
 void ForgeApplication::reassign(ForgeWindow* t_parent, ForgeControl* t_control) {
 	if (t_parent == nullptr) {
 		if(t_control != nullptr)
