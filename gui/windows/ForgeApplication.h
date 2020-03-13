@@ -56,11 +56,11 @@ private:
 	QtEntityPtr m_rootEntity;					/*!< The root entity for the 3D view */
 
 	FCameraController* m_controller;			/*!< The single camera controller */
-
-	QtObjectPicker* m_picker;					/*!< The object selection controller */
 	
 	FModel* m_selected;							/*!< The currently selected model */
 	
+	ForgeWindow* m_active;
+
 	void initialize();
 
 	void setActive(ForgeWindow* t_window);
@@ -69,8 +69,6 @@ private:
 	
 	ForgeWindow* newWindow();
 	
-	void onClick(Qt3DRender::QPickEvent* t_event);
-
 	void onExit(bool t_checked);
 
 	void onView(bool t_checked);

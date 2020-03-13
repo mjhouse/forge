@@ -27,6 +27,10 @@ private:
 
 	bool m_selectable;			/*!< True if user can interact with the model */
 
+	QtObjectPicker* m_picker;
+
+	void onClick(Qt3DRender::QPickEvent* t_event);
+
 public:
 
 	FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material);

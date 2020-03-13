@@ -11,6 +11,7 @@ FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_mate
 	, m_material(t_material)
 	, m_renderer(nullptr)
 	, m_selectable(true)
+	, m_picker(new QtObjectPicker(this))
 {
 	if (m_geometry != nullptr) {
 		m_renderer = m_geometry->getRenderer(
@@ -24,6 +25,13 @@ FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_mate
 	if(m_material != nullptr)
 		this->addComponent(m_material);
 
+	this->addComponent(m_picker);
+
+	(void)this->connect(m_picker, &QtObjectPicker::clicked,
+		this, &FModel::onClick);
+
+	(void)this->connect(m_picker, &QtObjectPicker::pressed,
+		this, &FModel::onClick);
 }
 
 /*! \brief Secondary constructor for the FModel.
@@ -43,6 +51,10 @@ FModel::FModel(FGeometry* t_section)
 FModel::FModel()
 	: FModel(nullptr, new QtTransform(), nullptr)
 {
+}
+
+void FModel::onClick(Qt3DRender::QPickEvent* t_event) {
+	ForgeApplication::instance()->setSelected(this);
 }
 
 /*! \brief Get the QTransform for this entity.

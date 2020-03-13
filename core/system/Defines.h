@@ -29,6 +29,7 @@
 #include <Qt3DRender/QLineWidth>
 #include <Qt3DRender/QPickEvent>
 #include <Qt3DRender/QCamera>
+#include <Qt3DRender/QViewPort>
 
 #include <Qt3DInput/QMouseHandler>
 
@@ -57,6 +58,7 @@ typedef Qt3DRender::QFilterKey                      QtFilterKey;
 typedef Qt3DRender::QTechnique                      QtTechnique;
 typedef Qt3DRender::QPickEvent						QtPickEvent;
 typedef Qt3DRender::QCamera							QtCamera;
+typedef Qt3DRender::QViewport						QtViewport;
 
 typedef Qt3DInput::QMouseHandler					QtMouseHandler;
 typedef Qt3DInput::QInputSettings					QtInputSettings;

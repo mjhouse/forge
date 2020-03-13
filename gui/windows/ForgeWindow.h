@@ -22,6 +22,17 @@ protected:
 	bool eventFilter(QObject* obj, QEvent* event);
 };
 
+/*! \brief Event filter for window click events
+ */
+class ClickEventFilter : public QObject {
+	Q_OBJECT
+public:
+	ClickEventFilter(QObject* parent) : QObject(parent) {}
+
+protected:
+	bool eventFilter(QObject* obj, QEvent* event);
+};
+
 /*! \brief The main 3D window class
  */
 class ForgeWindow:  public QWindow, 
@@ -52,6 +63,8 @@ public:
 	
 	~ForgeWindow();
 
+	void onClick(QMouseEvent* t_event);
+
 	void setRenderSource(QtFrameGraphNode* t_framegraph);
 
 	void setRoot(QtEntity* t_root);
@@ -59,6 +72,8 @@ public:
 	void clearParent();
 
 	QtCamera* camera();
+
+	QtForwardRenderer* renderer();
 	
 	void addControl(ForgeControl* t_control);
 

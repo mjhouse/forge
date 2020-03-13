@@ -11,6 +11,8 @@
 #include <Qt3DExtras/QTorusMesh>
 #include <Qt3DCore/QTransform>
 #include <Qt3DRender/QLineWidth>
+#include <Qt3DRender/QViewport>
+#include <Qt3DRender/QScreenRayCaster>
 
 #include "ForgeApplication.h"
 #include "ForgeWindow.h"
@@ -29,6 +31,20 @@ bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
 	if (event->type() == QEvent::Close) {
 		auto window = (ForgeWindow*)obj;
 		emit window->onClose(window);
+	}
+
+	return QObject::eventFilter(obj, event);
+}
+
+/*! \brief Event filter to capture the click event.
+ */
+bool ClickEventFilter::eventFilter(QObject* obj, QEvent* event) {
+	if (event->type() == QEvent::MouseButtonPress) {
+		auto window = dynamic_cast<ForgeWindow*>(obj);
+		auto mouse  = dynamic_cast<QMouseEvent*>(event);
+		if (mouse != nullptr) {
+			window->onClick(mouse);
+		}
 	}
 
 	return QObject::eventFilter(obj, event);
@@ -53,12 +69,14 @@ ForgeWindow::ForgeWindow()
 	m_camera->setPosition(QVector3D(0, 10, 0));
 	m_camera->setUpVector(QVector3D(0, 0, 1));
 	m_camera->setViewCenter(QVector3D(0, 0, 0));
-
+	
 	m_renderer->setCamera(m_camera);
 	m_renderer->setSurface(this);
 	m_renderer->setClearColor(GRAY);
-
+	
 	this->installEventFilter(new CloseEventFilter(this));
+	this->installEventFilter(new ClickEventFilter(this));
+
 	(void)this->connect(this, &ForgeWindow::onClose, 
 						this, &ForgeWindow::closing);
 }
@@ -66,6 +84,10 @@ ForgeWindow::ForgeWindow()
 /*! \brief Destructor for ForgeWindow
  */
 ForgeWindow::~ForgeWindow() {}
+
+void ForgeWindow::onClick(QMouseEvent* t_event) {
+
+}
 
 /*! \brief Redirects the focusInEvent to the onFocus signal.
  */
@@ -177,6 +199,12 @@ void ForgeWindow::clearParent() {
  */
 QtCamera* ForgeWindow::camera() { 
 	return m_camera; 
+}
+
+/*! \brief Get the renderer for this window.
+ */
+QtForwardRenderer* ForgeWindow::renderer() {
+	return m_renderer;
 }
 
 /*! \brief Add a new child control.

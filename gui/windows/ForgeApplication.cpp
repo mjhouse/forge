@@ -24,8 +24,8 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, m_logicAspect(new QtLogicAspect())
 	, m_rootEntity(new QtEntity())
 	, m_controller(nullptr)
-	, m_picker(new QtObjectPicker)
 	, m_selected(nullptr)
+	, m_active(nullptr)
 {
 	m_rootPath = applicationDirPath();
 	m_resourcesPath = QDir(m_rootPath.filePath("resources"));
@@ -53,11 +53,9 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	m_renderSettings->setActiveFrameGraph(m_frameGraph);
 	m_renderSettings->pickingSettings()->setPickMethod(
 		Qt3DRender::QPickingSettings::TrianglePicking);
-
+	
 	m_rootEntity->addComponent(m_renderSettings);
 	m_rootEntity->addComponent(m_inputSettings);
-	m_rootEntity->addComponent(m_picker);
-	
 	m_aspectEngine.setRootEntity(m_rootEntity);
 
 	m_controller->setParent(m_rootEntity.data());
@@ -65,7 +63,6 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	m_controller->setLookSpeed(100.0f);
 
 	initialize();
-	(void)this->connect(m_picker, &QtObjectPicker::clicked, this, &ForgeApplication::onClick);
 }
 
 /* \brief Creates and initializes controls.
@@ -93,10 +90,11 @@ void ForgeApplication::initialize() {
 /* \brief Set a window as active (respond to events from the window)
  */
 void ForgeApplication::setActive(ForgeWindow* t_window) {
-	if (t_window != nullptr) {
-		m_controller->setCamera(t_window->camera());
+	if (t_window != nullptr && !t_window->is(m_active)) {
 		m_inputSettings->setEventSource(t_window);
+		m_controller->setCamera(t_window->camera());
 		m_windows.prioritize(t_window->id());
+		m_active = t_window;
 	}
 }
 
@@ -140,17 +138,6 @@ ForgeWindow* ForgeApplication::newWindow() {
 	setActive(window);
 	window->show();
 	return window;
-}
-
-/* \brief On click handle pick events.
- */
-void ForgeApplication::onClick(QtPickEvent* t_event)
-{
-	auto model = (FModel*)t_event->entity();
-	if (model != nullptr)
-	{
-		setSelected(model);
-	}
 }
 
 /* \brief On mainmenu -> "Exit" command, clean up and close.
