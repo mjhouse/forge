@@ -86,13 +86,17 @@ ForgeWindow::ForgeWindow()
 ForgeWindow::~ForgeWindow() {}
 
 void ForgeWindow::onClick(QMouseEvent* t_event) {
-
+	emit onMouseClick(t_event->pos());
 }
 
 /*! \brief Redirects the focusInEvent to the onFocus signal.
  */
-void ForgeWindow::focusInEvent(QFocusEvent* ev) {
+void ForgeWindow::focusInEvent(QFocusEvent* t_event) {
 	emit onFocus(this);
+}
+
+void ForgeWindow::focusOutEvent(QFocusEvent* t_event) {
+	emit onLostFocus(this);
 }
 
 /*! \brief Adjusts perspective and resizes children.
@@ -119,6 +123,10 @@ void ForgeWindow::moveEvent(QMoveEvent* t_event) {
 	QRect oldRect(t_event->oldPos(), s);
 	QRect newRect(t_event->pos(), s);
 	updateControls(oldRect, newRect);
+}
+
+void ForgeWindow::mouseMoveEvent(QMouseEvent* t_event) {
+	emit onMouseMove(t_event->pos());
 }
 
 /*! \brief Close or reassign child controls on close.

@@ -27,9 +27,6 @@ FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_mate
 
 	this->addComponent(m_picker);
 
-	(void)this->connect(m_picker, &QtObjectPicker::clicked,
-		this, &FModel::onClick);
-
 	(void)this->connect(m_picker, &QtObjectPicker::pressed,
 		this, &FModel::onClick);
 }

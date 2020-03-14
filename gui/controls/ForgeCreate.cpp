@@ -10,6 +10,7 @@ ForgeCreate::ForgeCreate()
 	, m_model(nullptr) 
 	, m_lengthInput(new QLineEdit())
 	, m_button(new QPushButton("Create"))
+	, m_placing(false)
 {
 	this->hasTitle(true);
 
@@ -83,6 +84,7 @@ void ForgeCreate::startCreate() {
 
 	ForgeApplication::instance()->render(m_model);
 	ForgeApplication::instance()->setSelected(m_model);
+	m_placing = true;
 }
 
 /*! \brief Update the active model when the user
@@ -97,4 +99,31 @@ void ForgeCreate::lengthChanged(QString t_input) {
 			m_model->setLength(m_length);
 		}
 	}
+}
+
+void ForgeCreate::onParentMouseMove(QPoint t_point) {
+	if (m_model == nullptr) {
+		m_placing = false;
+		return;
+	}
+	else if (m_placing) {
+		//auto camera = ForgeRenderer::instance()->camera();
+		//auto screen = ForgeRenderer::instance()->getView()->rect();
+
+		//auto view = camera->viewMatrix();
+		//auto proj = camera->projectionMatrix();
+
+		//auto position = active->getTransform()->translation();
+		//position = position.project(view, proj, screen);
+
+		//position.setX(current.x());
+		//position.setY(screen.height() - current.y());
+
+		//position = position.unproject(view, proj, screen);
+		//active->getTransform()->setTranslation(position);
+	}
+}
+
+void ForgeCreate::onParentMouseClick(QPoint t_point) {
+	m_placing = false;
 }

@@ -12,6 +12,8 @@ ForgeControl::ForgeControl()
 	, m_anchor(0, 0)
 	, m_parent(nullptr)
 	, m_persistent(false)
+	, m_minimized(false)
+	, m_unexposed(false)
 {
 	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool);
 	auto layout = new QVBoxLayout();
@@ -23,6 +25,13 @@ ForgeControl::ForgeControl()
 	layout->addWidget(m_body);
 
 	this->setLayout(layout);
+
+	(void)this->connect(this, &ForgeControl::mousePressEvent, 
+						this, &ForgeControl::onClick);
+
+	(void)this->connect(this, &ForgeControl::mousePressEvent,
+		this, &ForgeControl::onClick);
+
 	(void)this->connect(ForgeApplication::instance(), &QGuiApplication::applicationStateChanged,
 						this, &ForgeControl::stateChanged);
 }
@@ -48,12 +57,15 @@ QPoint ForgeControl::positionWithin(QRect& t_parent, QRect& t_child) {
 /* \brief Snap this control to the new parent window.
  */
 void ForgeControl::setControlled(ForgeWindow* t_parent) {
+	disconnectParent();
+
 	if (m_parent)
 		m_parent->removeControl(this);
 
 	m_parent = t_parent;
 	m_parent->addControl(this);
 
+	connectParent();
 	auto rect = geometry();
 	move(positionWithin(m_parent->geometry(), rect));
 	findAnchor(rect);
@@ -83,6 +95,7 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 	if (m_parent == nullptr || isMoving()) {
 		auto rect = geometry();
 		auto window = ForgeApplication::instance()->findWindow(rect.center());
+		disconnectParent();
 
 		if (window == nullptr) {
 			if (m_parent != nullptr) {
@@ -98,6 +111,7 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 			m_parent = window;
 		}
 
+		connectParent();
 		findAnchor(rect);
 	}
 }
@@ -110,6 +124,63 @@ void ForgeControl::keyPressEvent(QKeyEvent* t_event) {
 	if (t_event->key() != Qt::Key_Escape) {
 		QDialog::keyPressEvent(t_event);
 	}
+}
+
+/* \brief Disconnect from parent events.
+ */
+void ForgeControl::disconnectParent() {
+	if (m_parent != nullptr) {
+		(void)this->disconnect(m_parent, &ForgeWindow::windowStateChanged,
+			this, &ForgeControl::parentStateChanged);
+
+		(void)this->disconnect(m_parent, &ForgeWindow::onMouseMove,
+			this, &ForgeControl::onParentMouseMove);
+
+		(void)this->disconnect(m_parent, &ForgeWindow::onMouseClick,
+			this, &ForgeControl::onParentMouseClick);
+	}
+}
+
+/* \brief Connect to parent events.
+ */
+void ForgeControl::connectParent() {
+	if (m_parent != nullptr) {
+		(void)this->connect(m_parent, &ForgeWindow::windowStateChanged,
+			this, &ForgeControl::parentStateChanged);
+
+		(void)this->connect(m_parent, &ForgeWindow::onMouseMove,
+			this, &ForgeControl::onParentMouseMove);
+
+		(void)this->connect(m_parent, &ForgeWindow::onMouseClick,
+			this, &ForgeControl::onParentMouseClick);
+	}
+}
+
+/* \brief Handle parent state changes.
+ */
+void ForgeControl::parentStateChanged(Qt::WindowState t_state) {
+	if ((t_state & Qt::WindowMinimized) == Qt::WindowMinimized && isVisible()) {
+		hide();
+		m_minimized = true;
+	}
+	else if(m_minimized) {
+		show();
+		m_minimized = false;
+	}
+}
+
+void ForgeControl::onParentMouseMove(QPoint t_point) {
+
+}
+
+void ForgeControl::onParentMouseClick(QPoint t_point) {
+
+}
+
+/* \brief Handle click events for this control.
+ */
+void ForgeControl::onClick(QMouseEvent* t_event) {
+	qDebug() << "CLICK";
 }
 
 /* \brief If true, display a default title bar.
@@ -147,15 +218,22 @@ void ForgeControl::setCentralWidget(QWidget* t_widget) {
 
 /* \brief Handle application state changes (minimized etc.)
  */
-void ForgeControl::stateChanged(Qt::ApplicationState state) {
+void ForgeControl::stateChanged(Qt::ApplicationState t_state) {
 	auto shown = isVisible();
-	if (state == Qt::ApplicationActive) {
+	if ((t_state & Qt::ApplicationActive) == Qt::ApplicationActive) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+		if (shown) {
+			hide();
+			show();
+		}
 	}
-	else {
+	else if ((t_state & Qt::ApplicationInactive) == Qt::ApplicationInactive) {
 		setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+		if (shown) {
+			hide();
+			show();
+		}
 	}
-	if(shown) show();
 }
 
 /* \brief If true, this control is being actively dragged.

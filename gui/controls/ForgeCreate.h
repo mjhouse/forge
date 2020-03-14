@@ -16,6 +16,8 @@ private:
 	
 	QPushButton* m_button;		/*!< A button that triggers a create-model action */
 
+	bool m_placing;
+
 	void updateView(FModel* t_model);
 
 public:
@@ -24,6 +26,10 @@ public:
 	void startCreate();
 
 	void lengthChanged(QString t_input);
+
+	void onParentMouseMove(QPoint t_point) override;
+
+	void onParentMouseClick(QPoint t_point) override;
 
 };
 

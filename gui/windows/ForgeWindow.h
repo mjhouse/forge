@@ -48,11 +48,15 @@ private:
 
 	IdentifierList<ForgeControl> m_controls;	/*!< A collection of currently active child controls */
 
-	void focusInEvent(QFocusEvent* ev) override;
+	void focusInEvent(QFocusEvent* t_event) override;
 
+	void focusOutEvent(QFocusEvent* t_event) override;
+	
 	void resizeEvent(QResizeEvent* event) override;
 
 	void moveEvent(QMoveEvent* t_event) override;
+
+	void mouseMoveEvent(QMouseEvent* t_event) override;
 
 	void closing(ForgeWindow* t_window);
 
@@ -80,9 +84,15 @@ public:
 	void removeControl(ForgeControl* t_control);
 
 signals:
-	void onFocus(ForgeWindow* window);
+	void onFocus(ForgeWindow* t_window);
 
-	void onClose(ForgeWindow* window);
+	void onLostFocus(ForgeWindow* t_window);
+
+	void onClose(ForgeWindow* t_window);
+
+	void onMouseMove(QPoint t_point);
+
+	void onMouseClick(QPoint t_point);
 };
 
 #endif // __FORGEWINDOW_H__

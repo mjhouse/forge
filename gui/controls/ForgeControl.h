@@ -26,6 +26,10 @@ private:
 	
 	bool m_persistent;			/*!< Passed to another window when parent closes if true */
 
+	bool m_minimized;			/*!< If true, control is hidden because parent is minimzed */
+
+	bool m_unexposed;
+
 	QPoint positionWithin(QRect& t_parent, QRect& t_child);
 
 	void findAnchor(QRect& t_rect);
@@ -34,9 +38,23 @@ private:
 
 	void keyPressEvent(QKeyEvent* t_event) override;
 	
+	void disconnectParent();
+
+	void connectParent();
+
+	void parentStateChanged(Qt::WindowState t_state);
+
+protected:
+
+	virtual void onParentMouseMove(QPoint t_point);
+
+	virtual void onParentMouseClick(QPoint t_point);
+
 public:
 
 	ForgeControl();
+
+	void onClick(QMouseEvent* t_event);
 
 	void hasTitle(bool t_title);
 

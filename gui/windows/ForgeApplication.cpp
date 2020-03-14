@@ -61,7 +61,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	m_controller->setParent(m_rootEntity.data());
 	m_controller->setLinearSpeed(50.0f);
 	m_controller->setLookSpeed(100.0f);
-
+	
 	initialize();
 }
 
