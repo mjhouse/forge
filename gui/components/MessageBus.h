@@ -10,7 +10,11 @@
 //
 //class FMessage {
 //private:
+//
 //public:
+//	virtual ~FMessage() = default;
+//
+//
 //};
 //
 //template <typename T>
@@ -25,7 +29,6 @@
 //
 //	T* value() { 
 //		return m_value; }
-//
 //
 //};
 //

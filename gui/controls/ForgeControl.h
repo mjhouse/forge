@@ -72,6 +72,8 @@ public:
 
 	bool persistent();
 
+	ForgeWindow* controller();
+
 	void setPersistent(bool t_persistent);
 
 	QVector2D anchor();

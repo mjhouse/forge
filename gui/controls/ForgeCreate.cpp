@@ -102,25 +102,28 @@ void ForgeCreate::lengthChanged(QString t_input) {
 }
 
 void ForgeCreate::onParentMouseMove(QPoint t_point) {
-	if (m_model == nullptr) {
+	auto parent = controller();
+	if (m_model == nullptr || parent == nullptr) {
 		m_placing = false;
-		return;
 	}
 	else if (m_placing) {
-		//auto camera = ForgeRenderer::instance()->camera();
-		//auto screen = ForgeRenderer::instance()->getView()->rect();
+		auto camera = parent->camera();
+		auto screen = parent->geometry();
 
-		//auto view = camera->viewMatrix();
-		//auto proj = camera->projectionMatrix();
+		t_point.setX(t_point.x() + screen.left());
+		t_point.setY(t_point.y() - screen.top());
 
-		//auto position = active->getTransform()->translation();
-		//position = position.project(view, proj, screen);
+		auto view = camera->viewMatrix();
+		auto proj = camera->projectionMatrix();
 
-		//position.setX(current.x());
-		//position.setY(screen.height() - current.y());
+		auto position = m_model->transform()->translation();
+		position = position.project(view, proj, screen);
 
-		//position = position.unproject(view, proj, screen);
-		//active->getTransform()->setTranslation(position);
+		position.setX(t_point.x());
+		position.setY(screen.height() - t_point.y());
+
+		position = position.unproject(view, proj, screen);
+		m_model->transform()->setTranslation(position);
 	}
 }
 

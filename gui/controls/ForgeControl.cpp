@@ -250,6 +250,12 @@ bool ForgeControl::persistent() {
 	return m_persistent;
 }
 
+/* \brief Get the current controlling parent.
+ */
+ForgeWindow* ForgeControl::controller() {
+	return m_parent;
+}
+
 /* \brief Set the persistent flag.
  */
 void ForgeControl::setPersistent(bool t_persistent) {
