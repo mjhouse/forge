@@ -27,6 +27,8 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, m_selected(nullptr)
 	, m_active(nullptr)
 {
+	Messages::instance()->subscribe(this, Channel::Debug);
+
 	m_rootPath = applicationDirPath();
 	m_resourcesPath = QDir(m_rootPath.filePath("resources"));
 	resources::initialize(resources());
@@ -226,4 +228,10 @@ void ForgeApplication::reassign(ForgeWindow* t_parent, ForgeControl* t_control) 
 	}
 
 	t_control->close();
+}
+
+void ForgeApplication::onMessage(Channel t_channel, UnknownMessage& t_message) {
+	if (auto msg = t_message.to<std::string>()) {
+		qDebug() << msg->value().c_str();
+	}
 }

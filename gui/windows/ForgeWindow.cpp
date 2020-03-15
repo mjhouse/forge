@@ -76,6 +76,7 @@ ForgeWindow::ForgeWindow()
 	
 	this->installEventFilter(new CloseEventFilter(this));
 	this->installEventFilter(new ClickEventFilter(this));
+	this->installEventFilter(new MessageEventFilter(this));
 
 	(void)this->connect(this, &ForgeWindow::onClose, 
 						this, &ForgeWindow::closing);
@@ -229,4 +230,8 @@ void ForgeWindow::removeControl(ForgeControl* t_control) {
 	if (t_control != nullptr && m_controls.contains(t_control)) {
 		m_controls.remove(t_control);
 	}
+}
+
+void ForgeWindow::onMessage(Channel t_channel, UnknownMessage& t_message) {
+
 }

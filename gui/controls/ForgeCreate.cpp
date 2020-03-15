@@ -3,6 +3,8 @@
 #include "ForgeApplication.h"
 #include "FModelExtruded.h"
 
+#include <QMouseEvent>
+
 /*! \brief Constructor for the place object widget.
  */
 ForgeCreate::ForgeCreate() 
@@ -101,32 +103,41 @@ void ForgeCreate::lengthChanged(QString t_input) {
 	}
 }
 
-void ForgeCreate::onParentMouseMove(QPoint t_point) {
-	auto parent = controller();
-	if (m_model == nullptr || parent == nullptr) {
-		m_placing = false;
-	}
-	else if (m_placing) {
-		auto camera = parent->camera();
-		auto screen = parent->geometry();
-
-		t_point.setX(t_point.x() + screen.left());
-		t_point.setY(t_point.y() - screen.top());
-
-		auto view = camera->viewMatrix();
-		auto proj = camera->projectionMatrix();
-
-		auto position = m_model->transform()->translation();
-		position = position.project(view, proj, screen);
-
-		position.setX(t_point.x());
-		position.setY(screen.height() - t_point.y());
-
-		position = position.unproject(view, proj, screen);
-		m_model->transform()->setTranslation(position);
+void ForgeCreate::onMessage(Channel t_channel, UnknownMessage& t_message) {
+	if (auto message = t_message.to<QMouseEvent*>()) {
+		if (message->sender() == controller()) {
+			qDebug() << message->name();
+		}
 	}
 }
 
-void ForgeCreate::onParentMouseClick(QPoint t_point) {
-	m_placing = false;
-}
+
+//void ForgeCreate::onParentMouseMove(QPoint t_point) {
+//	auto parent = controller();
+//	if (m_model == nullptr || parent == nullptr) {
+//		m_placing = false;
+//	}
+//	else if (m_placing) {
+//		auto camera = parent->camera();
+//		auto screen = parent->geometry();
+//
+//		t_point.setX(t_point.x() + screen.left());
+//		t_point.setY(t_point.y() - screen.top());
+//
+//		auto view = camera->viewMatrix();
+//		auto proj = camera->projectionMatrix();
+//
+//		auto position = m_model->transform()->translation();
+//		position = position.project(view, proj, screen);
+//
+//		position.setX(t_point.x());
+//		position.setY(screen.height() - t_point.y());
+//
+//		position = position.unproject(view, proj, screen);
+//		m_model->transform()->setTranslation(position);
+//	}
+//}
+
+//void ForgeCreate::onParentMouseClick(QPoint t_point) {
+//	m_placing = false;
+//}

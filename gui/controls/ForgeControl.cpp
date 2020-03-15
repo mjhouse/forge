@@ -25,12 +25,8 @@ ForgeControl::ForgeControl()
 	layout->addWidget(m_body);
 
 	this->setLayout(layout);
-
-	(void)this->connect(this, &ForgeControl::mousePressEvent, 
-						this, &ForgeControl::onClick);
-
-	(void)this->connect(this, &ForgeControl::mousePressEvent,
-		this, &ForgeControl::onClick);
+	
+	Messages::instance()->subscribe(this, Channel::Action);
 
 	(void)this->connect(ForgeApplication::instance(), &QGuiApplication::applicationStateChanged,
 						this, &ForgeControl::stateChanged);
@@ -83,6 +79,7 @@ void ForgeControl::findAnchor(QRect& t_rect) {
 		auto t = cc.y() - pr.top();
 
 		m_anchor = QVector2D(l, t);
+		publish_debug(std::string("found anchor"));
 	}
 }
 
@@ -132,12 +129,6 @@ void ForgeControl::disconnectParent() {
 	if (m_parent != nullptr) {
 		(void)this->disconnect(m_parent, &ForgeWindow::windowStateChanged,
 			this, &ForgeControl::parentStateChanged);
-
-		(void)this->disconnect(m_parent, &ForgeWindow::onMouseMove,
-			this, &ForgeControl::onParentMouseMove);
-
-		(void)this->disconnect(m_parent, &ForgeWindow::onMouseClick,
-			this, &ForgeControl::onParentMouseClick);
 	}
 }
 
@@ -147,12 +138,6 @@ void ForgeControl::connectParent() {
 	if (m_parent != nullptr) {
 		(void)this->connect(m_parent, &ForgeWindow::windowStateChanged,
 			this, &ForgeControl::parentStateChanged);
-
-		(void)this->connect(m_parent, &ForgeWindow::onMouseMove,
-			this, &ForgeControl::onParentMouseMove);
-
-		(void)this->connect(m_parent, &ForgeWindow::onMouseClick,
-			this, &ForgeControl::onParentMouseClick);
 	}
 }
 
@@ -167,20 +152,6 @@ void ForgeControl::parentStateChanged(Qt::WindowState t_state) {
 		show();
 		m_minimized = false;
 	}
-}
-
-void ForgeControl::onParentMouseMove(QPoint t_point) {
-
-}
-
-void ForgeControl::onParentMouseClick(QPoint t_point) {
-
-}
-
-/* \brief Handle click events for this control.
- */
-void ForgeControl::onClick(QMouseEvent* t_event) {
-	qDebug() << "CLICK";
 }
 
 /* \brief If true, display a default title bar.
@@ -272,4 +243,8 @@ QVector2D ForgeControl::anchor() {
  */
 void ForgeControl::setAnchor(QVector2D t_anchor) {
 	m_anchor = t_anchor;
+}
+
+void ForgeControl::onMessage(Channel t_channel, UnknownMessage& t_message) {
+
 }

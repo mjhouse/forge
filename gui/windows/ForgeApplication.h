@@ -22,10 +22,12 @@
 #include "FCameraController.h"
 #include "FModel.h"
 #include "Defines.h"
+#include "Messages.h"
+#include "Message.h"
 
 class FCameraController;
 
-class ForgeApplication : public QApplication {
+class ForgeApplication : public QApplication, public Handler {
 
 	Q_OBJECT
 
@@ -94,6 +96,8 @@ public:
 	void render(FModel* t_model);
 		
 	void reassign(ForgeWindow* t_parent, ForgeControl* t_control);
+
+	void onMessage(Channel t_channel, UnknownMessage& t_message);
 
 signals:
 	void selectionChanged(FModel* t_model);

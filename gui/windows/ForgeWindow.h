@@ -5,6 +5,7 @@
 
 #include "IdentifierList.h"
 #include "HasIdentifier.h"
+#include "Messages.h"
 #include "Defines.h"
 
 #include <iostream>
@@ -36,7 +37,8 @@ protected:
 /*! \brief The main 3D window class
  */
 class ForgeWindow:  public QWindow, 
-					public HasIdentifier
+					public HasIdentifier,
+					public Handler
 {
 	Q_OBJECT
 
@@ -82,6 +84,8 @@ public:
 	void addControl(ForgeControl* t_control);
 
 	void removeControl(ForgeControl* t_control);
+
+	void onMessage(Channel t_channel, UnknownMessage& t_message);
 
 signals:
 	void onFocus(ForgeWindow* t_window);

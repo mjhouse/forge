@@ -27,9 +27,7 @@ public:
 
 	void lengthChanged(QString t_input);
 
-	void onParentMouseMove(QPoint t_point) override;
-
-	void onParentMouseClick(QPoint t_point) override;
+	void onMessage(Channel t_channel, UnknownMessage& t_message) override;
 
 };
 

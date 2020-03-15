@@ -5,11 +5,14 @@
 
 #include "HasIdentifier.h"
 #include "ForgeTitleBar.h"
+#include "Messages.h"
+#include "Message.h"
 
 class ForgeWindow;
 
 class ForgeControl : public QDialog, 
-					 public HasIdentifier {
+					 public HasIdentifier,
+					 public Handler {
 private:
 
 	ForgeTitleBar* m_title;		/*!< The dialog title */
@@ -44,18 +47,10 @@ private:
 
 	void parentStateChanged(Qt::WindowState t_state);
 
-protected:
-
-	virtual void onParentMouseMove(QPoint t_point);
-
-	virtual void onParentMouseClick(QPoint t_point);
-
 public:
 
 	ForgeControl();
-
-	void onClick(QMouseEvent* t_event);
-
+	
 	void hasTitle(bool t_title);
 
 	void setTitle(QString t_title);
@@ -79,6 +74,8 @@ public:
 	QVector2D anchor();
 
 	void setAnchor(QVector2D t_anchor);
+
+	virtual void onMessage(Channel t_channel, UnknownMessage& t_message);
 
 };
 
