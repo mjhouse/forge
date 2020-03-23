@@ -7,7 +7,8 @@ enum class MessageType {
 	Float,
 	Int,
 	String,
-	MouseEvent
+	MouseEvent,
+	State
 };
 
 template <typename T>

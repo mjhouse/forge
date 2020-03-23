@@ -33,24 +33,26 @@ private:
 
 	bool m_unexposed;
 
+	// utility functions
 	QPoint positionWithin(QRect& t_parent, QRect& t_child);
 
 	void findAnchor(QRect& t_rect);
 
+	// internal event handlers
 	void moveEvent(QMoveEvent* t_event) override;
 
 	void keyPressEvent(QKeyEvent* t_event) override;
 	
-	void disconnectParent();
+	// message handlers
+	void appStateChanged(Message<Qt::ApplicationState>* state);
 
-	void connectParent();
-
-	void parentStateChanged(Qt::WindowState t_state);
+	void winStateChanged(Message<Qt::WindowState>* t_state);
 
 public:
 
 	ForgeControl();
 	
+	// properties
 	void hasTitle(bool t_title);
 
 	void setTitle(QString t_title);
@@ -59,16 +61,14 @@ public:
 
 	void setHandle(FWidget* t_handle);
 	
-	void stateChanged(Qt::ApplicationState state);
-
 	void setControlled(ForgeWindow* t_parent);
 	
+	ForgeWindow* controller();
+
 	bool isMoving();
 
 	bool persistent();
-
-	ForgeWindow* controller();
-
+	
 	void setPersistent(bool t_persistent);
 
 	QVector2D anchor();

@@ -15,6 +15,8 @@ ForgeControl::ForgeControl()
 	, m_minimized(false)
 	, m_unexposed(false)
 {
+	_subscribe(Channel::Action);
+	
 	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool);
 	auto layout = new QVBoxLayout();
 
@@ -25,11 +27,6 @@ ForgeControl::ForgeControl()
 	layout->addWidget(m_body);
 
 	this->setLayout(layout);
-	
-	Messages::instance()->subscribe(this, Channel::Action);
-
-	(void)this->connect(ForgeApplication::instance(), &QGuiApplication::applicationStateChanged,
-						this, &ForgeControl::stateChanged);
 }
 
 /* \brief Moves the given child rect entirely 
@@ -53,15 +50,12 @@ QPoint ForgeControl::positionWithin(QRect& t_parent, QRect& t_child) {
 /* \brief Snap this control to the new parent window.
  */
 void ForgeControl::setControlled(ForgeWindow* t_parent) {
-	disconnectParent();
-
 	if (m_parent)
 		m_parent->removeControl(this);
 
 	m_parent = t_parent;
 	m_parent->addControl(this);
 
-	connectParent();
 	auto rect = geometry();
 	move(positionWithin(m_parent->geometry(), rect));
 	findAnchor(rect);
@@ -79,7 +73,6 @@ void ForgeControl::findAnchor(QRect& t_rect) {
 		auto t = cc.y() - pr.top();
 
 		m_anchor = QVector2D(l, t);
-		publish_debug(std::string("found anchor"));
 	}
 }
 
@@ -92,7 +85,6 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 	if (m_parent == nullptr || isMoving()) {
 		auto rect = geometry();
 		auto window = ForgeApplication::instance()->findWindow(rect.center());
-		disconnectParent();
 
 		if (window == nullptr) {
 			if (m_parent != nullptr) {
@@ -108,7 +100,6 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 			m_parent = window;
 		}
 
-		connectParent();
 		findAnchor(rect);
 	}
 }
@@ -120,37 +111,6 @@ void ForgeControl::keyPressEvent(QKeyEvent* t_event) {
 	// by not sending the escape event to QDialog
 	if (t_event->key() != Qt::Key_Escape) {
 		QDialog::keyPressEvent(t_event);
-	}
-}
-
-/* \brief Disconnect from parent events.
- */
-void ForgeControl::disconnectParent() {
-	if (m_parent != nullptr) {
-		(void)this->disconnect(m_parent, &ForgeWindow::windowStateChanged,
-			this, &ForgeControl::parentStateChanged);
-	}
-}
-
-/* \brief Connect to parent events.
- */
-void ForgeControl::connectParent() {
-	if (m_parent != nullptr) {
-		(void)this->connect(m_parent, &ForgeWindow::windowStateChanged,
-			this, &ForgeControl::parentStateChanged);
-	}
-}
-
-/* \brief Handle parent state changes.
- */
-void ForgeControl::parentStateChanged(Qt::WindowState t_state) {
-	if ((t_state & Qt::WindowMinimized) == Qt::WindowMinimized && isVisible()) {
-		hide();
-		m_minimized = true;
-	}
-	else if(m_minimized) {
-		show();
-		m_minimized = false;
 	}
 }
 
@@ -187,24 +147,10 @@ void ForgeControl::setCentralWidget(QWidget* t_widget) {
 	m_body = t_widget;
 }
 
-/* \brief Handle application state changes (minimized etc.)
+/* \brief Get the current controlling parent.
  */
-void ForgeControl::stateChanged(Qt::ApplicationState t_state) {
-	auto shown = isVisible();
-	if ((t_state & Qt::ApplicationActive) == Qt::ApplicationActive) {
-		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
-		if (shown) {
-			hide();
-			show();
-		}
-	}
-	else if ((t_state & Qt::ApplicationInactive) == Qt::ApplicationInactive) {
-		setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
-		if (shown) {
-			hide();
-			show();
-		}
-	}
+ForgeWindow* ForgeControl::controller() {
+	return m_parent;
 }
 
 /* \brief If true, this control is being actively dragged.
@@ -219,12 +165,6 @@ bool ForgeControl::isMoving() {
  */
 bool ForgeControl::persistent() {
 	return m_persistent;
-}
-
-/* \brief Get the current controlling parent.
- */
-ForgeWindow* ForgeControl::controller() {
-	return m_parent;
 }
 
 /* \brief Set the persistent flag.
@@ -246,5 +186,44 @@ void ForgeControl::setAnchor(QVector2D t_anchor) {
 }
 
 void ForgeControl::onMessage(Channel t_channel, UnknownMessage& t_message) {
+	_route_in(t_channel, t_message, Channel::Action, Qt::ApplicationState, appStateChanged);
+	_route_in(t_channel, t_message, Channel::Action, Qt::WindowState, winStateChanged);
+}
 
+/* \brief Handle application state changes (minimized etc.)
+ */
+void ForgeControl::appStateChanged(Message<Qt::ApplicationState>* t_state) {
+	auto state = t_state->value();
+	auto shown = isVisible();
+	if ((state & Qt::ApplicationActive) == Qt::ApplicationActive) {
+		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+		if (shown) {
+			hide();
+			show();
+		}
+	}
+	else if ((state & Qt::ApplicationInactive) == Qt::ApplicationInactive) {
+		setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+		if (shown) {
+			hide();
+			show();
+		}
+	}
+}
+
+/* \brief Handle parent state changes.
+ */
+void ForgeControl::winStateChanged(Message<Qt::WindowState>* t_state) {
+
+	if (m_parent == nullptr || !m_parent->isHandler(t_state->sender()))
+		return;
+
+	if ((t_state->value() & Qt::WindowMinimized) == Qt::WindowMinimized && isVisible()) {
+		hide();
+		m_minimized = true;
+	}
+	else if (m_minimized) {
+		show();
+		m_minimized = false;
+	}
 }

@@ -12,28 +12,6 @@
 
 class ForgeControl;
 
-/*! \brief Event filter for window close events
- */
-class CloseEventFilter : public QObject {
-	Q_OBJECT
-public:
-	CloseEventFilter(QObject* parent) : QObject(parent) {}
-
-protected:
-	bool eventFilter(QObject* obj, QEvent* event);
-};
-
-/*! \brief Event filter for window click events
- */
-class ClickEventFilter : public QObject {
-	Q_OBJECT
-public:
-	ClickEventFilter(QObject* parent) : QObject(parent) {}
-
-protected:
-	bool eventFilter(QObject* obj, QEvent* event);
-};
-
 /*! \brief The main 3D window class
  */
 class ForgeWindow:  public QWindow, 
@@ -49,16 +27,14 @@ private:
 	QtForwardRenderer* m_renderer;				/*!< The renderer for this window */
 
 	IdentifierList<ForgeControl> m_controls;	/*!< A collection of currently active child controls */
-
-	void focusInEvent(QFocusEvent* t_event) override;
-
-	void focusOutEvent(QFocusEvent* t_event) override;
 	
+	_method_publish(focusInEvent, QFocusEvent, Channel::Action)
+	_method_publish(focusOutEvent, QFocusEvent, Channel::Action)
+	_method_publish(mouseMoveEvent, QMouseEvent, Channel::Action)
+
 	void resizeEvent(QResizeEvent* event) override;
 
 	void moveEvent(QMoveEvent* t_event) override;
-
-	void mouseMoveEvent(QMouseEvent* t_event) override;
 
 	void closing(ForgeWindow* t_window);
 
@@ -88,15 +64,7 @@ public:
 	void onMessage(Channel t_channel, UnknownMessage& t_message);
 
 signals:
-	void onFocus(ForgeWindow* t_window);
 
-	void onLostFocus(ForgeWindow* t_window);
-
-	void onClose(ForgeWindow* t_window);
-
-	void onMouseMove(QPoint t_point);
-
-	void onMouseClick(QPoint t_point);
 };
 
 #endif // __FORGEWINDOW_H__

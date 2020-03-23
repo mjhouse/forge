@@ -19,36 +19,11 @@
 #include "ForgeControl.h"
 #include "exceptions.h"
 #include "Defines.h"
+#include "EventFilters.h"
 #include "Config.h"
 
 #define BLACK 0x000000
 #define GRAY  0x212121
-
-/*! \brief Event filter to capture the close event and emit it
- *		   as an "onClose" signal.
- */
-bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
-	if (event->type() == QEvent::Close) {
-		auto window = (ForgeWindow*)obj;
-		emit window->onClose(window);
-	}
-
-	return QObject::eventFilter(obj, event);
-}
-
-/*! \brief Event filter to capture the click event.
- */
-bool ClickEventFilter::eventFilter(QObject* obj, QEvent* event) {
-	if (event->type() == QEvent::MouseButtonPress) {
-		auto window = dynamic_cast<ForgeWindow*>(obj);
-		auto mouse  = dynamic_cast<QMouseEvent*>(event);
-		if (mouse != nullptr) {
-			window->onClick(mouse);
-		}
-	}
-
-	return QObject::eventFilter(obj, event);
-}
 
 /*! \brief Constructor for ForgeWindow
  */
@@ -57,6 +32,12 @@ ForgeWindow::ForgeWindow()
 	, m_renderer(new QtForwardRenderer())
 	, m_controls()
 {
+	// route events to channels
+	_event_publish(ForgeWindow::windowStateChanged, Channel::Action);
+
+	// subscribe to channels
+	_subscribe(Channel::Action);
+
 	this->setSurfaceType(QWindow::OpenGLSurface);
 	this->resize(1024, 768);
 
@@ -74,31 +55,13 @@ ForgeWindow::ForgeWindow()
 	m_renderer->setSurface(this);
 	m_renderer->setClearColor(GRAY);
 	
-	this->installEventFilter(new CloseEventFilter(this));
-	this->installEventFilter(new ClickEventFilter(this));
-	this->installEventFilter(new MessageEventFilter(this));
-
-	(void)this->connect(this, &ForgeWindow::onClose, 
-						this, &ForgeWindow::closing);
+	this->installEventFilter(new CloseEventFilter(this,Channel::Action));
+	this->installEventFilter(new ClickEventFilter(this,Channel::Action));
 }
 
 /*! \brief Destructor for ForgeWindow
  */
 ForgeWindow::~ForgeWindow() {}
-
-void ForgeWindow::onClick(QMouseEvent* t_event) {
-	emit onMouseClick(t_event->pos());
-}
-
-/*! \brief Redirects the focusInEvent to the onFocus signal.
- */
-void ForgeWindow::focusInEvent(QFocusEvent* t_event) {
-	emit onFocus(this);
-}
-
-void ForgeWindow::focusOutEvent(QFocusEvent* t_event) {
-	emit onLostFocus(this);
-}
 
 /*! \brief Adjusts perspective and resizes children.
  */
@@ -124,10 +87,6 @@ void ForgeWindow::moveEvent(QMoveEvent* t_event) {
 	QRect oldRect(t_event->oldPos(), s);
 	QRect newRect(t_event->pos(), s);
 	updateControls(oldRect, newRect);
-}
-
-void ForgeWindow::mouseMoveEvent(QMouseEvent* t_event) {
-	emit onMouseMove(t_event->pos());
 }
 
 /*! \brief Close or reassign child controls on close.

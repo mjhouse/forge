@@ -11,8 +11,31 @@
 #include <QObject>
 #include <QEvent>
 
-#define publish_debug(m)  Messages::instance()->publish(this, Channel::Debug, m);
-#define publish_action(m) Messages::instance()->publish(this, Channel::Action, m);
+#define _publish(c,m) Messages::instance()->publish(this, c, m);
+#define _subscribe(c) Messages::instance()->subscribe(this, c);
+
+// redirect an unknown message to the
+// appropriate handler
+#define _route_in(c,v,C,V,H)			\
+	if (c == C) {						\
+		if (auto message = v.to<V>()) {	\
+			H(message);					\
+		}								\
+	}									\
+
+// route a signal to a channel
+#define _event_publish(E,C)				\
+	(void)this->connect(this, &E,		\
+						this,			\
+		[=](auto m) {					\
+			_publish(C, m);				\
+	})									\
+
+// route an event handler to a channel
+#define _method_publish(N,E,C)			\
+	void N(E* e) override {				\
+		_publish(C, e);					\
+	}									\
 
 enum class Channel {
 	Debug,
@@ -20,17 +43,17 @@ enum class Channel {
 };
 
 class Handler {
+private:
+	static size_t g_count;
+
+	size_t m_id;
+
 public:
+	Handler() : m_id(++g_count) {}
+
+	bool isHandler(Handler* t_other) { return m_id == t_other->m_id; }
+
 	virtual void onMessage(Channel t_channel, UnknownMessage& t_message) = 0;
-};
-
-class MessageEventFilter : public QObject {
-	Q_OBJECT
-public:
-	MessageEventFilter(QObject* parent) : QObject(parent) {}
-
-protected:
-	bool eventFilter(QObject* obj, QEvent* event);
 };
 
 class Messages {

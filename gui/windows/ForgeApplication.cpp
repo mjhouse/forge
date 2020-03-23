@@ -3,6 +3,8 @@
 #include "ForgeCreate.h"
 #include "ForgeTransform.h"
 #include "ForgeControl.h"
+#include "Messages.h"
+#include "Message.h"
 
 #include <Qt3DRender/QMultiSampleAntiAliasing>
 #include <Qt3DRender/QDepthTest>
@@ -27,7 +29,11 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, m_selected(nullptr)
 	, m_active(nullptr)
 {
-	Messages::instance()->subscribe(this, Channel::Debug);
+	// subscribe to channels
+	_subscribe(Channel::Action);
+
+	// route events to channels
+	_event_publish(ForgeApplication::applicationStateChanged, Channel::Action);
 
 	m_rootPath = applicationDirPath();
 	m_resourcesPath = QDir(m_rootPath.filePath("resources"));
@@ -64,12 +70,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	m_controller->setLinearSpeed(50.0f);
 	m_controller->setLookSpeed(100.0f);
 	
-	initialize();
-}
-
-/* \brief Creates and initializes controls.
- */
-void ForgeApplication::initialize() {
+	// set up initial windows and controls
 	auto window = newWindow();
 
 	auto mainMenu = new ForgeMainMenu();
@@ -102,13 +103,14 @@ void ForgeApplication::setActive(ForgeWindow* t_window) {
 
 /* \brief Clean up when a 3D window closes.
  */
-void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
+void ForgeApplication::onWindowClose(Message<QCloseEvent*>* t_message) {
+	auto window = (ForgeWindow*)t_message->sender();
 
 	// clear parent node and framegraph
-	t_window->clearParent();
+	window->clearParent();
 
 	// remove window from window collection
-	m_windows.remove(t_window);
+	m_windows.remove(window);
 
 	// if there is another window in the collection
 	// set it as active.
@@ -130,11 +132,11 @@ ForgeWindow* ForgeApplication::newWindow() {
 	window->setRenderSource(m_frameGraph);
 	window->setRoot(m_rootEntity.data());
 
-	(void)this->connect(window, &ForgeWindow::onFocus,
-		this, &ForgeApplication::setActive);
+	//(void)this->connect(window, &ForgeWindow::onFocus,
+	//	this, &ForgeApplication::setActive);
 
-	(void)this->connect(window, &ForgeWindow::onClose,
-		this, &ForgeApplication::onWindowClose);
+	//(void)this->connect(window, &ForgeWindow::onClose,
+	//	this, &ForgeApplication::onWindowClose);
 
 	m_windows.add(window);
 	setActive(window);
@@ -231,7 +233,5 @@ void ForgeApplication::reassign(ForgeWindow* t_parent, ForgeControl* t_control) 
 }
 
 void ForgeApplication::onMessage(Channel t_channel, UnknownMessage& t_message) {
-	if (auto msg = t_message.to<std::string>()) {
-		qDebug() << msg->value().c_str();
-	}
+	_route_in(t_channel, t_message, Channel::Action, QCloseEvent*, onWindowClose);
 }

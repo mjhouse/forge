@@ -4,6 +4,8 @@
 #include <string>
 
 #include <QMouseEvent>
+#include <QFocusEvent>
+#include <QCloseEvent>
 
 #define impl_message(V,T)								\
 	Message<V>::Message(Handler* t_sender,	\
@@ -31,4 +33,10 @@ impl_message(double, MessageType::Double)
 impl_message(float, MessageType::Float)
 impl_message(int, MessageType::Int)
 impl_message(std::string, MessageType::String)
+
 impl_message(QMouseEvent*, MessageType::MouseEvent)
+impl_message(QFocusEvent*, MessageType::MouseEvent)
+impl_message(QCloseEvent*, MessageType::MouseEvent)
+
+impl_message(Qt::ApplicationState, MessageType::State)
+impl_message(Qt::WindowState, MessageType::State)

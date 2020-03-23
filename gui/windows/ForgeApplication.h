@@ -61,20 +61,18 @@ private:
 	
 	FModel* m_selected;							/*!< The currently selected model */
 	
-	ForgeWindow* m_active;
-
-	void initialize();
-
+	ForgeWindow* m_active;						/*!< The currently active window */
+	
 	void setActive(ForgeWindow* t_window);
 
-	void onWindowClose(ForgeWindow* t_window);
+	void onWindowClose(Message<QCloseEvent*>* t_message);
 	
 	ForgeWindow* newWindow();
 	
 	void onExit(bool t_checked);
 
 	void onView(bool t_checked);
-
+	
 public:
 
 	ForgeApplication(int argc, char* argv[]);
