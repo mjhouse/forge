@@ -31,6 +31,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 {
 	// subscribe to channels
 	_subscribe(Channel::Action);
+	_subscribe(Channel::Reassign);
 
 	// route events to channels
 	_event_publish(ForgeApplication::applicationStateChanged, Channel::Action);
@@ -69,7 +70,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	m_controller->setParent(m_rootEntity.data());
 	m_controller->setLinearSpeed(50.0f);
 	m_controller->setLookSpeed(100.0f);
-	
+
 	// set up initial windows and controls
 	auto window = newWindow();
 
@@ -215,23 +216,26 @@ void ForgeApplication::render(FModel* t_model) {
 
 /* \brief Reassign a control to a new parent.
  */
-void ForgeApplication::reassign(ForgeWindow* t_parent, ForgeControl* t_control) {
-	if (t_parent == nullptr) {
-		if(t_control != nullptr)
-			t_control->close();
+void ForgeApplication::onReassign(Message<ForgeControl*>* t_message) {
+	auto control = t_message->value();
+	auto parent  = control->controller();
+	if (parent == nullptr) {
+		if(control != nullptr)
+			control->close();
 		return;
 	}
 
 	for (auto window : m_windows.priority()) {
-		if (!window->is(t_parent)) {
-			t_control->setControlled(window);
+		if (!window->is(parent)) {
+			control->setControlled(window);
 			return;
 		}
 	}
 
-	t_control->close();
+	control->close();
 }
 
 void ForgeApplication::onMessage(Channel t_channel, UnknownMessage& t_message) {
 	_route_in(t_channel, t_message, Channel::Action, QCloseEvent*, onWindowClose);
+	_route_in(t_channel, t_message, Channel::Reassign, ForgeControl*, onReassign);
 }

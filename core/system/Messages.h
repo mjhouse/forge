@@ -39,7 +39,8 @@
 
 enum class Channel {
 	Debug,
-	Action
+	Action,
+	Reassign
 };
 
 class Handler {
@@ -59,7 +60,7 @@ public:
 class Messages {
 private:
 
-	std::mutex m_lock;
+	std::recursive_mutex m_lock;
 
 	std::map<Channel, std::set<Handler*>> m_subscribers;
 
@@ -78,13 +79,14 @@ public:
 
 	template <typename T>
 	void publish(Handler* t_sender, Channel t_channel, T t_message) {
-		std::lock_guard<std::mutex> guard(m_lock);
+		m_lock.lock();
 		if (m_subscribers.count(t_channel) == 1) {
 			Message<T> message(t_sender, t_message);
 			for (auto subscriber : m_subscribers[t_channel]) {
 				subscriber->onMessage(t_channel, message);
 			}
 		}
+		m_lock.unlock();
 	}
 
 };

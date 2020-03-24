@@ -1,5 +1,6 @@
 #include "Message.h"
 #include "Messages.h"
+#include "ForgeControl.h"
 
 #include <string>
 
@@ -34,9 +35,11 @@ impl_message(float, MessageType::Float)
 impl_message(int, MessageType::Int)
 impl_message(std::string, MessageType::String)
 
-impl_message(QMouseEvent*, MessageType::MouseEvent)
-impl_message(QFocusEvent*, MessageType::MouseEvent)
-impl_message(QCloseEvent*, MessageType::MouseEvent)
+impl_message(QMouseEvent*, MessageType::Event)
+impl_message(QFocusEvent*, MessageType::Event)
+impl_message(QCloseEvent*, MessageType::Event)
 
 impl_message(Qt::ApplicationState, MessageType::State)
 impl_message(Qt::WindowState, MessageType::State)
+
+impl_message(ForgeControl*, MessageType::Control);

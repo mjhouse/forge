@@ -2,6 +2,7 @@
 #define __FORGEWINDOW_H__
 
 #include <QtCore/QDir>
+#include <QOpenGLFunctions>
 
 #include "IdentifierList.h"
 #include "HasIdentifier.h"
@@ -16,7 +17,8 @@ class ForgeControl;
  */
 class ForgeWindow:  public QWindow, 
 					public HasIdentifier,
-					public Handler
+					public Handler,
+					protected QOpenGLFunctions
 {
 	Q_OBJECT
 
@@ -28,6 +30,8 @@ private:
 
 	IdentifierList<ForgeControl> m_controls;	/*!< A collection of currently active child controls */
 	
+	QOpenGLContext* m_context;					/*!< The OpenGL context */
+
 	_method_publish(focusInEvent, QFocusEvent, Channel::Action)
 	_method_publish(focusOutEvent, QFocusEvent, Channel::Action)
 	_method_publish(mouseMoveEvent, QMouseEvent, Channel::Action)
@@ -35,18 +39,16 @@ private:
 	void resizeEvent(QResizeEvent* event) override;
 
 	void moveEvent(QMoveEvent* t_event) override;
-
-	void closing(ForgeWindow* t_window);
-
+	
 	void updateControls(QRect& oldRect, QRect& newRect);
+
+	void onWindowClose(Message<QCloseEvent*>* t_message);
 
 public:
 	ForgeWindow();
 	
 	~ForgeWindow();
-
-	void onClick(QMouseEvent* t_event);
-
+	
 	void setRenderSource(QtFrameGraphNode* t_framegraph);
 
 	void setRoot(QtEntity* t_root);
@@ -62,8 +64,6 @@ public:
 	void removeControl(ForgeControl* t_control);
 
 	void onMessage(Channel t_channel, UnknownMessage& t_message);
-
-signals:
 
 };
 

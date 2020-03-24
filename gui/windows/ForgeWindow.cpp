@@ -31,6 +31,7 @@ ForgeWindow::ForgeWindow()
 	: m_camera(new QtCamera())
 	, m_renderer(new QtForwardRenderer())
 	, m_controls()
+	, m_context(nullptr)
 {
 	// route events to channels
 	_event_publish(ForgeWindow::windowStateChanged, Channel::Action);
@@ -40,6 +41,10 @@ ForgeWindow::ForgeWindow()
 
 	this->setSurfaceType(QWindow::OpenGLSurface);
 	this->resize(1024, 768);
+	this->create();
+
+	this->m_context = new QOpenGLContext;
+	this->m_context->create();
 
 	setMinimumHeight(100);
 	setMinimumWidth(100);
@@ -57,6 +62,9 @@ ForgeWindow::ForgeWindow()
 	
 	this->installEventFilter(new CloseEventFilter(this,Channel::Action));
 	this->installEventFilter(new ClickEventFilter(this,Channel::Action));
+
+	m_context->makeCurrent(this);
+	initializeOpenGLFunctions();
 }
 
 /*! \brief Destructor for ForgeWindow
@@ -87,20 +95,6 @@ void ForgeWindow::moveEvent(QMoveEvent* t_event) {
 	QRect oldRect(t_event->oldPos(), s);
 	QRect newRect(t_event->pos(), s);
 	updateControls(oldRect, newRect);
-}
-
-/*! \brief Close or reassign child controls on close.
- */
-void ForgeWindow::closing(ForgeWindow* t_window) {
-	for (auto child : m_controls.priority()) {
-		if (!child->persistent()) {
-			child->close();
-		}
-		else {
-			ForgeApplication::instance()
-				->reassign(this, child);
-		}
-	}
 }
 
 /*! \brief Finds all current children and moves them to appropriate
@@ -192,5 +186,21 @@ void ForgeWindow::removeControl(ForgeControl* t_control) {
 }
 
 void ForgeWindow::onMessage(Channel t_channel, UnknownMessage& t_message) {
+	_route_in(t_channel, t_message, Channel::Action, QCloseEvent*, onWindowClose);
+}
 
+/*! \brief Close or reassign child controls on close.
+ */
+void ForgeWindow::onWindowClose(Message<QCloseEvent*>* t_message) {
+	auto window = (ForgeWindow*)t_message->sender();
+	if (window->is(this)) {
+		for (auto child : m_controls.priority()) {
+			if (!child->persistent()) {
+				child->close();
+			}
+			else {
+				_publish(Channel::Reassign, child);
+			}
+		}
+	}
 }

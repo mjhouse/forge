@@ -93,7 +93,7 @@ public:
 
 	void render(FModel* t_model);
 		
-	void reassign(ForgeWindow* t_parent, ForgeControl* t_control);
+	void onReassign(Message<ForgeControl*>* t_message);
 
 	void onMessage(Channel t_channel, UnknownMessage& t_message);
 
