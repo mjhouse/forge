@@ -66,6 +66,12 @@ FGeometry* FModel::geometry() {
 	return m_geometry;
 }
 
+/*! \brief Get the FGeometry of the model.
+ */
+FMaterial* FModel::material() {
+	return m_material;
+}
+
 /*! \brief Get the geometry renderer.
  */
 QtRenderer* FModel::renderer() {

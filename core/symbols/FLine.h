@@ -16,16 +16,24 @@ class FLine : public QWidget {
 	Q_OBJECT
 
 private:	
-	std::vector<QVector3D> m_vertices;  /*!< Vertices of the line */
 
-	std::vector<uint> m_indices;		/*!< Indices of the line */
+	float m_width;
+	
+	QVector3D m_start;
+
+	QVector3D m_end;
 
 public:
-	FLine(std::vector<QVector3D> t_coordinates);
+	FLine(QVector3D t_start, QVector3D t_end);
 
 	FGeometry* toGeometry();
 
 	void updateGeometry(FGeometry* t_geometry);
+
+	void setWidth(float t_width);
+
+	float width();
+
 };
 
 #endif // __FLINE_H__

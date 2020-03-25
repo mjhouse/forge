@@ -5,18 +5,25 @@
 /*! \brief Constructor for material that inits shader program and
  *		   sets the initial color.
  */
-FMaterial::FMaterial(QColor t_color)
+FMaterial::FMaterial(QColor t_color, const char* t_vshader, const char* t_fshader)
 	: m_original(t_color)
 	, m_current(t_color)
 	, m_surfaceColor(new QtParameter())
 {
-	this->initialize();
+	this->initialize(t_vshader, t_fshader);
 	this->setColor(t_color);
 }
 
+/*! \brief Constructor for material that inits shader program and
+ *		   sets the initial color.
+ */
+FMaterial::FMaterial(QColor t_color)
+	: FMaterial(t_color,"vertex_shader","fragment_shader")
+{}
+
 /*! \brief Initialize the shader program and program params.
  */
-void FMaterial::initialize() {
+void FMaterial::initialize(const char* t_vshader, const char* t_fshader) {
 	// create the param to pass color to the shaders
 	m_surfaceColor->setName(QStringLiteral("surfaceColor"));
 	this->addParameter(m_surfaceColor);
@@ -27,10 +34,10 @@ void FMaterial::initialize() {
 	// resources::shader loads a shader from the
 	// "resources/shaders" directory.
 	shader->setVertexShaderCode(
-		resources::shader("vertex_shader"));
+		resources::shader(t_vshader));
 	shader->setFragmentShaderCode(
-		resources::shader("fragment_shader"));
-
+		resources::shader(t_fshader));
+	
 	auto render = new QtRenderPass(this);
 	render->setShaderProgram(shader);
 
@@ -50,7 +57,7 @@ void FMaterial::initialize() {
 		->setMajorVersion(3);
 	technique->graphicsApiFilter()
 		->setMinorVersion(3);
-
+	   
 	effect->addTechnique(technique);
 	this->setEffect(effect);
 }

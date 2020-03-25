@@ -107,7 +107,7 @@ void ForgeCreate::onMessage(Channel t_channel, UnknownMessage& t_message) {
 	ForgeControl::onMessage(t_channel, t_message);
 	if (auto message = t_message.to<QMouseEvent*>()) {
 		if (message->sender() == controller()) {
-			qDebug() << message->name();
+			
 		}
 	}
 }

@@ -1,16 +1,17 @@
 #include "FLine.h"
+#include "earcut.h"
+
 #include <vector>
+#include <cmath>
+#include <array>
 
 /*! \brief Constructor for the line.
  */
-FLine::FLine(std::vector<QVector3D> t_coordinates)
-	: m_vertices(t_coordinates)
-	, m_indices(t_coordinates.size())
-{
-	for (auto i = 0; i < t_coordinates.size(); ++i) {
-		m_indices[i] = i;
-	}
-}
+FLine::FLine(QVector3D t_start, QVector3D t_end)
+	: m_width(1)
+	, m_start(t_start)
+	, m_end(t_end)
+{}
 
 /*! \brief Convert the line to an FGeometry object.
  */
@@ -24,12 +25,17 @@ FGeometry* FLine::toGeometry() {
  */
 void FLine::updateGeometry(FGeometry* t_geometry) 
 {
-	std::vector<QVector3D> normals;
-	for (auto i : m_indices) {
-		normals.push_back(QVector3D(0,0,1));
-	}
+	std::vector<QVector3D> vertices = { m_start, m_end };
+	std::vector<uint> indices  = { 0, 1 };
+	
+	t_geometry->setVertices(vertices);
+	t_geometry->setIndices(indices);
+}
 
-	t_geometry->setVertices(m_vertices);
-	t_geometry->setNormals(normals);
-	t_geometry->setIndices(m_indices);
+void FLine::setWidth(float t_width) {
+	m_width = t_width;
+}
+
+float FLine::width() {
+	return m_width;
 }

@@ -20,6 +20,11 @@ public:
 	FModelLine(FLine* t_section, QColor t_color);
 
 	FModelLine(FLine* t_section);
+
+	void setWidth(float t_width);
+
+	float width();
+
 };
 
 #endif // __FMODELLINE_H__

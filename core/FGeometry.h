@@ -20,9 +20,7 @@ public:
 	QtAttribute* m_normalAttribute; /*!< An attribute that handles the normal buffer */
 
 	QtAttribute* m_indexAttribute;  /*!< An attribute that handles the index buffer */
-
-	std::vector<uint> tessellate(std::vector<QVector3D>& t_points);
-
+	
 	inline QByteArray toData(std::vector<QVector3D>& t_points) {
 		QByteArray data;
 

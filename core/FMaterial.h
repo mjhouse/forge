@@ -19,9 +19,11 @@ private:
 
 	QtParameter* m_surfaceColor;	/*!< The QtParameter object for the current color*/
 
-	void initialize();
+	void initialize(const char* t_vshader, const char* t_fshader);
 
 public:
+	FMaterial(QColor t_color, const char* t_vshader, const char* t_fshader);
+
 	FMaterial(QColor t_color);
 
 	void setColor(QColor t_color);

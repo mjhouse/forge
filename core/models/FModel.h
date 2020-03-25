@@ -45,8 +45,10 @@ public:
 
 	FGeometry* geometry();
 
+	FMaterial* material();
+
 	QtRenderer* renderer();
-	
+		
 	void setSelectable(bool t_selectable);
 
 	bool selectable();

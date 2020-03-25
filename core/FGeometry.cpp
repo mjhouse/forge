@@ -3,20 +3,6 @@
 
 #include "FGeometry.h"
 #include "exceptions.h"
-#include "earcut.h"
-
-/*! \brief Helper function that finds index order to define surface
- *         triangles given ordered (CCW) bounding points.
- */
-std::vector<uint> FGeometry::tessellate(std::vector<QVector3D>& t_points) {
-    std::vector<std::vector<std::array<double, 2>>> polygon{ {} };
-
-    for (const auto& p : t_points) {
-        polygon[0].push_back(std::array<double, 2>{p.x(), p.y()});
-    }
-
-    return mapbox::earcut<uint>(polygon);
-}
 
 /*! \brief Sets buffer data given QVector3D vertex points.
  */
