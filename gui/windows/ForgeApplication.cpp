@@ -197,8 +197,11 @@ FModel* ForgeApplication::selected()
  */
 void ForgeApplication::setSelected(FModel* t_model)
 {
+	if (t_model == m_selected)
+		return;
+
 	if (t_model == nullptr) {
-		m_selected == nullptr;
+		m_selected = nullptr;
 		emit selectionChanged(t_model);
 		return;
 	}

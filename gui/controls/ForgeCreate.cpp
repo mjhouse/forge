@@ -153,8 +153,10 @@ void ForgeCreate::onMouseMove(Message<QMouseEvent*>* t_message) {
 }
 
 void ForgeCreate::finishCreate() {
-	m_model = nullptr;
-	m_placing = false;
+	if (m_model != nullptr) {
+		ForgeApplication::instance()->setSelected(m_model);
+		m_placing = false;
+	}
 }
 
 void ForgeCreate::positionModel(QPoint t_point) {
