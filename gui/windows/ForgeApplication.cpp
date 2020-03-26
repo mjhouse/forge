@@ -74,9 +74,9 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	// set up initial windows and controls
 	auto window = newWindow();
 
-	auto mainMenu = new ForgeMainMenu();
-	auto createControl = new ForgeCreate();
-	auto moveControl = new ForgeTransform();
+	auto mainMenu = new ForgeMainMenu(window);
+	auto createControl = new ForgeCreate(window);
+	auto moveControl = new ForgeTransform(window);
 
 	(void)this->connect(mainMenu, &ForgeMainMenu::exitCommand, this, &ForgeApplication::onExit);
 	(void)this->connect(mainMenu, &ForgeMainMenu::viewCommand, this, &ForgeApplication::onView);
@@ -197,6 +197,15 @@ FModel* ForgeApplication::selected()
  */
 void ForgeApplication::setSelected(FModel* t_model)
 {
+	if (t_model == nullptr) {
+		m_selected == nullptr;
+		emit selectionChanged(t_model);
+		return;
+	}
+	else {
+		t_model->highlight();
+	}
+
 	if (!t_model->selectable())
 		return;
 
@@ -204,7 +213,6 @@ void ForgeApplication::setSelected(FModel* t_model)
 		m_selected->unHighlight();
 
 	m_selected = t_model;
-	m_selected->highlight();
 	emit selectionChanged(t_model);
 }
 

@@ -4,6 +4,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 
+#include "ForgeWindow.h"
 #include "ForgeControl.h"
 #include "FModel.h"
 
@@ -25,7 +26,7 @@ private:
 	QLineEdit* m_rotZ;		/*!< Rotation Z double input */
 
 public:
-	ForgeTransform();
+	ForgeTransform(ForgeWindow* t_parent);
 
 	void updateView(FModel* t_model);
 

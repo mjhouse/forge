@@ -13,16 +13,22 @@ private:
 	FModelExtruded* m_model;	/*!< The active model */
 
 	QLineEdit* m_lengthInput;	/*!< A text input used for length input */
-	
-	QPushButton* m_button;		/*!< A button that triggers a create-model action */
 
 	bool m_placing;
 
 	void updateView(FModel* t_model);
 
-public:
-	ForgeCreate();
+	void onMouseMove(Message<QMouseEvent*>* t_message);
 	
+	void finishCreate();
+
+	void positionModel(QPoint t_point);
+
+public:
+	ForgeCreate(ForgeWindow* t_parent);
+	
+	void deleteModel();
+
 	void startCreate();
 
 	void lengthChanged(QString t_input);

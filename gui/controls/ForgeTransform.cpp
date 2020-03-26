@@ -3,8 +3,9 @@
 
 /*! \brief The constructor of the transform control.
  */
-ForgeTransform::ForgeTransform() 
-	: m_posX(new QLineEdit())
+ForgeTransform::ForgeTransform(ForgeWindow* t_parent)
+	: ForgeControl(t_parent,0.87,0.15)
+	, m_posX(new QLineEdit())
 	, m_posY(new QLineEdit())
 	, m_posZ(new QLineEdit())
 	, m_rotX(new QLineEdit())

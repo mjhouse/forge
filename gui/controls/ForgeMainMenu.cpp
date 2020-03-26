@@ -21,7 +21,10 @@ inline QMenu* ForgeMainMenu::getMenu(RootMenu t_id) {
 
 /*! \brief The constructor for the main menu widget.
  */
-ForgeMainMenu::ForgeMainMenu() {
+ForgeMainMenu::ForgeMainMenu(ForgeWindow* t_parent) 
+	: ForgeControl(t_parent,0.02,0.02) 
+{
+
 	this->hasTitle(false);
 	this->setPersistent(true);
 

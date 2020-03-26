@@ -25,8 +25,12 @@ private:
 		
 	QVector2D m_anchor;			/*!< A reference point relative to the parent */
 	
+	QVector2D m_initial;		/*!< The default position relative to the parent window */
+
 	ForgeWindow* m_parent;		/*!< The current parent window */
 	
+	bool m_initialized;			/*!< Flag set when control has been displayed at least once */
+
 	bool m_persistent;			/*!< Passed to another window when parent closes if true */
 
 	bool m_minimized;			/*!< If true, control is hidden because parent is minimzed */
@@ -48,9 +52,11 @@ private:
 
 	void winStateChanged(Message<Qt::WindowState>* t_state);
 
+	void showEvent(QShowEvent* t_event) override;
+
 public:
 
-	ForgeControl();
+	ForgeControl(ForgeWindow* t_parent, float t_x, float t_y);
 	
 	// properties
 	void hasTitle(bool t_title);

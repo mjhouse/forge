@@ -35,6 +35,7 @@ private:
 	_method_publish(focusInEvent, QFocusEvent, Channel::Action)
 	_method_publish(focusOutEvent, QFocusEvent, Channel::Action)
 	_method_publish(mouseMoveEvent, QMouseEvent, Channel::Action)
+	_method_publish(mouseReleaseEvent, QMouseEvent, Channel::Action)
 
 	void resizeEvent(QResizeEvent* event) override;
 

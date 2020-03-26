@@ -4,6 +4,7 @@
 #include <QtWidgets/QMenuBar>
 
 #include "ForgeControl.h"
+#include "ForgeWindow.h"
 
 enum class RootMenu {
 	File,
@@ -27,7 +28,7 @@ private:
 	inline QMenu* getMenu(RootMenu t_id);
 
 public:
-	ForgeMainMenu();
+	ForgeMainMenu(ForgeWindow* t_parent);
 
 	void addLauncher(RootMenu t_root, const char* label, ForgeControl* t_control);
 

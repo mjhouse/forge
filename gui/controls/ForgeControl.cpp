@@ -4,13 +4,15 @@
 
 /* \brief Constructore
  */
-ForgeControl::ForgeControl()
+ForgeControl::ForgeControl(ForgeWindow* t_parent, float t_x, float t_y)
 	: m_title(new ForgeTitleBar(this))
 	, m_body(new QWidget())
 	, m_handle(m_title)
 	, m_hasTitle(true)
 	, m_anchor(0, 0)
-	, m_parent(nullptr)
+	, m_initial(t_x, t_y)
+	, m_parent(t_parent)
+	, m_initialized(false)
 	, m_persistent(false)
 	, m_minimized(false)
 	, m_unexposed(false)
@@ -27,6 +29,27 @@ ForgeControl::ForgeControl()
 	layout->addWidget(m_body);
 
 	this->setLayout(layout);
+}
+
+/* \brief Perform layout-related task after on show event
+ */
+void ForgeControl::showEvent(QShowEvent* t_event) {
+	if (!m_initialized && m_parent != nullptr) {
+		auto r = geometry();
+		auto b = m_parent->geometry();
+
+		m_anchor = QVector2D(
+			b.width()  * m_initial.x() + r.width()  / 2, 
+			b.height() * m_initial.y() + r.height() / 2);
+
+		auto l = b.left() + b.width() * m_initial.x();
+		auto t = b.top() + b.height() * m_initial.y();
+
+		this->move(l, t);
+
+		m_initialized = true;
+		m_parent->addControl(this);
+	}
 }
 
 /* \brief Moves the given child rect entirely 
@@ -81,8 +104,8 @@ void ForgeControl::findAnchor(QRect& t_rect) {
  */
 void ForgeControl::moveEvent(QMoveEvent* t_event) {
 	// look for a parent if this control is currently being
-	// dragged, or if it doesn't have a parent (i.e. on start)
-	if (m_parent == nullptr || isMoving()) {
+	// dragged.
+	if (isMoving()) {
 		auto rect = geometry();
 		auto window = ForgeApplication::instance()->findWindow(rect.center());
 
@@ -99,7 +122,7 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 			window->addControl(this);
 			m_parent = window;
 		}
-
+		
 		findAnchor(rect);
 	}
 }

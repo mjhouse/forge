@@ -28,6 +28,16 @@ QPushButton:disabled {
 	color: #a8a8a8;
 }
 
+QComboBox {
+	padding: 2px;
+}
+
+QComboBox QAbstractItemView {
+    border: 1px solid #6d6d6d;
+	background-color: #333333;
+    selection-background-color: #6d6d6d;
+}
+
 
 /* Title Bar */
 #TitleBar {

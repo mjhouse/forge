@@ -7,11 +7,11 @@
 
 /*! \brief Constructor for the place object widget.
  */
-ForgeCreate::ForgeCreate() 
-	: m_length(0.5)
+ForgeCreate::ForgeCreate(ForgeWindow* t_parent) 
+	: ForgeControl(t_parent,0.85,0.02)
+	, m_length(0.5)
 	, m_model(nullptr) 
 	, m_lengthInput(new QLineEdit())
-	, m_button(new QPushButton("Create"))
 	, m_placing(false)
 {
 	this->hasTitle(true);
@@ -19,19 +19,32 @@ ForgeCreate::ForgeCreate()
 	auto widget = new QWidget();
 	auto layout = new QGridLayout();
 
+	auto deleteButton = new QPushButton("Delete");
+	auto createButton = new QPushButton("Create");
+
+	auto objectPicker = new QComboBox();
+	objectPicker->addItem("Test #1");
+	objectPicker->addItem("Test #2");
+
 	auto lengthLabel = new QLabel("Length:");
 
 	m_lengthInput->setValidator(new QDoubleValidator(this));
 	m_lengthInput->setPlaceholderText("N/A");
 
-	layout->addWidget(lengthLabel, 0, 0);
-	layout->addWidget(m_lengthInput, 0, 1);
-	layout->addWidget(m_button, 1, 1);
+	layout->addWidget(objectPicker, 0, 0, 1, 0);
+	layout->addWidget(lengthLabel, 1, 0);
+	layout->addWidget(m_lengthInput, 1, 1);
+	
+	layout->addWidget(deleteButton, 2, 0);
+	layout->addWidget(createButton, 2, 1);
 
 	(void)this->connect(ForgeApplication::instance(), &ForgeApplication::selectionChanged,
 		this, &ForgeCreate::updateView);
 
-	(void)this->connect(m_button, &QPushButton::pressed,
+	(void)this->connect(deleteButton, &QPushButton::pressed,
+		this, &ForgeCreate::deleteModel);
+
+	(void)this->connect(createButton, &QPushButton::pressed,
 		this, &ForgeCreate::startCreate);
 
 	(void)this->connect(m_lengthInput, &QLineEdit::textEdited,
@@ -55,6 +68,15 @@ void ForgeCreate::updateView(FModel* t_model) {
 	else {
 		m_lengthInput->setText("");
 		m_model = nullptr;
+	}
+}
+
+void ForgeCreate::deleteModel() {
+	auto model = ForgeApplication::instance()->selected();
+	if (model != nullptr) {
+		ForgeApplication::instance()->setSelected(nullptr);
+		model->unHighlight();
+		model->deleteLater();
 	}
 }
 
@@ -105,40 +127,56 @@ void ForgeCreate::lengthChanged(QString t_input) {
 
 void ForgeCreate::onMessage(Channel t_channel, UnknownMessage& t_message) {
 	ForgeControl::onMessage(t_channel, t_message);
-	if (auto message = t_message.to<QMouseEvent*>()) {
-		if (message->sender() == controller()) {
-			
+	_route_in(t_channel, t_message, Channel::Action, QMouseEvent*, onMouseMove);
+}
+
+void ForgeCreate::onMouseMove(Message<QMouseEvent*>* t_message) {
+
+	auto event  = t_message->value();
+	auto parent = controller();
+
+	if (parent == nullptr || m_model == nullptr) {
+		m_placing = false;
+		return;
+	}
+
+	if (m_placing && t_message->sender()->isHandler(parent)) {
+		switch (event->type()) {
+		case QEvent::Type::MouseButtonRelease:
+			finishCreate();
+			break;
+		case QEvent::Type::MouseMove:
+			positionModel(event->pos());
+			break;
 		}
 	}
 }
 
+void ForgeCreate::finishCreate() {
+	m_model = nullptr;
+	m_placing = false;
+}
 
-//void ForgeCreate::onParentMouseMove(QPoint t_point) {
-//	auto parent = controller();
-//	if (m_model == nullptr || parent == nullptr) {
-//		m_placing = false;
-//	}
-//	else if (m_placing) {
-//		auto camera = parent->camera();
-//		auto screen = parent->geometry();
-//
-//		t_point.setX(t_point.x() + screen.left());
-//		t_point.setY(t_point.y() - screen.top());
-//
-//		auto view = camera->viewMatrix();
-//		auto proj = camera->projectionMatrix();
-//
-//		auto position = m_model->transform()->translation();
-//		position = position.project(view, proj, screen);
-//
-//		position.setX(t_point.x());
-//		position.setY(screen.height() - t_point.y());
-//
-//		position = position.unproject(view, proj, screen);
-//		m_model->transform()->setTranslation(position);
-//	}
-//}
+void ForgeCreate::positionModel(QPoint t_point) {
 
-//void ForgeCreate::onParentMouseClick(QPoint t_point) {
-//	m_placing = false;
-//}
+	auto parent = controller();
+	if (parent == nullptr) return;
+
+	auto camera = parent->camera();
+	auto screen = parent->geometry();
+
+	t_point.setX(t_point.x() + screen.left());
+	t_point.setY(t_point.y() - screen.top());
+
+	auto view = camera->viewMatrix();
+	auto proj = camera->projectionMatrix();
+
+	auto position = m_model->transform()->translation();
+	position = position.project(view, proj, screen);
+
+	position.setX(t_point.x());
+	position.setY(screen.height() - t_point.y());
+
+	position = position.unproject(view, proj, screen);
+	m_model->transform()->setTranslation(position);
+}
