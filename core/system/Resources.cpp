@@ -78,6 +78,10 @@ namespace resources {
 		return QIcon(file_as_pixmap("images", t_file));
 	}
 
+	std::string data(QString t_name) {
+		return get_path("data", t_name).toStdString();
+	}
+
 	// ------------------------------------------------------------------------
 
 }

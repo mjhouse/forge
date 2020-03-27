@@ -22,12 +22,3 @@ FModelLine::FModelLine(FLine* t_section, QColor t_color)
 FModelLine::FModelLine(FLine* t_section)
 	: FModelLine(t_section, new QtTransform(), new FMaterial(WHITE, "vertex_shader", "line_shader"))
 {}
-
-void FModelLine::setWidth(float t_width) {
-	m_section->setWidth(t_width);
-	m_section->updateGeometry(geometry());
-}
-
-float FModelLine::width() {
-	return m_section->width();
-}

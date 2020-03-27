@@ -5,11 +5,12 @@
 #include <QtWidgets/QWidget>
 
 #include "FGeometry.h"
+#include "FSymbol.h"
 
 #define DEPTH_NORMAL QVector3D(0.0, 0.0, 1.0)
 #define DEPTH_LENGTH 0.5
 
-class FCrossSection : public QWidget {
+class FCrossSection : public QWidget, public FSymbol {
 	Q_OBJECT
 
 private:
@@ -22,22 +23,25 @@ private:
 
 	float m_length;						/*!< The length of the thickened output geometry */
 
-	void initialize(std::vector<QVector2D> t_coordinates);
+	void initialize(std::vector<QVector3D>& t_coordinates);
 
 	/* Find triangles for the 2D surface */
 	void tessellate();
 
 public:
-	FCrossSection(std::vector<QVector2D> t_coordinates);
+	FCrossSection();
 
 	/* Convert the crosssection to 3D (thickened) geometry */
 	FGeometry* toGeometry();
 
 	void updateGeometry(FGeometry* t_geometry);
 
-	/* Set and get the length of the thickened output geometry */
+	void setGeometry(std::vector<QVector3D>& t_points);
+
+	/* Set the length of the extruded crosssection */
 	void setLength(float t_length);
 
+	/* Get the length of the extruded crosssection */
 	float length();
 
 };

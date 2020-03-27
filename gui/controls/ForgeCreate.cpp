@@ -84,31 +84,32 @@ void ForgeCreate::deleteModel() {
  */
 void ForgeCreate::startCreate() {
 
-	// -----------------------------------------------------
-	// TEST TEST TEST
-	FCrossSection* cs = new FCrossSection({
-		{-3.0f, 3.0f},
-		{-3.0f, -3.0f},
-		{-1.5f, -3.0f},
-		{-1.5f, -1.5f},
-		{1.5f, -1.5f},
-		{1.5f, -3.0f},
-		{3.0f, -3.0f},
-		{3.0f, 3.0f},
-		{1.5f, 3.0f},
-		{1.5f, 1.5f},
-		{-1.5f, 1.5f},
-		{-1.5f, 3.0f}
-		});
+	//// -----------------------------------------------------
+	//// TEST TEST TEST
+	//FCrossSection* cs = new FCrossSection();
+	//cs->setPoints({
+	//	{-3.0f, 3.0f},
+	//	{-3.0f, -3.0f},
+	//	{-1.5f, -3.0f},
+	//	{-1.5f, -1.5f},
+	//	{1.5f, -1.5f},
+	//	{1.5f, -3.0f},
+	//	{3.0f, -3.0f},
+	//	{3.0f, 3.0f},
+	//	{1.5f, 3.0f},
+	//	{1.5f, 1.5f},
+	//	{-1.5f, 1.5f},
+	//	{-1.5f, 3.0f}
+	//	});
 
-	cs->setLength(m_length);
-	m_model = new FModelExtruded(cs);
-	// TEST TEST TEST
-	// -----------------------------------------------------
+	//cs->setLength(m_length);
+	//m_model = new FModelExtruded(cs);
+	//// TEST TEST TEST
+	//// -----------------------------------------------------
 
-	ForgeApplication::instance()->render(m_model);
-	ForgeApplication::instance()->setSelected(m_model);
-	m_placing = true;
+	//ForgeApplication::instance()->render(m_model);
+	//ForgeApplication::instance()->setSelected(m_model);
+	//m_placing = true;
 }
 
 /*! \brief Update the active model when the user

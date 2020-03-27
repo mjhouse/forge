@@ -8,22 +8,24 @@
 /*! \brief Initialize the surface given points defining a  
  *		   counter-clockwise border.
  */
-void FCrossSection::initialize(std::vector<QVector2D> t_coordinates) {
+void FCrossSection::initialize(std::vector<QVector3D>& t_coordinates) {
 	size_t size = t_coordinates.size();
 
-	// convert coordinates to 3d points
+	m_vertices.clear();
+	m_normals.clear();
+	m_indices.clear();
+
 	m_vertices.resize(size);
-	for (size_t i = 0; i < size; ++i) {
-		auto p = t_coordinates[i];
-		m_vertices[i] = QVector3D(p.x(), p.y(), 0.0);
-	}
+	m_normals.resize(size);
+
+	m_vertices.assign(t_coordinates.begin(), 
+					  t_coordinates.end());
 
 	QVector3D n = QVector3D::normal(
 		m_vertices[0],
 		m_vertices[1],
 		m_vertices[2]);
 
-	m_normals.resize(size);
 	for (int i = 0; i < size; ++i)
 		m_normals[i] = n;
 
@@ -47,14 +49,12 @@ void FCrossSection::tessellate() {
 /*! \brief The constructor takes counter-clockwise points defining
  *		   a 2D surface around a local origin.
  */
-FCrossSection::FCrossSection(std::vector<QVector2D> t_coordinates) 
+FCrossSection::FCrossSection() 
 	: m_vertices()
 	, m_normals()
 	, m_indices()
 	, m_length(DEPTH_LENGTH)
-{
-	initialize(t_coordinates);
-}
+{}
 
 /*! \brief Create a 3D FGeometry object from the crosssection
  *		   given a length.
@@ -135,6 +135,10 @@ void FCrossSection::updateGeometry(FGeometry* t_geometry) {
 	t_geometry->setVertices(nvertices);
 	t_geometry->setNormals(nnormals);
 	t_geometry->setIndices(nindices);
+}
+
+void FCrossSection::setGeometry(std::vector<QVector3D>& t_points) {
+	initialize(t_points);
 }
 
 /*! \brief Set the length.

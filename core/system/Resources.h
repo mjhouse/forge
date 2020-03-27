@@ -52,5 +52,10 @@ namespace resources {
 	*/
 	QIcon icon(QString t_file);
 
+	/* Data
+	   Get a data file path
+	*/
+	std::string data(QString t_name);
+
 	// ------------------------------------------------------------------------
 }
