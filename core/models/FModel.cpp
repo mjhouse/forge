@@ -5,18 +5,20 @@
 
 /*! \brief Constructor for model.
  */
-FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material)
-	: m_geometry(t_section)
+FModel::FModel(FSymbol* t_symbol, QtTransform* t_transform, FMaterial* t_material)
+	: m_symbol(t_symbol)
+	, m_geometry(nullptr)
 	, m_transform(t_transform)
 	, m_material(t_material)
 	, m_renderer(nullptr)
 	, m_selectable(true)
 	, m_picker(new QtObjectPicker(this))
 {
-	if (m_geometry != nullptr) {
-		m_renderer = m_geometry->getRenderer(
-			QtRenderType::Points);
+	if (t_symbol != nullptr)
+		m_geometry = t_symbol->toGeometry();
 
+	if (m_geometry != nullptr) {
+		m_renderer = m_geometry->getRenderer();
 		this->addComponent(m_renderer);
 	}
 
@@ -33,14 +35,14 @@ FModel::FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_mate
 
 /*! \brief Secondary constructor for the FModel.
  */
-FModel::FModel(FGeometry* t_section, QColor t_color)
-	: FModel(t_section, new QtTransform(), new FMaterial(t_color))
+FModel::FModel(FSymbol* t_symbol, QColor t_color)
+	: FModel(t_symbol, new QtTransform(), new FMaterial(t_color))
 {}
 
 /*! \brief Secondary constructor for the FModel.
  */
-FModel::FModel(FGeometry* t_section)
-	: FModel(t_section, new QtTransform(), new FMaterial(RED))
+FModel::FModel(FSymbol* t_symbol)
+	: FModel(t_symbol, new QtTransform(), new FMaterial(RED))
 {}
 
 /*! \brief Default constructor for the FModel.
@@ -54,10 +56,10 @@ void FModel::onClick(Qt3DRender::QPickEvent* t_event) {
 	ForgeApplication::instance()->setSelected(this);
 }
 
-/*! \brief Get the QTransform for this entity.
+/*! \brief Get the FSymbol of the model.
  */
-QtTransform* FModel::transform() {
-	return m_transform;
+FSymbol* FModel::symbol() {
+	return m_symbol;
 }
 
 /*! \brief Get the FGeometry of the model.
@@ -66,13 +68,19 @@ FGeometry* FModel::geometry() {
 	return m_geometry;
 }
 
-/*! \brief Get the FGeometry of the model.
+/*! \brief Get the QTransform for this entity.
+ */
+QtTransform* FModel::transform() {
+	return m_transform;
+}
+
+/*! \brief Get the Material of the model.
  */
 FMaterial* FModel::material() {
 	return m_material;
 }
 
-/*! \brief Get the geometry renderer.
+/*! \brief Get the QtRenderer.
  */
 QtRenderer* FModel::renderer() {
 	return m_renderer;
@@ -115,7 +123,7 @@ void FModel::highlight() {
  *		   in the 3D view.
  */
 bool FModel::hidden() {
-	return this->isEnabled();
+	return !isEnabled();
 }
 
 /*! \brief Hide the model. (make NOT visible 

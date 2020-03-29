@@ -21,6 +21,8 @@ public:
 
 	QtAttribute* m_indexAttribute;  /*!< An attribute that handles the index buffer */
 	
+	QtRenderType m_type;
+
 	inline QByteArray toData(std::vector<QVector3D>& t_points) {
 		QByteArray data;
 
@@ -53,7 +55,7 @@ public:
 
 public:
 	FGeometry();
-		
+
 	void setVertices(std::vector<QVector3D> t_vertices);
 
 	void setNormals(std::vector<QVector3D> t_normals);
@@ -66,7 +68,11 @@ public:
 
 	std::vector<uint> getIndices();
 
-	QtRenderer* getRenderer(QtRenderType t_type);
+	QtRenderer* getRenderer();
+
+	void setRenderType(QtRenderType t_type);
+
+	QtRenderType renderType();
 
 	bool isPlanar();
 

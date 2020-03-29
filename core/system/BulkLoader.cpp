@@ -13,7 +13,7 @@
 #include <vector>
 
 void BulkLoader::loadOne(std::string& t_type, json& t_json) {
-	FSymbol* symbol = FSymbol::from(t_type);
+	auto symbol = FSymbol::from(t_type);
 	std::vector<QVector3D> points;
 
 	auto geometry   = t_json["geometry"];
@@ -32,8 +32,14 @@ void BulkLoader::loadOne(std::string& t_type, json& t_json) {
 							p.value());
 	}
 
+	symbol->setProperty("color", "Blue");
+
 	symbol->setGeometry(points);
-	m_symbols[t_type] = std::make_unique<FSymbol>(symbol);
+
+	if (m_symbols.count(t_type) > 0)
+		delete m_symbols[t_type];
+
+	m_symbols[t_type] = symbol;
 }
 
 void BulkLoader::loadMany(json& t_json) {
@@ -46,6 +52,12 @@ void BulkLoader::loadMany(json& t_json) {
 
 BulkLoader::BulkLoader()
 	: m_symbols() {}
+
+BulkLoader::~BulkLoader() {
+	for (auto sym : m_symbols) {
+		delete sym.second;
+	}
+}
 
 void BulkLoader::load(std::string t_path) {
 	std::ifstream t(t_path);
@@ -62,12 +74,27 @@ void BulkLoader::load(std::string t_path) {
 	}
 }
 
-std::map<std::string, std::unique_ptr<FSymbol>>& BulkLoader::symbols() {
+std::map<std::string, FSymbol*>& BulkLoader::symbols() {
 	return m_symbols;
 }
 
+FSymbol* BulkLoader::getName(std::string t_name) {
+	FSymbol* symbol = nullptr;
+	for (auto s : m_symbols) {
+		if (s.second->hasProperty("name",t_name)) {
+			symbol = s.second;
+		}
+	}
+	return symbol;
+}
+
 FSymbol* BulkLoader::get(std::string t_name) {
-	return m_symbols[t_name].get();
+	if (m_symbols.count(t_name) > 0) {
+		return m_symbols[t_name];
+	}
+	else {
+		return nullptr;
+	}
 }
 
 size_t BulkLoader::size() {

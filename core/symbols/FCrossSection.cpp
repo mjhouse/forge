@@ -50,29 +50,47 @@ void FCrossSection::tessellate() {
  *		   a 2D surface around a local origin.
  */
 FCrossSection::FCrossSection() 
-	: m_vertices()
+	: FSymbol()
+	, m_geometry(new FGeometry)
+	, m_vertices()
 	, m_normals()
 	, m_indices()
-	, m_length(DEPTH_LENGTH)
-{}
+{
+	m_geometry->setRenderType(QtRenderType::Triangles);
+	setLength(0.5);
+}
 
-/*! \brief Create a 3D FGeometry object from the crosssection
+FCrossSection::FCrossSection(FCrossSection* t_other)
+	: FSymbol(t_other)
+	, m_geometry(new FGeometry)
+	, m_vertices(t_other->m_vertices)
+	, m_normals(t_other->m_normals) 
+	, m_indices(t_other->m_indices) 
+{
+	m_geometry->setRenderType(QtRenderType::Triangles);
+	updateGeometry();
+}
+
+/*! \brief Set the reference points for the crosssection.
+ */
+void FCrossSection::setGeometry(std::vector<QVector3D>& t_points) {
+	initialize(t_points);
+}
+
+/*! \brief Get an FGeometry object from the crosssection
  *		   given a length.
  */
 FGeometry* FCrossSection::toGeometry() {
-	auto geometry = new FGeometry();
-	updateGeometry(geometry);
-	return geometry;
+	updateGeometry();
+	return m_geometry;
 }
 
 /*! \brief Create a 3D FGeometry object by performing a 
  *		   simple extrusion on the crosssection surface.
  */
-void FCrossSection::updateGeometry(FGeometry* t_geometry) {
-	check_null(t_geometry,"Geometry cannot be null");
-
+void FCrossSection::updateGeometry() {
 	// find the offset for the new end face
-	auto offset = DEPTH_NORMAL * (m_length * -1);
+	auto offset = DEPTH_NORMAL * (length() * -1);
 
 	auto nvertices = m_vertices;
 	auto nnormals  = m_normals;
@@ -132,23 +150,19 @@ void FCrossSection::updateGeometry(FGeometry* t_geometry) {
 		nnormals[c] += n;
 	}
 
-	t_geometry->setVertices(nvertices);
-	t_geometry->setNormals(nnormals);
-	t_geometry->setIndices(nindices);
-}
-
-void FCrossSection::setGeometry(std::vector<QVector3D>& t_points) {
-	initialize(t_points);
+	m_geometry->setVertices(nvertices);
+	m_geometry->setNormals(nnormals);
+	m_geometry->setIndices(nindices);
 }
 
 /*! \brief Set the length.
  */
 void FCrossSection::setLength(float t_length) {
-	m_length = t_length;
+	FSymbol::setProperty("length", t_length);
 }
 
 /*! \brief Get the length.
  */
 float FCrossSection::length() {
-	return m_length;
+	return FSymbol::property<float>("length");
 }

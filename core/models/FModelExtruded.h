@@ -14,19 +14,16 @@
 class FModelExtruded : public FModel {
 private:
 
-	FCrossSection* section;		/*!< The crosssection that defines this extrusion */
+	FSymbol* m_section;		/*!< The crosssection that defines this extrusion */
 
 public:
 
-	FModelExtruded(FCrossSection* t_section, QtTransform* t_transform, FMaterial* t_material);
+	FModelExtruded(FSymbol* t_section, QtTransform* t_transform, FMaterial* t_material);
 
-	FModelExtruded(FCrossSection* t_section, QColor t_color);
+	FModelExtruded(FSymbol* t_section, QColor t_color);
 
-	FModelExtruded(FCrossSection* t_section);
+	FModelExtruded(FSymbol* t_section);
 
-	void setLength(float t_length);
-
-	float length();
 };
 
 #endif // __FMODELEXTRUDED_H__

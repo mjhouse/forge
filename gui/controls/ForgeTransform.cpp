@@ -4,7 +4,7 @@
 /*! \brief The constructor of the transform control.
  */
 ForgeTransform::ForgeTransform(ForgeWindow* t_parent)
-	: ForgeControl(t_parent,0.87,0.15)
+	: ForgeControl(t_parent,0.87f,0.15f)
 	, m_posX(new QLineEdit())
 	, m_posY(new QLineEdit())
 	, m_posZ(new QLineEdit())

@@ -15,7 +15,7 @@ class FSymbol;
 class BulkLoader {
 private:
 
-	std::map<std::string,std::unique_ptr<FSymbol>> m_symbols;
+	std::map<std::string, FSymbol*> m_symbols;
 	
 	void loadOne(std::string& t_type, json& t_json);
 
@@ -24,9 +24,13 @@ private:
 public:
 	BulkLoader();
 
+	~BulkLoader();
+
 	void load(std::string t_path);
 
-	std::map<std::string, std::unique_ptr<FSymbol>>& symbols();
+	std::map<std::string, FSymbol*>& symbols();
+
+	FSymbol* getName(std::string t_name);
 
 	FSymbol* get(std::string t_name);
 

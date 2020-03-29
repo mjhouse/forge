@@ -22,7 +22,7 @@ inline QMenu* ForgeMainMenu::getMenu(RootMenu t_id) {
 /*! \brief The constructor for the main menu widget.
  */
 ForgeMainMenu::ForgeMainMenu(ForgeWindow* t_parent) 
-	: ForgeControl(t_parent,0.02,0.02) 
+	: ForgeControl(t_parent,0.02f,0.02f) 
 {
 
 	this->hasTitle(false);

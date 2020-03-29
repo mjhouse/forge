@@ -95,6 +95,7 @@ FGeometry::FGeometry()
     , m_vertexAttribute(nullptr)
     , m_normalAttribute(nullptr)
     , m_indexAttribute(nullptr)
+    , m_type(QtRenderType::Points)
 {}
 
 /*! \brief Creates or updates the vertex buffer.
@@ -176,16 +177,24 @@ std::vector<uint> FGeometry::getIndices() {
 /*! \brief Creates and returns a configured Qt GeometryRenderer for
  *         for this Geometry instance.
  */
-QtRenderer* FGeometry::getRenderer(QtRenderType t_type) {
+QtRenderer* FGeometry::getRenderer() {
     auto renderer = new QtRenderer();
     
     renderer->setInstanceCount(1);
     renderer->setFirstVertex(0);
     renderer->setFirstInstance(0);
-    renderer->setPrimitiveType(t_type);
+    renderer->setPrimitiveType(m_type);
     renderer->setGeometry(this);
 
     return renderer;
+}
+
+void FGeometry::setRenderType(QtRenderType t_type) {
+    m_type = t_type;
+}
+
+QtRenderType FGeometry::renderType() {
+    return m_type;
 }
 
 /*! \brief Verifies that the geometry is planar (all points lie in a plane).

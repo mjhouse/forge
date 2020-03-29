@@ -9,6 +9,7 @@
 
 #include "FMaterial.h"
 #include "FGeometry.h"
+#include "FSymbol.h"
 #include "Defines.h"
 
 #define RED QColor::fromRgbF(1.0,0.3,0.3)
@@ -16,6 +17,8 @@
 class FModel : public QtEntity, 
 			   public HasIdentifier {
 private:
+
+	FSymbol* m_symbol;
 
 	FGeometry* m_geometry;		/*!< The geometry of the model */
 
@@ -33,17 +36,19 @@ private:
 
 public:
 
-	FModel(FGeometry* t_section, QtTransform* t_transform, FMaterial* t_material);
+	FModel(FSymbol* t_section, QtTransform* t_transform, FMaterial* t_material);
 
-	FModel(FGeometry* t_section, QColor t_color);
+	FModel(FSymbol* t_section, QColor t_color);
 
-	FModel(FGeometry* t_section);
+	FModel(FSymbol* t_section);
 
 	FModel();
 	
-	QtTransform* transform();
+	FSymbol* symbol();
 
 	FGeometry* geometry();
+
+	QtTransform* transform();
 
 	FMaterial* material();
 

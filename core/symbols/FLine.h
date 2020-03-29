@@ -13,23 +13,37 @@
 #define DEPTH_NORMAL QVector3D(0.0, 0.0, 1.0)
 #define DEPTH_LENGTH 0.5
 
-class FLine : public QWidget, public FSymbol {
-	Q_OBJECT
-
+class FLine : public FSymbol {
 private:	
 
 	std::vector<QVector3D> m_vertices;	/*!< The vertices of the line */
 
+	FGeometry* m_geometry;				/*!< The geometry maintained by this symbol */
+
+protected:
+	void propertyChanged(std::string t_name, FProperty t_property) {
+
+	}
+
 public:
 	FLine();
 
+	FLine(FLine* t_other);
+
 	FLine(QVector3D t_start, QVector3D t_end);
 
+	/* Set the reference points of the crosssection */
+	void setGeometry(std::vector<QVector3D>& t_points);
+
+	/* Convert the crosssection to 3D geometry */
 	FGeometry* toGeometry();
 
-	void updateGeometry(FGeometry* t_geometry);
+	/* Update the associated geometry */
+	void updateGeometry();
 
-	void setGeometry(std::vector<QVector3D>& t_points);
+	FSymbol* copy() {
+		return new FLine(this);
+	}
 
 };
 

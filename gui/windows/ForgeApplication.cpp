@@ -36,8 +36,8 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	// route events to channels
 	_event_publish(ForgeApplication::applicationStateChanged, Channel::Action);
 
-	m_rootPath = applicationDirPath();
-	m_resourcesPath = QDir(m_rootPath.filePath("resources"));
+	m_rootPath.setPath(applicationDirPath());
+	m_resourcesPath.setPath(m_rootPath.filePath("resources"));
 	resources::initialize(resources());
 
 	// needs to be created after resources are initialized

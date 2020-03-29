@@ -1,19 +1,22 @@
 #include "ForgeCreate.h"
 #include "FCrossSection.h"
 #include "ForgeApplication.h"
-#include "FModelExtruded.h"
+#include "FModel.h"
 
 #include <QMouseEvent>
 
 /*! \brief Constructor for the place object widget.
  */
 ForgeCreate::ForgeCreate(ForgeWindow* t_parent) 
-	: ForgeControl(t_parent,0.85,0.02)
-	, m_length(0.5)
+	: ForgeControl(t_parent,0.85f,0.02f)
+	, m_length(0.5f)
 	, m_model(nullptr) 
 	, m_lengthInput(new QLineEdit())
 	, m_placing(false)
+	, m_loader()
+	, m_symbol(nullptr)
 {
+	m_loader.load(resources::data("basev0.1.json"));
 	this->hasTitle(true);
 
 	auto widget = new QWidget();
@@ -23,8 +26,15 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
 	auto createButton = new QPushButton("Create");
 
 	auto objectPicker = new QComboBox();
-	objectPicker->addItem("Test #1");
-	objectPicker->addItem("Test #2");
+	
+	for (auto& p : m_loader.symbols()) {
+		auto name = p.second->property<std::string>("name");
+		objectPicker->addItem(QString::fromStdString(name));
+	}
+
+	objectPicker->setCurrentIndex(0);
+	auto symbolName = objectPicker->currentText();
+	m_symbol = m_loader.getName(symbolName.toStdString());
 
 	auto lengthLabel = new QLabel("Length:");
 
@@ -50,6 +60,9 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
 	(void)this->connect(m_lengthInput, &QLineEdit::textEdited,
 		this, &ForgeCreate::lengthChanged);
 
+	(void)this->connect(objectPicker, &QComboBox::currentTextChanged,
+		this, &ForgeCreate::selectionChanged);
+
 	widget->setLayout(layout);
 	this->setCentralWidget(widget);
 	this->setTitle("Place Object");
@@ -60,9 +73,10 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
  *		   object is selected.
  */
 void ForgeCreate::updateView(FModel* t_model) {
-	auto model = dynamic_cast<FModelExtruded*>(t_model);
+	auto model = dynamic_cast<FModel*>(t_model);
 	if (model != nullptr) {
-		m_lengthInput->setText(QString::number(model->length()));
+		auto length = model->symbol()->property<float>("length");
+		m_lengthInput->setText(QString::number(length));
 		m_model = model;
 	}
 	else {
@@ -71,6 +85,8 @@ void ForgeCreate::updateView(FModel* t_model) {
 	}
 }
 
+/*! \brief Delete the currently selected model.
+ */
 void ForgeCreate::deleteModel() {
 	auto model = ForgeApplication::instance()->selected();
 	if (model != nullptr) {
@@ -83,33 +99,11 @@ void ForgeCreate::deleteModel() {
 /*! \brief Create a new object.
  */
 void ForgeCreate::startCreate() {
+	m_model = new FModel(m_symbol->copy());
 
-	//// -----------------------------------------------------
-	//// TEST TEST TEST
-	//FCrossSection* cs = new FCrossSection();
-	//cs->setPoints({
-	//	{-3.0f, 3.0f},
-	//	{-3.0f, -3.0f},
-	//	{-1.5f, -3.0f},
-	//	{-1.5f, -1.5f},
-	//	{1.5f, -1.5f},
-	//	{1.5f, -3.0f},
-	//	{3.0f, -3.0f},
-	//	{3.0f, 3.0f},
-	//	{1.5f, 3.0f},
-	//	{1.5f, 1.5f},
-	//	{-1.5f, 1.5f},
-	//	{-1.5f, 3.0f}
-	//	});
-
-	//cs->setLength(m_length);
-	//m_model = new FModelExtruded(cs);
-	//// TEST TEST TEST
-	//// -----------------------------------------------------
-
-	//ForgeApplication::instance()->render(m_model);
-	//ForgeApplication::instance()->setSelected(m_model);
-	//m_placing = true;
+	ForgeApplication::instance()->render(m_model);
+	ForgeApplication::instance()->setSelected(m_model);
+	m_placing = true;
 }
 
 /*! \brief Update the active model when the user
@@ -121,9 +115,13 @@ void ForgeCreate::lengthChanged(QString t_input) {
 	if (ok) {
 		m_length = l;
 		if (m_model != nullptr) {
-			m_model->setLength(m_length);
+			m_model->symbol()->setProperty("length", m_length);
 		}
 	}
+}
+
+void ForgeCreate::selectionChanged(const QString& t_input) {
+	m_symbol = m_loader.getName(t_input.toStdString());
 }
 
 void ForgeCreate::onMessage(Channel t_channel, UnknownMessage& t_message) {

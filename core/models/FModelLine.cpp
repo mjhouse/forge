@@ -4,7 +4,7 @@
 /*! \brief Constructor for the line model
  */
 FModelLine::FModelLine(FLine* t_section, QtTransform* t_transform, FMaterial* t_material)
-	: FModel(t_section->toGeometry(), t_transform, t_material)
+	: FModel(t_section, t_transform, t_material)
 	, m_section(t_section)
 {
 	setSelectable(false);
