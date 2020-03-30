@@ -36,4 +36,5 @@ jobs:
         run: |
           mkdir bin\\Release
           cd bin/Release
-          cmake ../.. -G Ninja --build . --config Release
+          cmake ../.. -G Ninja
+          cmake --build . --config Release
