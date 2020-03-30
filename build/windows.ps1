@@ -9,5 +9,5 @@ Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
 
 mkdir bin\\Release
 cd bin/Release
-cmake ../.. -G Ninja
+cmake ../..
 cmake --build . --config Release
