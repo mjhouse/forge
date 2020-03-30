@@ -43,6 +43,8 @@ public:
 	FModel(FSymbol* t_section);
 
 	FModel();
+
+	~FModel();
 	
 	FSymbol* symbol();
 

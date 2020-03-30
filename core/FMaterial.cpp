@@ -1,25 +1,23 @@
 #include "FMaterial.h"
+#include "FSymbol.h"
 #include "Resources.h"
 #include "Defines.h"
 
 /*! \brief Constructor for material that inits shader program and
  *		   sets the initial color.
  */
-FMaterial::FMaterial(QColor t_color, const char* t_vshader, const char* t_fshader)
+FMaterial::FMaterial(FSymbol* t_symbol, QColor t_color)
 	: m_original(t_color)
 	, m_current(t_color)
 	, m_surfaceColor(new QtParameter())
 {
-	this->initialize(t_vshader, t_fshader);
+	if (t_symbol != nullptr) {
+		this->initialize(t_symbol->vertexShader(),
+						 t_symbol->fragmentShader());
+	}
+
 	this->setColor(t_color);
 }
-
-/*! \brief Constructor for material that inits shader program and
- *		   sets the initial color.
- */
-FMaterial::FMaterial(QColor t_color)
-	: FMaterial(t_color,"vertex_shader","fragment_shader")
-{}
 
 /*! \brief Initialize the shader program and program params.
  */

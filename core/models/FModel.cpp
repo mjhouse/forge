@@ -36,13 +36,13 @@ FModel::FModel(FSymbol* t_symbol, QtTransform* t_transform, FMaterial* t_materia
 /*! \brief Secondary constructor for the FModel.
  */
 FModel::FModel(FSymbol* t_symbol, QColor t_color)
-	: FModel(t_symbol, new QtTransform(), new FMaterial(t_color))
+	: FModel(t_symbol, new QtTransform(), new FMaterial(t_symbol,t_color))
 {}
 
 /*! \brief Secondary constructor for the FModel.
  */
 FModel::FModel(FSymbol* t_symbol)
-	: FModel(t_symbol, new QtTransform(), new FMaterial(RED))
+	: FModel(t_symbol, new QtTransform(), new FMaterial(t_symbol,RED))
 {}
 
 /*! \brief Default constructor for the FModel.
@@ -50,6 +50,12 @@ FModel::FModel(FSymbol* t_symbol)
 FModel::FModel()
 	: FModel(nullptr, new QtTransform(), nullptr)
 {
+}
+
+/*! \brief Destructor for the FModel.
+ */
+FModel::~FModel(){
+	delete m_symbol;
 }
 
 void FModel::onClick(Qt3DRender::QPickEvent* t_event) {

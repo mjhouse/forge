@@ -11,6 +11,8 @@
 
 #include "Defines.h"
 
+class FSymbol;
+
 class FMaterial : public QtMaterial {
 private:
 	QColor m_original;				/*!< The original color of the material */
@@ -24,7 +26,7 @@ private:
 public:
 	FMaterial(QColor t_color, const char* t_vshader, const char* t_fshader);
 
-	FMaterial(QColor t_color);
+	FMaterial(FSymbol* t_symbol, QColor t_color);
 
 	void setColor(QColor t_color);
 

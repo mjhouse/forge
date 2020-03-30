@@ -56,3 +56,7 @@ void FLine::updateGeometry() {
 	m_geometry->setVertices(m_vertices);
 	m_geometry->setIndices(indices);
 }
+
+FSymbol* FLine::copy() {
+	return new FLine(this);
+}

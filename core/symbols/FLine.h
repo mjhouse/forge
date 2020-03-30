@@ -14,6 +14,8 @@
 #define DEPTH_LENGTH 0.5
 
 class FLine : public FSymbol {
+	_fragment_shader("line_frag")
+
 private:	
 
 	std::vector<QVector3D> m_vertices;	/*!< The vertices of the line */
@@ -35,16 +37,13 @@ public:
 	/* Set the reference points of the crosssection */
 	void setGeometry(std::vector<QVector3D>& t_points);
 
-	/* Convert the crosssection to 3D geometry */
+	/* Convert the line to 3D geometry */
 	FGeometry* toGeometry();
 
 	/* Update the associated geometry */
 	void updateGeometry();
 
-	FSymbol* copy() {
-		return new FLine(this);
-	}
-
+	FSymbol* copy();
 };
 
 #endif // __FLINE_H__
