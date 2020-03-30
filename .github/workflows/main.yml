@@ -27,8 +27,9 @@ jobs:
 
       # create an artifact package
       - name: Package Artifacts
-        run: mkdir forge-release
-        run: Copy-Item -Path "forge/Release/*" -Destination "forge-release" - Recurse
+        run: |
+          mkdir forge-release
+          Copy-Item -Path "forge/Release/*" -Destination "forge-release" - Recurse
       
       # generate artifact zip and upload
       - name: Generate Artifacts
