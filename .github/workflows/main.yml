@@ -20,12 +20,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: Find VS environment
+      - name: Environment Info
         run: |
           dir "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build"
         shell: cmd
-      - name: Get VS environment
-        shell: cmd
+      - name: Build Forge
         run: |
           "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvarsall.bat" x64
           mkdir bin\\Release
