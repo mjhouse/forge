@@ -14,4 +14,4 @@ cd bin/Release >$null 2>&1
 cmake ../..
 
 # build libraries and executables
-cmake --build .
+cmake --build . --config Release
