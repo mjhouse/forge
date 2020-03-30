@@ -2,6 +2,10 @@
 #include "FCrossSection.h"
 #include "FLine.h"
 
+const char* FSymbol::DEFAULT_VERT = "default_vert";
+
+const char* FSymbol::DEFAULT_FRAG = "default_frag";
+
 #define _match(f,t,N,T,V)											\
 	if(T == json::value_t::f) return setProperty(N,(t)V)			\
 

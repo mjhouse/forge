@@ -15,6 +15,10 @@ FMaterial::FMaterial(FSymbol* t_symbol, QColor t_color)
 		this->initialize(t_symbol->vertexShader(),
 						 t_symbol->fragmentShader());
 	}
+	else {
+		this->initialize(FSymbol::DEFAULT_VERT, 
+						 FSymbol::DEFAULT_FRAG);
+	}
 
 	this->setColor(t_color);
 }

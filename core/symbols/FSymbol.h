@@ -49,6 +49,10 @@ protected:
 
 public:
 
+	static const char* DEFAULT_VERT;
+
+	static const char* DEFAULT_FRAG;
+
 	FSymbol()
 		: m_properties() {}
 
@@ -82,11 +86,11 @@ public:
 
 	/* \brief The fragment shader key
 	 */
-	virtual const char* fragmentShader() { return "default_frag"; }
+	virtual const char* fragmentShader() { return DEFAULT_FRAG; }
 
 	/* \brief The vertex shader key
 	 */
-	virtual const char* vertexShader() { return "default_vert"; }
+	virtual const char* vertexShader() { return DEFAULT_VERT; }
 
 	_setter(int);
 	_setter(float);

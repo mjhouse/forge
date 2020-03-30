@@ -55,7 +55,7 @@ void ForgeControl::showEvent(QShowEvent* t_event) {
 /* \brief Moves the given child rect entirely 
  *		  inside the parent rect.
  */
-QPoint ForgeControl::positionWithin(QRect& t_parent, QRect& t_child) {
+QPoint ForgeControl::positionWithin(QRect t_parent, QRect t_child) {
 	int t = t_parent.top();
 	int r = t_parent.right();
 	int b = t_parent.bottom();
