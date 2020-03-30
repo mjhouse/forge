@@ -33,8 +33,4 @@ jobs:
       - name: Install Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
       - name: Build Forge
-        run: |
-          mkdir bin\\Release
-          cd bin/Release
-          cmake ../.. -G Ninja
-          cmake --build . --config Release
+        run: call "build/windows.ps1"
