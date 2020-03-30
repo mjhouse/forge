@@ -1,4 +1,4 @@
-name: CI
+name: forge-build
 
 on:
   push:
@@ -12,15 +12,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      # install Qt5
       - name: Install Qt5
         uses: jurplel/install-qt-action@v2
         with:
           version: '5.14.1'
           dir: 'C:/'
+      
+      # build Forge
       - name: Build Forge
         run: "&'build/windows.ps1'"
-      - uses: actions/upload-artifact@v1
+
+      # create an artifact package
+      - name: Generate Artifacts
+        uses: actions/upload-artifact@v1
         if: success()
         with:
-          name: forge-release-test
+          name: forge-release-$GITHUB_RUN_ID
           path: .
