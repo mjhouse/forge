@@ -26,6 +26,6 @@ jobs:
       run: dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\"
       
     # Runs a set of commands using the runners shell
-    #- name: Get visual studio environment
-    #  run: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+    - name: Get visual studio environment
+      run: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
         
