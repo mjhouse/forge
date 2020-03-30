@@ -22,6 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Find VS environment
         run: dir "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build"
+        shell: cmd
       - name: Get VS environment
-        run: "\"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvarsall.bat\" x64"
-        
+        run: "\"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat\""
+        shell: cmd
