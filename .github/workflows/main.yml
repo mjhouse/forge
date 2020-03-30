@@ -37,3 +37,4 @@ jobs:
           mkdir bin\\Release
           cd bin/Release
           cmake ../.. -G Ninja
+          ninja
