@@ -24,7 +24,9 @@ jobs:
         run: |
           dir "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build"
           "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvarsall.bat" x64
-        shell: cmd
+        shell: cmd    
+      - name: Install Qt5
+        uses: jurplel/install-qt-action@v2
       - name: Build Forge
         run: |
           mkdir bin\\Release
