@@ -27,6 +27,9 @@ jobs:
         shell: cmd    
       - name: Install Qt5
         uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.14.1'
+          dir: 'C:/'
       - name: Build Forge
         run: |
           mkdir bin\\Release
