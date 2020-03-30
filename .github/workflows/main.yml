@@ -29,5 +29,5 @@ jobs:
         uses: actions/upload-artifact@v1
         if: success()
         with:
-          name: forge-release-$GITHUB_RUN_ID
+          name: forge-release-${GITHUB_RUN_ID}
           path: .
