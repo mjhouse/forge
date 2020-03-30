@@ -9,7 +9,6 @@
 #include <QCloseEvent>
 
 #define impl_message(V,T)								\
-	template<>											\
 	Message<V>::Message(Handler* t_sender,				\
 						V t_value)						\
 		: UnknownMessage(T)								\
@@ -18,14 +17,17 @@
 		, m_name(#T)									\
 	{}													\
 														\
+	template<>											\
 	V Message<V>::value() {								\
 		return m_value;									\
 	}													\
 														\
+	template<>											\
 	const char* Message<V>::name() {					\
 		return m_name;									\
 	}													\
 														\
+	template<>											\
 	Handler* Message<V>::sender() {						\
 		return m_sender;								\
 	}													\
