@@ -1,4 +1,4 @@
-cmd.exe /c "call `"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat`" && set > %temp%\vcvars.txt"
+cmd.exe /c "call `"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat`" && set > %temp%\vcvars.txt" >$null 2>&1
 
 Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
     if ($_ -match "^(.*?)=(.*)$") {
@@ -7,10 +7,8 @@ Get-Content "$env:temp\vcvars.txt" | Foreach-Object {
 }
 
 # create move to output directory
-mkdir bin\\Release
-cd bin/Release
-
-Write-Output "\n"
+mkdir bin\\Release >$null 2>&1
+cd bin/Release >$null 2>&1
 
 # generate build files
 cmake ../..
