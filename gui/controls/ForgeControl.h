@@ -38,7 +38,7 @@ private:
 	bool m_unexposed;
 
 	// utility functions
-	QPoint positionWithin(QRect t_parent, QRect t_child);
+	QPoint positionWithin(const QRect& t_parent, const QRect& t_child);
 
 	void findAnchor(QRect& t_rect);
 
