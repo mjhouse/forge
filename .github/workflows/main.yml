@@ -26,9 +26,12 @@ jobs:
         run: "&'build/windows.ps1'"
 
       # create an artifact package
-      - name: Generate Artifacts
+      - name: Package Artifacts
         run: mkdir forge-release
         run: Copy-Item -Path "forge/Release/*" -Destination "forge-release" - Recurse
+      
+      # generate artifact zip and upload
+      - name: Generate Artifacts
         uses: actions/upload-artifact@v1
         if: success()
         with:
