@@ -27,8 +27,10 @@ jobs:
 
       # create an artifact package
       - name: Generate Artifacts
+        run: mkdir forge-release
+        run: Copy-Item -Path "forge/Release/*" -Destination "forge-release" - Recurse
         uses: actions/upload-artifact@v1
         if: success()
         with:
           name: forge-release-${{github.run_id}}
-          path: .
+          path: forge-release
