@@ -9,6 +9,7 @@
 #include <QCloseEvent>
 
 #define impl_message(V,T)								\
+	template<>											\
 	Message<V>::Message(Handler* t_sender,				\
 						V t_value)						\
 		: UnknownMessage(T)								\
