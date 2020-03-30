@@ -20,17 +20,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: Environment Info
-        run: |
-          dir "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build"
-          "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvarsall.bat" x64
-        shell: cmd    
       - name: Install Qt5
         uses: jurplel/install-qt-action@v2
         with:
           version: '5.14.1'
           dir: 'C:/'
-      - name: Install Ninja
-        uses: seanmiddleditch/gha-setup-ninja@master
       - name: Build Forge
         run: "&'build/windows.ps1'"
