@@ -27,7 +27,7 @@ jobs:
       - name: Get VS environment
         run: |
           "\"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat\""
-          mkdir bin/Release
+          mkdir bin\\Release
           cd bin/Release
           cmake ../..
         shell: cmd
