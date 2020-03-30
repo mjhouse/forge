@@ -33,4 +33,4 @@ jobs:
       - name: Install Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
       - name: Build Forge
-        run: call "build/windows.ps1"
+        run: "&'build/windows.ps1'"
