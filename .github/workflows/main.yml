@@ -11,7 +11,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
       # install Qt5
       - name: Install Qt5
@@ -29,5 +30,5 @@ jobs:
         uses: actions/upload-artifact@v1
         if: success()
         with:
-          name: forge-release-$github.run_id
+          name: forge-release-${{github.run_id}}
           path: .
