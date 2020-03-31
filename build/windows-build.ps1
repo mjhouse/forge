@@ -15,3 +15,5 @@ cmake ../..
 
 # build libraries and executables
 cmake --build . --config Release
+
+cd ../..

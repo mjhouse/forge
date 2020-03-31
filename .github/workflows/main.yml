@@ -23,13 +23,11 @@ jobs:
       
       # build Forge
       - name: Build Forge
-        run: "&'build/windows.ps1'"
+        run: "&'build/windows-build.ps1'"
 
       # create an artifact package
       - name: Package Artifacts
-        run: |
-          mkdir forge-release
-          Copy-Item -Path "forge/Release/*" -Destination "forge-release" - Recurse
+        run: "&'build/windows-package.ps1'"
       
       # generate artifact zip and upload
       - name: Generate Artifacts
@@ -37,4 +35,4 @@ jobs:
         if: success()
         with:
           name: forge-release-${{github.run_id}}
-          path: forge-release
+          path: bin/Package/
