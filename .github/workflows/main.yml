@@ -23,11 +23,11 @@ jobs:
       
       # build Forge
       - name: Build Forge
-        run: "&'build/windows-build.ps1'"
+        run: "&'.github/scripts/windows-build.ps1'"
 
       # create an artifact package
       - name: Package Artifacts
-        run: "&'build/windows-package.ps1'"
+        run: "&'.github/scripts/windows-package.ps1'"
       
       # generate artifact zip and upload
       - name: Generate Artifacts
