@@ -6,6 +6,12 @@
 #include "BulkLoader.h"
 #include "FModel.h"
 
+enum class PlacementType {
+	None,
+	Start,
+	End
+};
+
 class ForgeCreate : public ForgeControl {
 private:
 	
@@ -15,26 +21,32 @@ private:
 
 	QLineEdit* m_lengthInput;	/*!< A text input used for length input */
 
-	bool m_placing;
-
 	BulkLoader m_loader;
 
 	FSymbol* m_symbol;
 
+	PlacementType m_mode;
+
+	QVector3D m_current;
+
 	void updateView(FModel* t_model);
 
 	void onMouseMove(Message<QMouseEvent*>* t_message);
-	
-	void finishCreate();
-
-	void positionModel(QPoint t_point);
 
 public:
 	ForgeCreate(ForgeWindow* t_parent);
 	
 	void deleteModel();
+	
+	void updateModel();
 
-	void startCreate();
+	void moveModel(QPoint t_point);
+
+	void extrudeModel(QPoint t_point);
+
+	void positionModel(QPoint t_point);
+
+
 
 	void lengthChanged(QString t_input);
 

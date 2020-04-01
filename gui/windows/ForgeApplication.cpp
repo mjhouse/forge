@@ -246,7 +246,13 @@ void ForgeApplication::onReassign(Message<ForgeControl*>* t_message) {
 	control->close();
 }
 
+void ForgeApplication::onWindowFocus(Message<QFocusEvent*>* t_message) {
+	auto window = dynamic_cast<ForgeWindow*>(t_message->sender());
+	if (window != nullptr) setActive(window);
+}
+
 void ForgeApplication::onMessage(Channel t_channel, UnknownMessage& t_message) {
 	_route_in(t_channel, t_message, Channel::Action, QCloseEvent*, onWindowClose);
+	_route_in(t_channel, t_message, Channel::Action, QFocusEvent*, onWindowFocus);
 	_route_in(t_channel, t_message, Channel::Reassign, ForgeControl*, onReassign);
 }

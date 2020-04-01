@@ -5,6 +5,13 @@
 
 #include <QMouseEvent>
 
+#define _distance(a,b)				 \
+	std::sqrtf(						 \
+		std::powf(b.x() - a.x(),2) + \
+		std::powf(b.y() - a.y(),2) + \
+		std::powf(b.z() - a.z(),2)	 \
+	)								 \
+
 /*! \brief Constructor for the place object widget.
  */
 ForgeCreate::ForgeCreate(ForgeWindow* t_parent) 
@@ -12,9 +19,9 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
 	, m_length(0.5f)
 	, m_model(nullptr) 
 	, m_lengthInput(new QLineEdit())
-	, m_placing(false)
 	, m_loader()
 	, m_symbol(nullptr)
+	, m_mode(PlacementType::None)
 {
 	m_loader.load(resources::data("basev0.1.json"));
 	this->hasTitle(true);
@@ -55,7 +62,7 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
 		this, &ForgeCreate::deleteModel);
 
 	(void)this->connect(createButton, &QPushButton::pressed,
-		this, &ForgeCreate::startCreate);
+		this, &ForgeCreate::updateModel);
 
 	(void)this->connect(m_lengthInput, &QLineEdit::textEdited,
 		this, &ForgeCreate::lengthChanged);
@@ -96,14 +103,24 @@ void ForgeCreate::deleteModel() {
 	}
 }
 
-/*! \brief Create a new object.
- */
-void ForgeCreate::startCreate() {
-	m_model = new FModel(m_symbol->copy());
+void ForgeCreate::updateModel() {
+	if (m_symbol == nullptr) return;
 
-	ForgeApplication::instance()->render(m_model);
-	ForgeApplication::instance()->setSelected(m_model);
-	m_placing = true;
+	switch (m_mode) {
+		case PlacementType::None:
+			m_model = new FModel(m_symbol->copy());
+			ForgeApplication::instance()->render(m_model);
+			ForgeApplication::instance()->setSelected(m_model);
+			m_mode = PlacementType::Start;
+			break;
+		case PlacementType::Start:
+			m_mode = PlacementType::End;
+			break;
+		case PlacementType::End:
+			m_mode = PlacementType::None;
+			m_model = nullptr;
+			break;
+	}
 }
 
 /*! \brief Update the active model when the user
@@ -135,31 +152,59 @@ void ForgeCreate::onMouseMove(Message<QMouseEvent*>* t_message) {
 	auto parent = controller();
 
 	if (parent == nullptr || m_model == nullptr) {
-		m_placing = false;
+		m_mode = PlacementType::None;
 		return;
 	}
 
-	if (m_placing && t_message->sender()->isHandler(parent)) {
-		switch (event->type()) {
-		case QEvent::Type::MouseButtonRelease:
-			finishCreate();
-			break;
-		case QEvent::Type::MouseMove:
-			positionModel(event->pos());
-			break;
+	if (t_message->sender()->isHandler(parent)) {
+		if (event->type() == QEvent::Type::MouseButtonRelease &&
+			m_mode != PlacementType::None) {
+			updateModel(); // update placement state
+		}
+		else if (event->type() == QEvent::Type::MouseMove) {
+			moveModel(event->pos()); // update placement
 		}
 	}
 }
 
-void ForgeCreate::finishCreate() {
-	if (m_model != nullptr) {
-		ForgeApplication::instance()->setSelected(m_model);
-		m_placing = false;
+void ForgeCreate::moveModel(QPoint t_point) {
+	switch (m_mode) {
+	case PlacementType::Start:
+		positionModel(t_point);
+		break;
+	case PlacementType::End:
+		extrudeModel(t_point);
+		break;
 	}
 }
 
-void ForgeCreate::positionModel(QPoint t_point) {
+void ForgeCreate::extrudeModel(QPoint t_point) {
+	auto parent = controller();
+	if (parent == nullptr || m_model == nullptr) 
+		return;
 
+	auto camera = parent->camera();
+	auto screen = parent->geometry();
+
+	t_point.setX(t_point.x() + screen.left());
+	t_point.setY(t_point.y() - screen.top());
+
+	auto view = camera->viewMatrix();
+	auto proj = camera->projectionMatrix();
+
+	auto position = m_current;
+	position = position.project(view, proj, screen);
+
+	position.setX(t_point.x());
+	position.setY(screen.height() - t_point.y());
+
+	position = position.unproject(view, proj, screen);
+
+	auto d = _distance(m_current, position);
+	m_model->symbol()->setProperty("length", d);
+}
+
+void ForgeCreate::positionModel(QPoint t_point) {
 	auto parent = controller();
 	if (parent == nullptr) return;
 
@@ -177,7 +222,8 @@ void ForgeCreate::positionModel(QPoint t_point) {
 
 	position.setX(t_point.x());
 	position.setY(screen.height() - t_point.y());
-
+	
 	position = position.unproject(view, proj, screen);
 	m_model->transform()->setTranslation(position);
+	m_current = position;
 }

@@ -67,6 +67,8 @@ private:
 
 	void onWindowClose(Message<QCloseEvent*>* t_message);
 	
+	void onWindowFocus(Message<QFocusEvent*>* t_message);
+
 	ForgeWindow* newWindow();
 	
 	void onExit(bool t_checked);
