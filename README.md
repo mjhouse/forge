@@ -48,8 +48,8 @@ Source the `vcvars64.bat` file:
 Clone the repository and build:
 ```
 git clone https://github.com/mjhouse/forge.git
-cd bin/
-cmake ../..
+cd bin/Release
+cmake --build . --config Release
 ```
 
 If you happen to be using __Visual Studio Enterprise 2019__, you coule also run `.github/scripts/windows-build.ps1` (a CI/CD build script).
