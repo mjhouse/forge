@@ -8,6 +8,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+if(MSVC)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif()
+
 set(QT5_INSTALL "C:/Qt/5.14.1/msvc2017_64")
 set(CMAKE_PREFIX_PATH ${QT5_INSTALL})
 

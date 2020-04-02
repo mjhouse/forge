@@ -1,5 +1,6 @@
 #ifndef __EVENTFILTERS_H__
 #define __EVENTFILTERS_H__
+#pragma warning (disable : 4068 )
 
 #include <QObject>
 
@@ -26,6 +27,7 @@ protected:
  */
 class ClickEventFilter : public QObject {
 	Q_OBJECT
+
 private:
 
 	Channel m_channel;

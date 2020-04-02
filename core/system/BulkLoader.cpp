@@ -1,8 +1,6 @@
 #include "BulkLoader.h"
 #include "FModel.h"
 #include "FCrossSection.h"
-#include "FModelExtruded.h"
-#include "FModelLine.h"
 #include "FLine.h"
 
 #include <QVector3D>

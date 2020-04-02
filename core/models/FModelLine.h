@@ -1,26 +1,41 @@
 #ifndef __FMODELLINE_H__
 #define __FMODELLINE_H__
 
-#include "FMaterial.h"
-#include "FModel.h"
-#include "FLine.h"
-#include "Defines.h"
-
-#define WHITE QColor::fromRgbF(1.0,1.0,1.0)
-
-class FModelLine : public FModel {
-private:
-		
-	FLine* m_section;	/*!< The line symbol used to define this model */
-
+class ILine {
 public:
 
-	FModelLine(FLine* t_section, QtTransform* t_transform, FMaterial* t_material);
+	virtual ~ILine() = default;
 
-	FModelLine(FLine* t_section, QColor t_color);
+	virtual void setStart(const QVector3D& t_start) {};
 
-	FModelLine(FLine* t_section);
+	virtual void setEnd(const QVector3D& t_end) {};
 
 };
 
-#endif // __FMODELLINE_H__
+class HasLine : public ILine {
+public:
+	void setStart(const QVector3D& t_start) override {};
+
+	void setEnd(const QVector3D& t_end) override {};
+};
+
+class NoLine : public ILine {};
+
+class FObject {
+private:
+	ILine* m_line;
+
+public:
+
+	FObject(ILine* t_line)
+		: m_line(t_line) {}
+
+	void setStart(const QVector3D& t_start) { m_line->setStart(t_start); };
+
+	void setEnd(const QVector3D& t_end) { m_line->setEnd(t_end); };
+
+	bool isLine() { return  }
+
+};
+
+#endif

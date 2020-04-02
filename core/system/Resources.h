@@ -7,6 +7,9 @@
 #include <map>
 #include <iostream>
 #include <fstream>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace resources {
 
@@ -15,17 +18,17 @@ namespace resources {
 
 	namespace {
 		
-		static QDir root;
+		static fs::path m_root;
 
-		static std::map<QString, QDir> paths;
+		std::string get_path(std::string t_directory, std::string t_file);
 
-		QString get_path(QString t_directory, QString t_file);
+		void make_path(std::string t_directory);
+		
+		std::string file_as_string(std::string t_directory, std::string t_file);
 
-		std::string file_as_string(QString t_directory, QString t_file);
+		QPixmap file_as_pixmap(std::string t_directory, std::string t_file);
 
-		QPixmap file_as_pixmap(QString t_directory, QString t_file);
-
-		QByteArray file_as_bytes(QString t_directory, QString t_file);
+		QByteArray file_as_bytes(std::string t_directory, std::string t_file);
 
 	}
 
@@ -35,7 +38,10 @@ namespace resources {
 	/* Initialize
 	   Find the root directory and init the resources map
 	*/
-	void initialize(QDir t_root);
+	void initialize(std::string t_root);
+
+	// overload for QString
+	void initialize(QString t_root);
 
 	/* Shader
 	   Load a shader as a QByteArray
@@ -55,7 +61,12 @@ namespace resources {
 	/* Data
 	   Get a data file path
 	*/
-	std::string data(QString t_name);
+	std::string data(std::string t_name);
+
+	/* Log
+	   Get a log file path
+	*/
+	std::string log(std::string t_name);
 
 	// ------------------------------------------------------------------------
 }

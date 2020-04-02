@@ -139,14 +139,12 @@ void ForgeWindow::updateControls(QRect& oldRect, QRect& newRect) {
 /*! \brief Sets the framegraph source for this window.
  */
 void ForgeWindow::setRenderSource(QtFrameGraphNode* t_framegraph) {
-	check_null(t_framegraph, "FrameGraphNode cannot be null");
 	m_renderer->setParent(t_framegraph);
 }
 
 /*! \brief Sets the entity root for this window.
  */
 void ForgeWindow::setRoot(QtEntity* t_root) {
-	check_null(t_root,"Entity cannot be null");
 	m_camera->setParent(t_root);
 }
 

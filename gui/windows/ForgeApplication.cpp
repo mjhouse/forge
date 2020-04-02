@@ -13,8 +13,6 @@
  */
 ForgeApplication::ForgeApplication(int argc, char* argv[])
 	: QApplication(argc, argv)
-	, m_rootPath()
-	, m_resourcesPath()
 	, m_windows()
 	, m_controls()
 	, m_inputSettings(new QtInputSettings())
@@ -35,10 +33,7 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 
 	// route events to channels
 	_event_publish(ForgeApplication::applicationStateChanged, Channel::Action);
-
-	m_rootPath.setPath(applicationDirPath());
-	m_resourcesPath.setPath(m_rootPath.filePath("resources"));
-	resources::initialize(resources());
+	resources::initialize(applicationDirPath());
 
 	// needs to be created after resources are initialized
 	m_controller = new FCameraController();
@@ -161,18 +156,6 @@ void ForgeApplication::onView(bool t_checked) {
  */
 ForgeApplication* ForgeApplication::instance() {
 	return (ForgeApplication*)QApplication::instance();
-}
-
-/* \brief Get the path to the root directory.
- */
-QDir ForgeApplication::root() {
-	return this->m_rootPath;
-}
-
-/* \brief Get the path to the resources directory.
- */
-QDir ForgeApplication::resources() {
-	return this->m_resourcesPath;
 }
 
 /* \brief Find a window that contains a point.

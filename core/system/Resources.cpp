@@ -1,43 +1,52 @@
 #include "Resources.h"
+#include "Exceptions.h"
 
 namespace resources {
 
 	namespace {
-		QString get_path(QString t_directory, QString t_file) {
-			if (!paths.count(t_directory))
-				throw F_INVALID_PATH;
 
-			auto path = paths[t_directory].filePath(t_file);
-
-			if (!QFile::exists(path))
-				throw F_INVALID_PATH;
-
-			return path;
+		std::string get_path(std::string t_directory, std::string t_file) {
+			auto path = m_root / t_directory / t_file;
+			return path.string();
+		}
+		
+		void make_path(std::string t_directory) {
+			auto path = m_root / t_directory;
+			fs::create_directories(path);
 		}
 
-		std::string file_as_string(QString t_directory, QString t_file) {
+		std::string file_as_string(std::string t_directory, std::string t_file) {
 			auto path = get_path(t_directory, t_file);
+			std::ifstream file(path);
 
-			std::ifstream t(path.toStdString());
-			std::string data((std::istreambuf_iterator<char>(t)),
-				std::istreambuf_iterator<char>());
+			if (!file.is_open())
+				_throw(cannot_open_file,"Cannot read file to string");
+
+			std::string data((std::istreambuf_iterator<char>(file)),
+							  std::istreambuf_iterator<char>());
 
 			return data;
 		}
 
-		QPixmap file_as_pixmap(QString t_directory, QString t_file) {
+		QPixmap file_as_pixmap(std::string t_directory, std::string t_file) {
 			auto path = get_path(t_directory, t_file);
-			return QPixmap(path);
+			QPixmap image;
+
+			if (!image.load(QString::fromStdString(path)))
+				_throw(cannot_open_file,"Cannot read file to QPixmap");
+
+			return image;
 		}
 
-		QByteArray file_as_bytes(QString t_directory, QString t_file) {
+		QByteArray file_as_bytes(std::string t_directory, std::string t_file) {
 			auto path = get_path(t_directory, t_file);
-			QFile file(path);
+			QFile file(QString::fromStdString(path));
 
 			if (!file.open(QFile::ReadOnly))
-				throw F_NO_ACCESS;
+				_throw(cannot_open_file,"Cannot read file to QByteArray");
 
-			return file.readAll();
+			auto data = file.readAll();
+			return data;
 		}
 	}
 
@@ -47,39 +56,48 @@ namespace resources {
 	/* Initialize
 	   Find the root directory and init the resources map
 	*/
-	void initialize(QDir t_root) {
-		root = t_root;
-		root.makeAbsolute();
+	void initialize(std::string t_root) {
+		m_root = fs::absolute(fs::path(t_root));
+		make_path("resources");
+		m_root /= "resources";
+	}
 
-		auto list = root.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-		for (auto directory : list) {
-			paths[directory] = QDir(root.filePath(directory));
-		}
+	void initialize(QString t_root) {
+		initialize(t_root.toStdString());
 	}
 
 	/* Shader
 	   Load a shader as a QByteArray
 	*/
 	QByteArray shader(QString t_file) {
+		make_path("shaders");
 		t_file = t_file.endsWith(".glsl") ? t_file : t_file + ".glsl";
-		return file_as_bytes("shaders", t_file);
+		return file_as_bytes("shaders", t_file.toStdString());
 	}
 
 	/* Theme
 	   Load a .qss file as a QString
 	*/
 	QString theme(QString t_file) {
+		make_path("themes");
 		t_file = t_file.endsWith(".qss") ? t_file : t_file + ".qss";
-		return QLatin1String(file_as_bytes("themes", t_file));
+		return QLatin1String(file_as_bytes("themes", t_file.toStdString()));
 	}
 
 	QIcon icon(QString t_file) {
+		make_path("images");
 		t_file = t_file.endsWith(".png") ? t_file : t_file + ".png";
-		return QIcon(file_as_pixmap("images", t_file));
+		return QIcon(file_as_pixmap("images", t_file.toStdString()));
 	}
 
-	std::string data(QString t_name) {
-		return get_path("data", t_name).toStdString();
+	std::string data(std::string t_name) {
+		make_path("data");
+		return get_path("data", t_name);
+	}
+
+	std::string log(std::string t_name) {
+		make_path("logs");
+		return get_path("logs", t_name);
 	}
 
 	// ------------------------------------------------------------------------

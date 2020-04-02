@@ -33,10 +33,6 @@ class ForgeApplication : public QApplication, public Handler {
 
 private:
 	
-	QDir m_rootPath;							/*!< The directory path to the executable */
-
-	QDir m_resourcesPath;						/*!< Path to the resources directory */
-
 	IdentifierList<ForgeWindow> m_windows;		/*!< The collection of all windows */
 
 	IdentifierList<ForgeControl> m_controls;	/*!< The collection of all controls */
@@ -83,10 +79,6 @@ public:
 
 	static ForgeApplication* instance();
 
-	QDir root();
-
-	QDir resources();
-	
 	ForgeWindow* findWindow(QPoint t_point);
 
 	FModel* selected();

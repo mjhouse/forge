@@ -14,6 +14,10 @@
 
 #define RED QColor::fromRgbF(1.0,0.3,0.3)
 
+#define PI 3.14159265358979323846
+#define ax(r,a) (r * std::cosf(a))
+#define ay(r,a) (r * std::sinf(a))
+
 class FModel : public QtEntity, 
 			   public HasIdentifier {
 private:
@@ -69,6 +73,10 @@ public:
 	void hide();
 
 	void show();
+
 };
 
+#undef PI
+#undef ax
+#undef ay
 #endif // __FMODEL_H__
