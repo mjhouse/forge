@@ -11,6 +11,7 @@ FLine::FLine()
 	: m_vertices()
 	, m_geometry(new FGeometry())
 {
+	setLength(0.5);
 	m_geometry->setRenderType(QtRenderType::Lines);
 }
 
@@ -29,6 +30,7 @@ FLine::FLine(QVector3D t_start, QVector3D t_end)
 	: m_vertices({t_start,t_end})
 	, m_geometry(new FGeometry())
 {
+	setLength(0.5);
 	m_geometry->setRenderType(QtRenderType::Lines);
 }
 
@@ -52,6 +54,13 @@ void FLine::updateGeometry() {
 	for (size_t i = 0; i < m_vertices.size(); ++i) {
 		indices[i] = (uint)i;
 	}
+
+	if (m_vertices.size() == 2) {
+		auto start = m_vertices[0];
+		auto end   = m_vertices[1];
+		auto pose  = (end - start).normalized() * length();
+		m_vertices[1] = pose;
+	}
 	
 	m_geometry->setVertices(m_vertices);
 	m_geometry->setIndices(indices);
@@ -59,4 +68,15 @@ void FLine::updateGeometry() {
 
 FSymbol* FLine::copy() {
 	return new FLine(this);
+}
+/*! \brief Set the length.
+ */
+void FLine::setLength(float t_length) {
+	FSymbol::setProperty("length", t_length);
+}
+
+/*! \brief Get the length.
+ */
+float FLine::length() {
+	return FSymbol::property<float>("length");
 }

@@ -7,6 +7,7 @@
 
 #include <HasIdentifier.h>
 
+#include "ForgeWindow.h"
 #include "FMaterial.h"
 #include "FGeometry.h"
 #include "FSymbol.h"
@@ -59,7 +60,7 @@ public:
 	FMaterial* material();
 
 	QtRenderer* renderer();
-		
+
 	void setSelectable(bool t_selectable);
 
 	bool selectable();

@@ -4,8 +4,10 @@
 #include "Logger.h"
 #include <exception>
 
-#define _throw(t,m) throw t(__FILE__,__LINE__,m)
-#define check_null(a,m) if (a == nullptr) _throw(invalid_argument,m)
+#define THROW(t,m)	   throw t(__FILE__,__LINE__,m)
+#define NULL_RET(n)    if(n == nullptr) return
+#define NULL_RETV(n,v) if(n == nullptr) return v
+#define NULL_THRW(n,m) if(n == nullptr) THROW(invalid_argument,m)
 
 #define _impl_exception(N)					\
 	class N : public forge_exception {		\

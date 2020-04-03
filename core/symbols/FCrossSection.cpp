@@ -39,9 +39,13 @@ void FCrossSection::initialize(std::vector<QVector3D>& t_coordinates) {
 void FCrossSection::tessellate() {
 	std::vector<std::vector<std::array<double, 2>>> polygon{ {} };
 
-	for (const auto& p : m_vertices) {
-		polygon[0].push_back(std::array<double, 2>{p.x(), p.y()});
+	for (auto it = m_vertices.rbegin(); it != m_vertices.rend(); ++it) {
+		polygon[0].push_back(std::array<double, 2>{it->x(), it->y()});
 	}
+
+	//for (const auto& p : m_vertices) {
+	//	polygon[0].push_back(std::array<double, 2>{p.x(), p.y()});
+	//}
 
 	m_indices = mapbox::earcut<uint>(polygon);
 }
@@ -90,7 +94,7 @@ FGeometry* FCrossSection::toGeometry() {
  */
 void FCrossSection::updateGeometry() {
 	// find the offset for the new end face
-	auto offset = DEPTH_NORMAL * (length() * -1);
+	auto offset = DEPTH_NORMAL * length();
 
 	auto nvertices = m_vertices;
 	auto nnormals  = m_normals;
@@ -113,13 +117,12 @@ void FCrossSection::updateGeometry() {
 		nvertices[i + vs] = nvertices[i] + offset;
 
 		uint a = i,                 // first, original side
-			b = j,                  // second, original side
-			c = i + (uint)vs,       // first, far side
-			d = j + (uint)vs;       // second, far side
+			 b = j,                 // second, original side
+			 c = i + (uint)vs,      // first, far side
+			 d = j + (uint)vs;      // second, far side
 
 		nindices.insert(nindices.end(), {
-			a, c, d, d, b, a
-			});
+			a, d, c, d, a, b });
 	}
 
 	// duplicate existing triangle patterns with a 
@@ -127,8 +130,8 @@ void FCrossSection::updateGeometry() {
 	uint k = (uint)vs;
 	for (int i = 0; i < is; i += 3) {
 		auto a = i + is,
-			b = a + 1,
-			c = b + 1;
+			 b = a + 1,
+			 c = b + 1;
 
 		nindices[a] = nindices[c - is] + k;
 		nindices[b] = nindices[b - is] + k;

@@ -1,4 +1,5 @@
-#pragma once 
+#ifndef __DEFINES_H__
+#define __DEFINES_H__
 
 #include <QtGui/QWindow>
 
@@ -30,7 +31,6 @@
 #include <Qt3DRender/QPickEvent>
 #include <Qt3DRender/QCamera>
 #include <Qt3DRender/QViewPort>
-
 #include <Qt3DInput/QMouseHandler>
 
 // typedefs for Qt enums
@@ -79,3 +79,5 @@ typedef Qt3DExtras::QForwardRenderer				QtForwardRenderer;
 typedef Qt3DRender::QFrameGraphNode					QtFrameGraphNode;
 
 typedef Qt3DLogic::QLogicAspect						QtLogicAspect;
+
+#endif //__DEFINES_H__

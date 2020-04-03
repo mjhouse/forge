@@ -55,8 +55,8 @@ namespace logging {
 				push();
 			}
 			m_file.flush();
+			m_file.close();
 		}
-		m_file.close();
 		m_lock.unlock();
 	}
 

@@ -37,7 +37,7 @@ void FGeometry::setIndexData(std::vector<uint>& t_indices) {
  */
 void FGeometry::createVertexAttribute(QtBuffer* t_buffer, uint t_count) {
     if (m_vertexAttribute == nullptr) {
-        check_null(t_buffer, "QBuffer parameter is null");
+        NULL_THRW(t_buffer, "QBuffer parameter is null");
         m_vertexAttribute = new QtAttribute();
         m_vertexAttribute->setAttributeType(QtAttribute::VertexAttribute);
         m_vertexAttribute->setBuffer(t_buffer);
@@ -55,7 +55,7 @@ void FGeometry::createVertexAttribute(QtBuffer* t_buffer, uint t_count) {
  */
 void FGeometry::createNormalAttribute(QtBuffer* t_buffer, uint t_count) {
     if (m_normalAttribute == nullptr) {
-        check_null(t_buffer, "QBuffer parameter is null");
+        NULL_THRW(t_buffer, "QBuffer parameter is null");
         m_normalAttribute = new QtAttribute();
         m_normalAttribute->setAttributeType(QtAttribute::VertexAttribute);
         m_normalAttribute->setBuffer(t_buffer);
@@ -73,7 +73,7 @@ void FGeometry::createNormalAttribute(QtBuffer* t_buffer, uint t_count) {
  */
 void FGeometry::createIndexAttribute(Qt3DRender::QBuffer* t_buffer, uint t_count) {
     if (m_indexAttribute == nullptr) {
-        check_null(t_buffer, "QBuffer parameter is null");
+        NULL_THRW(t_buffer, "QBuffer parameter is null");
         m_indexAttribute = new QtAttribute();
         m_indexAttribute->setAttributeType(QtAttribute::IndexAttribute);
         m_indexAttribute->setBuffer(t_buffer);

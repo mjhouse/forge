@@ -15,7 +15,6 @@ ForgeControl::ForgeControl(ForgeWindow* t_parent, float t_x, float t_y)
 	, m_initialized(false)
 	, m_persistent(false)
 	, m_minimized(false)
-	, m_unexposed(false)
 {
 	_subscribe(Channel::Action);
 	

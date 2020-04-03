@@ -1,6 +1,5 @@
 #ifndef __EVENTFILTERS_H__
 #define __EVENTFILTERS_H__
-#pragma warning (disable : 4068 )
 
 #include <QObject>
 

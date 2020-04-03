@@ -35,8 +35,6 @@ private:
 
 	bool m_minimized;			/*!< If true, control is hidden because parent is minimzed */
 
-	bool m_unexposed;
-
 	// utility functions
 	QPoint positionWithin(const QRect& t_parent, const QRect& t_child);
 

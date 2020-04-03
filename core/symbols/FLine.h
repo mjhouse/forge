@@ -24,7 +24,8 @@ private:
 
 protected:
 	void propertyChanged(std::string t_name, FProperty t_property) {
-
+		if (t_name == "length" && m_vertices.size() == 2)
+			updateGeometry();
 	}
 
 public:
@@ -44,6 +45,13 @@ public:
 	void updateGeometry();
 
 	FSymbol* copy();
+
+	/* Set the length of the extruded crosssection */
+	void setLength(float t_length);
+
+	/* Get the length of the extruded crosssection */
+	float length();
+
 };
 
 #endif // __FLINE_H__

@@ -20,9 +20,7 @@ namespace resources {
 		
 		static fs::path m_root;
 
-		std::string get_path(std::string t_directory, std::string t_file);
-
-		void make_path(std::string t_directory);
+		std::string get_path(std::string t_directory, std::string t_file, bool t_require = false);
 		
 		std::string file_as_string(std::string t_directory, std::string t_file);
 
@@ -31,9 +29,6 @@ namespace resources {
 		QByteArray file_as_bytes(std::string t_directory, std::string t_file);
 
 	}
-
-	// ------------------------------------------------------------------------
-	// Public functions
 
 	/* Initialize
 	   Find the root directory and init the resources map
@@ -67,6 +62,4 @@ namespace resources {
 	   Get a log file path
 	*/
 	std::string log(std::string t_name);
-
-	// ------------------------------------------------------------------------
 }

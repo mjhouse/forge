@@ -202,6 +202,16 @@ void ForgeCreate::extrudeModel(QPoint t_point) {
 
 	auto d = _distance(m_current, position);
 	m_model->symbol()->setProperty("length", d);
+
+	// TEST
+	auto transform = m_model->transform();
+	auto rotation = transform->rotation();
+
+	auto pose = (position - m_current).normalized();
+	rotation = QQuaternion::fromDirection(pose,pose);
+
+	transform->setRotation(rotation);
+
 }
 
 void ForgeCreate::positionModel(QPoint t_point) {

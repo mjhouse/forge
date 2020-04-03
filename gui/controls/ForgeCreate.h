@@ -16,7 +16,7 @@ private:
 	
 	float m_length;				/*!< The length of the active model */
 
-	FModel* m_model;	/*!< The active model */
+	FModel* m_model;			/*!< The active model */
 
 	QLineEdit* m_lengthInput;	/*!< A text input used for length input */
 
