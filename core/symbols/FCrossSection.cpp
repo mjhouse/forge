@@ -148,6 +148,7 @@ void FCrossSection::updateGeometry() {
 			nvertices[b] - nvertices[a],
 			nvertices[c] - nvertices[a]
 		);
+
 		nnormals[a] += n;
 		nnormals[b] += n;
 		nnormals[c] += n;
