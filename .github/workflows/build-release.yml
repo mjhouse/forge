@@ -1,4 +1,4 @@
-name: forge-build
+name: build-release
 
 on:
   push:
