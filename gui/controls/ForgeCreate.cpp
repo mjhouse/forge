@@ -18,7 +18,6 @@
 ForgeCreate::ForgeCreate(ForgeWindow* t_parent) 
 	: ForgeControl(t_parent,0.85f,0.02f)
 	, m_length(0.5f)
-	, m_model(nullptr) 
 	, m_lengthInput(new QLineEdit())
 	, m_loader()
 	, m_symbol(nullptr)
@@ -122,10 +121,14 @@ void ForgeCreate::deleteModel() {
 void ForgeCreate::updateModel() {
 	if (m_symbol == nullptr) return;
 
+	FModel* model = nullptr;
 	switch (m_mode) {
 		case PlacementType::None:
-			m_model = new FModel(m_symbol->copy());
-			ForgeApplication::instance()->render(m_model);
+			model = new FModel(m_symbol->copy());
+			Selection::get()->clear();
+			Selection::get()->add(model);
+			Selection::get()->lock();
+			ForgeApplication::instance()->render(model);
 			m_mode = PlacementType::Start;
 			break;
 		case PlacementType::Start:
@@ -133,7 +136,7 @@ void ForgeCreate::updateModel() {
 			break;
 		case PlacementType::End:
 			m_mode = PlacementType::None;
-			m_model = nullptr;
+			Selection::get()->unlock();
 			break;
 	}
 }
@@ -166,13 +169,13 @@ void ForgeCreate::onMouseMove(Message<QMouseEvent*>* t_message) {
 	auto event  = t_message->value();
 	auto parent = controller();
 
-	if (parent == nullptr || m_model == nullptr) {
+	if (parent == nullptr || Selection::get()->isEmpty()) {
 		m_mode = PlacementType::None;
 		return;
 	}
 
 	if (t_message->sender()->isHandler(parent)) {
-		if (event->type() == QEvent::Type::MouseButtonRelease &&
+		if (event->button() == Qt::LeftButton && event->type() == QEvent::Type::MouseButtonRelease &&
 			m_mode != PlacementType::None) {
 			updateModel(); // update placement state
 		}
@@ -195,7 +198,7 @@ void ForgeCreate::moveModel(QPoint t_point) {
 
 void ForgeCreate::extrudeModel(QPoint t_point) {
 	auto parent = controller();
-	if (parent == nullptr || m_model == nullptr) 
+	if (parent == nullptr || Selection::get()->isEmpty()) 
 		return;
 
 	auto camera = parent->camera();
@@ -216,22 +219,22 @@ void ForgeCreate::extrudeModel(QPoint t_point) {
 	position = position.unproject(view, proj, screen);
 
 	auto d = _distance(m_current, position);
-	m_model->symbol()->setProperty("length", d);
+	auto m = Selection::get()->selection().front();
+	m->symbol()->setProperty("length", d);
 
-	// TEST
-	auto transform = m_model->transform();
+	auto transform = m->transform();
 	auto rotation = transform->rotation();
 
 	auto pose = (position - m_current).normalized();
 	rotation = QQuaternion::fromDirection(pose,pose);
 
 	transform->setRotation(rotation);
-
+	updateView();
 }
 
 void ForgeCreate::positionModel(QPoint t_point) {
 	auto parent = controller();
-	if (parent == nullptr) return;
+	if (parent == nullptr || Selection::get()->isEmpty()) return;
 
 	auto camera = parent->camera();
 	auto screen = parent->geometry();
@@ -242,13 +245,14 @@ void ForgeCreate::positionModel(QPoint t_point) {
 	auto view = camera->viewMatrix();
 	auto proj = camera->projectionMatrix();
 
-	auto position = m_model->transform()->translation();
+	auto model = Selection::get()->selection().front();
+	auto position = model->transform()->translation();
 	position = position.project(view, proj, screen);
 
 	position.setX(t_point.x());
 	position.setY(screen.height() - t_point.y());
 	
 	position = position.unproject(view, proj, screen);
-	m_model->transform()->setTranslation(position);
+	model->transform()->setTranslation(position);
 	m_current = position;
 }

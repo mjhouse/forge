@@ -15,7 +15,7 @@ bool Selection::contains(FModel* t_model) {
 }
 
 void Selection::add(FModel* t_model) {
-	if (t_model == nullptr || contains(t_model)) 
+	if (t_model == nullptr || contains(t_model) || m_lock) 
 		return;
 	
 	t_model->highlight();
@@ -26,7 +26,9 @@ void Selection::add(FModel* t_model) {
 }
 
 void Selection::remove(FModel* t_model) {
-	if (t_model == nullptr) return;
+	if (t_model == nullptr || m_lock) 
+		return;
+	
 	t_model->unHighlight();
 
 	m_selected.erase(std::remove(
@@ -37,6 +39,8 @@ void Selection::remove(FModel* t_model) {
 }
 
 void Selection::clear() {
+	if (m_lock) return;
+
 	for (auto model : m_selected)
 		model->unHighlight();
 	m_selected.clear();

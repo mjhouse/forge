@@ -11,7 +11,12 @@ private:
 
 	std::vector<FModel*> m_selected;
 
-	Selection() : m_selected() {}
+	bool m_lock;
+
+	Selection() 
+		: m_selected() 
+		, m_lock(false) 
+	{}
 
 public:
 	static Selection* get();
@@ -25,6 +30,15 @@ public:
 	void remove(FModel* t_model);
 
 	void clear();
+
+	void lock()
+	{ m_lock = true; }
+
+	void unlock()
+	{ m_lock = false; }
+
+	bool isEmpty()
+	{ return m_selected.size() == 0; }
 
 signals:
 
