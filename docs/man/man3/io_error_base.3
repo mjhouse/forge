@@ -1,0 +1,47 @@
+.TH "io::error::base" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+io::error::base
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <csv\&.h>\fP
+.PP
+Inherits exception\&.
+.PP
+Inherited by \fBio::error::can_not_open_file\fP, \fBio::error::duplicated_column_in_header\fP, \fBio::error::escaped_string_not_closed\fP, \fBio::error::extra_column_in_header\fP, \fBio::error::header_missing\fP, \fBio::error::integer_must_be_positive\fP, \fBio::error::integer_overflow\fP, \fBio::error::integer_underflow\fP, \fBio::error::invalid_single_character\fP, \fBio::error::line_length_limit_exceeded\fP, \fBio::error::missing_column_in_header\fP, \fBio::error::no_digit\fP, \fBio::error::too_few_columns\fP, and \fBio::error::too_many_columns\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBformat_error_message\fP () const =0"
+.br
+.ti -1c
+.RI "const char * \fBwhat\fP () const noexcept override"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char \fBerror_message_buffer\fP [512]"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void io::error::base::format_error_message () const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBio::error::invalid_single_character\fP, \fBio::error::integer_underflow\fP, \fBio::error::integer_overflow\fP, \fBio::error::no_digit\fP, \fBio::error::integer_must_be_positive\fP, \fBio::error::escaped_string_not_closed\fP, \fBio::error::too_many_columns\fP, \fBio::error::too_few_columns\fP, \fBio::error::header_missing\fP, \fBio::error::duplicated_column_in_header\fP, \fBio::error::missing_column_in_header\fP, \fBio::error::extra_column_in_header\fP, \fBio::error::line_length_limit_exceeded\fP, and \fBio::error::can_not_open_file\fP\&.
+.SS "const char* io::error::base::what () const\fC [inline]\fP, \fC [override]\fP, \fC [noexcept]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "char io::error::base::error_message_buffer[512]\fC [mutable]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

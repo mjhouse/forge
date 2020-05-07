@@ -1,0 +1,41 @@
+.TH "Handler" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Handler
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Messages\&.h>\fP
+.PP
+Inherited by \fBForgeApplication\fP, \fBForgeControl\fP, and \fBForgeWindow\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBHandler\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisHandler\fP (\fBHandler\fP *t_other)"
+.br
+.ti -1c
+.RI "virtual void \fBonMessage\fP (\fBChannel\fP t_channel, \fBUnknownMessage\fP &t_message)=0"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Handler::Handler ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool Handler::isHandler (\fBHandler\fP * t_other)\fC [inline]\fP"
+
+.SS "virtual void Handler::onMessage (\fBChannel\fP t_channel, \fBUnknownMessage\fP & t_message)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBForgeCreate\fP, \fBForgeApplication\fP, \fBForgeControl\fP, and \fBForgeWindow\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

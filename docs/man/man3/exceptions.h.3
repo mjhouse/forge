@@ -1,0 +1,95 @@
+.TH "core/system/exceptions.h" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+core/system/exceptions.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'Logger\&.h'\fP
+.br
+\fC#include <exception>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBforge_exception\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBTHROW\fP(t,  m)   throw t(__FILE__,__LINE__,m)"
+.br
+.ti -1c
+.RI "#define \fBNULL_RET\fP(n)   \fBif\fP(n == nullptr) return"
+.br
+.ti -1c
+.RI "#define \fBNULL_RETV\fP(n,  v)   \fBif\fP(n == nullptr) return v"
+.br
+.ti -1c
+.RI "#define \fBNULL_THRW\fP(n,  m)   \fBif\fP(n == nullptr) \fBTHROW\fP(invalid_argument,m)"
+.br
+.ti -1c
+.RI "#define \fB_impl_exception\fP(N)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBLogLevel\fP = \fBlogging::LogLevel\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB_impl_exception\fP (invalid_argument)"
+.br
+.ti -1c
+.RI "\fB_impl_exception\fP (cannot_open_file)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _impl_exception(N)"
+\fBValue:\fP
+.PP
+.nf
+ class N : public forge_exception {      \
+        public:                             \
+            N(const char* t_file,           \
+              const int   t_line,           \
+              const char* t_message)        \
+            : forge_exception(              \
+                t_file,                     \
+                t_line,                     \
+                t_message)                  \
+            {}                              \
+    };                                      \
+.fi
+.SS "#define NULL_RET(n)   \fBif\fP(n == nullptr) return"
+
+.SS "#define NULL_RETV(n, v)   \fBif\fP(n == nullptr) return v"
+
+.SS "#define NULL_THRW(n, m)   \fBif\fP(n == nullptr) \fBTHROW\fP(invalid_argument,m)"
+
+.SS "#define THROW(t, m)   throw t(__FILE__,__LINE__,m)"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "using \fBLogLevel\fP =  \fBlogging::LogLevel\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "_impl_exception (cannot_open_file)"
+
+.SS "_impl_exception (invalid_argument)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

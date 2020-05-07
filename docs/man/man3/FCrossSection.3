@@ -1,0 +1,102 @@
+.TH "FCrossSection" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FCrossSection
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FCrossSection\&.h>\fP
+.PP
+Inherits \fBFSymbol\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFCrossSection\fP ()"
+.br
+.RI "The constructor takes counter-clockwise points defining a 2D surface around a local origin\&. "
+.ti -1c
+.RI "\fBFCrossSection\fP (\fBFCrossSection\fP *t_other)"
+.br
+.ti -1c
+.RI "void \fBsetGeometry\fP (std::vector< QVector3D > &t_points)"
+.br
+.RI "Set the reference points for the crosssection\&. "
+.ti -1c
+.RI "\fBFGeometry\fP * \fBtoGeometry\fP ()"
+.br
+.RI "Get an \fBFGeometry\fP object from the crosssection given a length\&. "
+.ti -1c
+.RI "void \fBupdateGeometry\fP ()"
+.br
+.RI "Create a 3D \fBFGeometry\fP object by performing a simple extrusion on the crosssection surface\&. "
+.ti -1c
+.RI "void \fBsetLength\fP (float t_length)"
+.br
+.RI "Set the length\&. "
+.ti -1c
+.RI "float \fBlength\fP ()"
+.br
+.RI "Get the length\&. "
+.ti -1c
+.RI "\fBFSymbol\fP * \fBcopy\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBpropertyChanged\fP (std::string t_name, \fBFProperty\fP t_property)"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FCrossSection::FCrossSection ()"
+
+.PP
+The constructor takes counter-clockwise points defining a 2D surface around a local origin\&. 
+.SS "FCrossSection::FCrossSection (\fBFCrossSection\fP * t_other)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBFSymbol\fP* FCrossSection::copy ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBFSymbol\fP\&.
+.SS "float FCrossSection::length ()"
+
+.PP
+Get the length\&. 
+.SS "void FCrossSection::propertyChanged (std::string t_name, \fBFProperty\fP t_property)\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBFSymbol\fP\&.
+.SS "void FCrossSection::setGeometry (std::vector< QVector3D > & t_points)\fC [virtual]\fP"
+
+.PP
+Set the reference points for the crosssection\&. 
+.PP
+Implements \fBFSymbol\fP\&.
+.SS "void FCrossSection::setLength (float t_length)"
+
+.PP
+Set the length\&. 
+.SS "\fBFGeometry\fP * FCrossSection::toGeometry ()\fC [virtual]\fP"
+
+.PP
+Get an \fBFGeometry\fP object from the crosssection given a length\&. 
+.PP
+Implements \fBFSymbol\fP\&.
+.SS "void FCrossSection::updateGeometry ()\fC [virtual]\fP"
+
+.PP
+Create a 3D \fBFGeometry\fP object by performing a simple extrusion on the crosssection surface\&. 
+.PP
+Implements \fBFSymbol\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

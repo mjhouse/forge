@@ -1,0 +1,59 @@
+.TH "core/system/Resources.cpp" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+core/system/Resources.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'Resources\&.h'\fP
+.br
+\fC#include 'Exceptions\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBresources\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_ext\fP(n,  e)   n\&.endsWith(e) ? t_file : t_file + e"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBresources::initialize\fP (std::string t_root)"
+.br
+.ti -1c
+.RI "void \fBresources::initialize\fP (QString t_root)"
+.br
+.ti -1c
+.RI "QByteArray \fBresources::shader\fP (QString t_file)"
+.br
+.ti -1c
+.RI "QString \fBresources::theme\fP (QString t_file)"
+.br
+.ti -1c
+.RI "QIcon \fBresources::icon\fP (QString t_file)"
+.br
+.ti -1c
+.RI "std::string \fBresources::data\fP (std::string t_name)"
+.br
+.ti -1c
+.RI "std::string \fBresources::log\fP (std::string t_name)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _ext(n, e)   n\&.endsWith(e) ? t_file : t_file + e"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

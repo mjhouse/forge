@@ -1,0 +1,36 @@
+.TH "io::ByteSourceBase" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+io::ByteSourceBase
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <csv\&.h>\fP
+.PP
+Inherited by \fBio::detail::NonOwningIStreamByteSource\fP, \fBio::detail::NonOwningStringByteSource\fP, and \fBio::detail::OwningStdIOByteSourceBase\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual int \fBread\fP (char *buffer, int size)=0"
+.br
+.ti -1c
+.RI "virtual \fB~ByteSourceBase\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "virtual io::ByteSourceBase::~ByteSourceBase ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual int io::ByteSourceBase::read (char * buffer, int size)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBio::detail::NonOwningIStreamByteSource\fP, \fBio::detail::OwningStdIOByteSourceBase\fP, and \fBio::detail::NonOwningStringByteSource\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

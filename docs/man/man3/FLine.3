@@ -1,0 +1,107 @@
+.TH "FLine" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FLine
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FLine\&.h>\fP
+.PP
+Inherits \fBFSymbol\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFLine\fP ()"
+.br
+.RI "Constructor for the line\&. "
+.ti -1c
+.RI "\fBFLine\fP (\fBFLine\fP *t_other)"
+.br
+.ti -1c
+.RI "\fBFLine\fP (QVector3D t_start, QVector3D t_end)"
+.br
+.RI "Constructor for the line\&. "
+.ti -1c
+.RI "void \fBsetGeometry\fP (std::vector< QVector3D > &t_points)"
+.br
+.ti -1c
+.RI "\fBFGeometry\fP * \fBtoGeometry\fP ()"
+.br
+.RI "Convert the line to an \fBFGeometry\fP object\&. "
+.ti -1c
+.RI "void \fBupdateGeometry\fP ()"
+.br
+.RI "Update an existing \fBFGeometry\fP instance\&. "
+.ti -1c
+.RI "\fBFSymbol\fP * \fBcopy\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetLength\fP (float t_length)"
+.br
+.RI "Set the length\&. "
+.ti -1c
+.RI "float \fBlength\fP ()"
+.br
+.RI "Get the length\&. "
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBpropertyChanged\fP (std::string t_name, \fBFProperty\fP t_property)"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FLine::FLine ()"
+
+.PP
+Constructor for the line\&. 
+.SS "FLine::FLine (\fBFLine\fP * t_other)"
+
+.SS "FLine::FLine (QVector3D t_start, QVector3D t_end)"
+
+.PP
+Constructor for the line\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBFSymbol\fP * FLine::copy ()\fC [virtual]\fP"
+
+.PP
+Implements \fBFSymbol\fP\&.
+.SS "float FLine::length ()"
+
+.PP
+Get the length\&. 
+.SS "void FLine::propertyChanged (std::string t_name, \fBFProperty\fP t_property)\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBFSymbol\fP\&.
+.SS "void FLine::setGeometry (std::vector< QVector3D > & t_points)\fC [virtual]\fP"
+
+.PP
+Implements \fBFSymbol\fP\&.
+.SS "void FLine::setLength (float t_length)"
+
+.PP
+Set the length\&. 
+.SS "\fBFGeometry\fP * FLine::toGeometry ()\fC [virtual]\fP"
+
+.PP
+Convert the line to an \fBFGeometry\fP object\&. 
+.PP
+Implements \fBFSymbol\fP\&.
+.SS "void FLine::updateGeometry ()\fC [virtual]\fP"
+
+.PP
+Update an existing \fBFGeometry\fP instance\&. 
+.PP
+Implements \fBFSymbol\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

@@ -1,0 +1,79 @@
+.TH "IdentifierList< T >" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IdentifierList< T >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <IdentifierList\&.h>\fP
+.PP
+Inherits \fBDerived_from< T, HasIdentifier >\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBIdentifierList\fP ()"
+.br
+.ti -1c
+.RI "void \fBadd\fP (T *t_obj)"
+.br
+.ti -1c
+.RI "void \fBremove\fP (T *t_obj)"
+.br
+.ti -1c
+.RI "void \fBremove\fP (\fBuint\fP t_id)"
+.br
+.ti -1c
+.RI "T * \fBfind\fP (\fBuint\fP t_id)"
+.br
+.ti -1c
+.RI "T * \fBfirst\fP ()"
+.br
+.ti -1c
+.RI "bool \fBcontains\fP (T *t_obj)"
+.br
+.ti -1c
+.RI "void \fBprioritize\fP (\fBuint\fP t_id)"
+.br
+.ti -1c
+.RI "std::vector< T * > \fBpriority\fP ()"
+.br
+.ti -1c
+.RI "T * \fBhigh\fP ()"
+.br
+.ti -1c
+.RI "size_t \fBsize\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class T > \fBIdentifierList\fP< T >::\fBIdentifierList\fP ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class T > void \fBIdentifierList\fP< T >::add (T * t_obj)\fC [inline]\fP"
+
+.SS "template<class T > bool \fBIdentifierList\fP< T >::contains (T * t_obj)\fC [inline]\fP"
+
+.SS "template<class T > T* \fBIdentifierList\fP< T >::find (\fBuint\fP t_id)\fC [inline]\fP"
+
+.SS "template<class T > T* \fBIdentifierList\fP< T >::first ()\fC [inline]\fP"
+
+.SS "template<class T > T* \fBIdentifierList\fP< T >::high ()\fC [inline]\fP"
+
+.SS "template<class T > void \fBIdentifierList\fP< T >::prioritize (\fBuint\fP t_id)\fC [inline]\fP"
+
+.SS "template<class T > std::vector<T*> \fBIdentifierList\fP< T >::priority ()\fC [inline]\fP"
+
+.SS "template<class T > void \fBIdentifierList\fP< T >::remove (T * t_obj)\fC [inline]\fP"
+
+.SS "template<class T > void \fBIdentifierList\fP< T >::remove (\fBuint\fP t_id)\fC [inline]\fP"
+
+.SS "template<class T > size_t \fBIdentifierList\fP< T >::size ()\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

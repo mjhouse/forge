@@ -5,6 +5,7 @@
 #include "ForgeControl.h"
 #include "Messages.h"
 #include "Message.h"
+#include "Selection.hpp"
 
 #include <Qt3DRender/QMultiSampleAntiAliasing>
 #include <Qt3DRender/QDepthTest>
@@ -174,32 +175,6 @@ ForgeWindow* ForgeApplication::findWindow(QPoint t_point) {
 FModel* ForgeApplication::selected()
 {
 	return this->m_selected;
-}
-
-/* \brief Set the selected FModel.
- */
-void ForgeApplication::setSelected(FModel* t_model)
-{
-	if (t_model == m_selected)
-		return;
-
-	if (t_model == nullptr) {
-		m_selected = nullptr;
-		emit selectionChanged(t_model);
-		return;
-	}
-	else {
-		t_model->highlight();
-	}
-
-	if (!t_model->selectable())
-		return;
-
-	if (m_selected != nullptr)
-		m_selected->unHighlight();
-
-	m_selected = t_model;
-	emit selectionChanged(t_model);
 }
 
 /* \brief Display a new FModel.

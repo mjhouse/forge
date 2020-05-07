@@ -217,6 +217,7 @@ void ForgeControl::onMessage(Channel t_channel, UnknownMessage& t_message) {
 void ForgeControl::appStateChanged(Message<Qt::ApplicationState>* t_state) {
 	auto state = t_state->value();
 	auto shown = isVisible();
+	
 	if ((state & Qt::ApplicationActive) == Qt::ApplicationActive) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 		if (shown) {

@@ -1,0 +1,44 @@
+.TH "Messages" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Messages
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Messages\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsubscribe\fP (\fBHandler\fP *t_subscriber, \fBChannel\fP t_channel)"
+.br
+.ti -1c
+.RI "void \fBunsubscribe\fP (\fBHandler\fP *t_subscriber, \fBChannel\fP t_channel)"
+.br
+.ti -1c
+.RI "template<typename T > void \fBpublish\fP (\fBHandler\fP *t_sender, \fBChannel\fP t_channel, T t_message)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBMessages\fP * \fBinstance\fP ()"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "static \fBMessages\fP* Messages::instance ()\fC [inline]\fP, \fC [static]\fP"
+
+.SS "template<typename T > void Messages::publish (\fBHandler\fP * t_sender, \fBChannel\fP t_channel, T t_message)\fC [inline]\fP"
+
+.SS "void Messages::subscribe (\fBHandler\fP * t_subscriber, \fBChannel\fP t_channel)"
+
+.SS "void Messages::unsubscribe (\fBHandler\fP * t_subscriber, \fBChannel\fP t_channel)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

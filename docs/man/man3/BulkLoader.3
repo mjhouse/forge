@@ -1,0 +1,57 @@
+.TH "BulkLoader" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+BulkLoader
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <BulkLoader\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBulkLoader\fP ()"
+.br
+.ti -1c
+.RI "\fB~BulkLoader\fP ()"
+.br
+.ti -1c
+.RI "void \fBload\fP (std::string t_path)"
+.br
+.ti -1c
+.RI "std::map< std::string, \fBFSymbol\fP * > & \fBsymbols\fP ()"
+.br
+.ti -1c
+.RI "\fBFSymbol\fP * \fBgetName\fP (std::string t_name)"
+.br
+.ti -1c
+.RI "\fBFSymbol\fP * \fBget\fP (std::string t_name)"
+.br
+.ti -1c
+.RI "size_t \fBsize\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "BulkLoader::BulkLoader ()"
+
+.SS "BulkLoader::~BulkLoader ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBFSymbol\fP * BulkLoader::get (std::string t_name)"
+
+.SS "\fBFSymbol\fP * BulkLoader::getName (std::string t_name)"
+
+.SS "void BulkLoader::load (std::string t_path)"
+
+.SS "size_t BulkLoader::size ()"
+
+.SS "std::map< std::string, \fBFSymbol\fP * > & BulkLoader::symbols ()"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

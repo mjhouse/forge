@@ -1,0 +1,107 @@
+.TH "ForgeWindow" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ForgeWindow \- The main 3D window class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ForgeWindow\&.h>\fP
+.PP
+Inherits QWindow, \fBHasIdentifier\fP, \fBHandler\fP, and QOpenGLFunctions\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBForgeWindow\fP ()"
+.br
+.RI "Constructor for \fBForgeWindow\fP\&. "
+.ti -1c
+.RI "\fB~ForgeWindow\fP ()"
+.br
+.RI "Destructor for \fBForgeWindow\fP\&. "
+.ti -1c
+.RI "void \fBsetRenderSource\fP (\fBQtFrameGraphNode\fP *t_framegraph)"
+.br
+.RI "Sets the framegraph source for this window\&. "
+.ti -1c
+.RI "void \fBsetRoot\fP (\fBQtEntity\fP *t_root)"
+.br
+.RI "Sets the entity root for this window\&. "
+.ti -1c
+.RI "void \fBclearParent\fP ()"
+.br
+.RI "Removes the framegraph and entity parents\&. "
+.ti -1c
+.RI "\fBQtCamera\fP * \fBcamera\fP ()"
+.br
+.RI "Get the camera for this window\&. "
+.ti -1c
+.RI "\fBQtForwardRenderer\fP * \fBrenderer\fP ()"
+.br
+.RI "Get the renderer for this window\&. "
+.ti -1c
+.RI "void \fBaddControl\fP (\fBForgeControl\fP *t_control)"
+.br
+.RI "Add a new child control\&. "
+.ti -1c
+.RI "void \fBremoveControl\fP (\fBForgeControl\fP *t_control)"
+.br
+.RI "Remove an existing child control\&. "
+.ti -1c
+.RI "void \fBonMessage\fP (\fBChannel\fP t_channel, \fBUnknownMessage\fP &t_message)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The main 3D window class\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ForgeWindow::ForgeWindow ()"
+
+.PP
+Constructor for \fBForgeWindow\fP\&. 
+.SS "ForgeWindow::~ForgeWindow ()"
+
+.PP
+Destructor for \fBForgeWindow\fP\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void ForgeWindow::addControl (\fBForgeControl\fP * t_control)"
+
+.PP
+Add a new child control\&. 
+.SS "\fBQtCamera\fP * ForgeWindow::camera ()"
+
+.PP
+Get the camera for this window\&. 
+.SS "void ForgeWindow::clearParent ()"
+
+.PP
+Removes the framegraph and entity parents\&. 
+.SS "void ForgeWindow::onMessage (\fBChannel\fP t_channel, \fBUnknownMessage\fP & t_message)\fC [virtual]\fP"
+
+.PP
+Implements \fBHandler\fP\&.
+.SS "void ForgeWindow::removeControl (\fBForgeControl\fP * t_control)"
+
+.PP
+Remove an existing child control\&. 
+.SS "\fBQtForwardRenderer\fP * ForgeWindow::renderer ()"
+
+.PP
+Get the renderer for this window\&. 
+.SS "void ForgeWindow::setRenderSource (\fBQtFrameGraphNode\fP * t_framegraph)"
+
+.PP
+Sets the framegraph source for this window\&. 
+.SS "void ForgeWindow::setRoot (\fBQtEntity\fP * t_root)"
+
+.PP
+Sets the entity root for this window\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

@@ -1,0 +1,95 @@
+.TH "ForgeControl" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ForgeControl
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ForgeControl\&.h>\fP
+.PP
+Inherits QDialog, \fBHasIdentifier\fP, and \fBHandler\fP\&.
+.PP
+Inherited by \fBForgeCreate\fP, \fBForgeMainMenu\fP, and \fBForgeTransform\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBForgeControl\fP (\fBForgeWindow\fP *t_parent, float t_x, float t_y)"
+.br
+.ti -1c
+.RI "void \fBhasTitle\fP (bool t_title)"
+.br
+.ti -1c
+.RI "void \fBsetTitle\fP (QString t_title)"
+.br
+.ti -1c
+.RI "void \fBsetCentralWidget\fP (QWidget *t_widget)"
+.br
+.ti -1c
+.RI "void \fBsetHandle\fP (\fBFWidget\fP *t_handle)"
+.br
+.ti -1c
+.RI "void \fBsetControlled\fP (\fBForgeWindow\fP *t_parent)"
+.br
+.ti -1c
+.RI "\fBForgeWindow\fP * \fBcontroller\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisMoving\fP ()"
+.br
+.ti -1c
+.RI "bool \fBpersistent\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetPersistent\fP (bool t_persistent)"
+.br
+.ti -1c
+.RI "QVector2D \fBanchor\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetAnchor\fP (QVector2D t_anchor)"
+.br
+.ti -1c
+.RI "virtual void \fBonMessage\fP (\fBChannel\fP t_channel, \fBUnknownMessage\fP &t_message)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ForgeControl::ForgeControl (\fBForgeWindow\fP * t_parent, float t_x, float t_y)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "QVector2D ForgeControl::anchor ()"
+
+.SS "\fBForgeWindow\fP * ForgeControl::controller ()"
+
+.SS "void ForgeControl::hasTitle (bool t_title)"
+
+.SS "bool ForgeControl::isMoving ()"
+
+.SS "void ForgeControl::onMessage (\fBChannel\fP t_channel, \fBUnknownMessage\fP & t_message)\fC [virtual]\fP"
+
+.PP
+Implements \fBHandler\fP\&.
+.PP
+Reimplemented in \fBForgeCreate\fP\&.
+.SS "bool ForgeControl::persistent ()"
+
+.SS "void ForgeControl::setAnchor (QVector2D t_anchor)"
+
+.SS "void ForgeControl::setCentralWidget (QWidget * t_widget)"
+
+.SS "void ForgeControl::setControlled (\fBForgeWindow\fP * t_parent)"
+
+.SS "void ForgeControl::setHandle (\fBFWidget\fP * t_handle)"
+
+.SS "void ForgeControl::setPersistent (bool t_persistent)"
+
+.SS "void ForgeControl::setTitle (QString t_title)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

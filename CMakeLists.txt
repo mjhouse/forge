@@ -16,6 +16,7 @@ set(QT5_INSTALL "C:/Qt/5.14.1/msvc2017_64")
 set(CMAKE_PREFIX_PATH ${QT5_INSTALL})
 
 include_directories("${QT5_INSTALL}/include/")
+include_directories("${QT5_INSTALL}/include/QtGui/5.14.1/QtGui/")
 
 include_directories("core/")
 include_directories("core/dependencies")

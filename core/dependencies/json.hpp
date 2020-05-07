@@ -3255,8 +3255,8 @@ struct from_json_fn
 /// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4381.html
 namespace
 {
-constexpr const auto& from_json = detail::static_const<detail::from_json_fn>::value;
-} // namespace
+    constexpr const auto& from_json = detail::static_const<detail::from_json_fn>::value;
+    } // namespace
 } // namespace nlohmann
 
 // #include <nlohmann/detail/conversions/to_json.hpp>
@@ -18652,8 +18652,6 @@ class basic_json
 
     Returns an iterator to the first element.
 
-    @image html range-begin-end.svg "Illustration from cppreference.com"
-
     @return iterator to the first element
 
     @complexity Constant.
@@ -18691,8 +18689,6 @@ class basic_json
 
     Returns a const iterator to the first element.
 
-    @image html range-begin-end.svg "Illustration from cppreference.com"
-
     @return const iterator to the first element
 
     @complexity Constant.
@@ -18722,8 +18718,6 @@ class basic_json
     @brief returns an iterator to one past the last element
 
     Returns an iterator to one past the last element.
-
-    @image html range-begin-end.svg "Illustration from cppreference.com"
 
     @return iterator one past the last element
 
@@ -18762,8 +18756,6 @@ class basic_json
 
     Returns a const iterator to one past the last element.
 
-    @image html range-begin-end.svg "Illustration from cppreference.com"
-
     @return const iterator one past the last element
 
     @complexity Constant.
@@ -18793,8 +18785,6 @@ class basic_json
     @brief returns an iterator to the reverse-beginning
 
     Returns an iterator to the reverse-beginning; that is, the last element.
-
-    @image html range-rbegin-rend.svg "Illustration from cppreference.com"
 
     @complexity Constant.
 
@@ -18831,8 +18821,6 @@ class basic_json
     Returns an iterator to the reverse-end; that is, one before the first
     element.
 
-    @image html range-rbegin-rend.svg "Illustration from cppreference.com"
-
     @complexity Constant.
 
     @requirement This function helps `basic_json` satisfying the
@@ -18868,8 +18856,6 @@ class basic_json
     Returns a const iterator to the reverse-beginning; that is, the last
     element.
 
-    @image html range-rbegin-rend.svg "Illustration from cppreference.com"
-
     @complexity Constant.
 
     @requirement This function helps `basic_json` satisfying the
@@ -18896,8 +18882,6 @@ class basic_json
 
     Returns a const reverse iterator to the reverse-end; that is, one before
     the first element.
-
-    @image html range-rbegin-rend.svg "Illustration from cppreference.com"
 
     @complexity Constant.
 

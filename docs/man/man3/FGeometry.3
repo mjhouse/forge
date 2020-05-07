@@ -1,0 +1,200 @@
+.TH "FGeometry" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FGeometry
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FGeometry\&.h>\fP
+.PP
+Inherits QtGeometry\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "QByteArray \fBtoData\fP (std::vector< QVector3D > &t_points)"
+.br
+.ti -1c
+.RI "void \fBsetVertexData\fP (std::vector< QVector3D > &t_vertices)"
+.br
+.RI "Sets buffer data given QVector3D vertex points\&. "
+.ti -1c
+.RI "void \fBsetNormalData\fP (std::vector< QVector3D > &t_normals)"
+.br
+.RI "Sets buffer data given QVector3D normal points\&. "
+.ti -1c
+.RI "void \fBsetIndexData\fP (std::vector< \fBuint\fP > &t_indices)"
+.br
+.RI "Sets buffer data given uint indices for the vertex buffer\&. "
+.ti -1c
+.RI "void \fBcreateVertexAttribute\fP (\fBQtBuffer\fP *t_buffer, \fBuint\fP t_count)"
+.br
+.RI "Creates a vertex buffer attribute if none exists\&. "
+.ti -1c
+.RI "void \fBcreateNormalAttribute\fP (\fBQtBuffer\fP *t_buffer, \fBuint\fP t_count)"
+.br
+.RI "Creates a normal buffer attribute if none exists\&. "
+.ti -1c
+.RI "void \fBcreateIndexAttribute\fP (\fBQtBuffer\fP *t_buffer, \fBuint\fP t_count)"
+.br
+.RI "Creates an index buffer attribute if none exists\&. "
+.ti -1c
+.RI "\fBFGeometry\fP ()"
+.br
+.RI "Constructor that initializes all values\&. "
+.ti -1c
+.RI "void \fBsetVertices\fP (std::vector< QVector3D > t_vertices)"
+.br
+.RI "Creates or updates the vertex buffer\&. "
+.ti -1c
+.RI "void \fBsetNormals\fP (std::vector< QVector3D > t_normals)"
+.br
+.RI "Creates or updates the normal buffer\&. "
+.ti -1c
+.RI "void \fBsetIndices\fP (std::vector< \fBuint\fP > t_indices)"
+.br
+.RI "Creates or updates the index buffer\&. "
+.ti -1c
+.RI "std::vector< QVector3D > \fBgetVertices\fP ()"
+.br
+.RI "Converts flat buffer data into a vector of QVector3D objects\&. "
+.ti -1c
+.RI "std::vector< QVector3D > \fBgetNormals\fP ()"
+.br
+.RI "Converts flat buffer data into a vector of QVector3D objects\&. "
+.ti -1c
+.RI "std::vector< \fBuint\fP > \fBgetIndices\fP ()"
+.br
+.RI "Converts flat buffer data into a vector of uint indices\&. "
+.ti -1c
+.RI "\fBQtRenderer\fP * \fBgetRenderer\fP ()"
+.br
+.RI "Creates and returns a configured Qt GeometryRenderer for for this Geometry instance\&. "
+.ti -1c
+.RI "void \fBsetRenderType\fP (\fBQtRenderType\fP t_type)"
+.br
+.ti -1c
+.RI "\fBQtRenderType\fP \fBrenderType\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisPlanar\fP ()"
+.br
+.RI "Verifies that the geometry is planar (all points lie in a plane)\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBQtBuffer\fP * \fBm_vertices\fP"
+.br
+.ti -1c
+.RI "\fBQtBuffer\fP * \fBm_normals\fP"
+.br
+.ti -1c
+.RI "\fBQtBuffer\fP * \fBm_indices\fP"
+.br
+.ti -1c
+.RI "\fBQtAttribute\fP * \fBm_vertexAttribute\fP"
+.br
+.ti -1c
+.RI "\fBQtAttribute\fP * \fBm_normalAttribute\fP"
+.br
+.ti -1c
+.RI "\fBQtAttribute\fP * \fBm_indexAttribute\fP"
+.br
+.ti -1c
+.RI "\fBQtRenderType\fP \fBm_type\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FGeometry::FGeometry ()"
+
+.PP
+Constructor that initializes all values\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void FGeometry::createIndexAttribute (\fBQtBuffer\fP * t_buffer, \fBuint\fP t_count)"
+
+.PP
+Creates an index buffer attribute if none exists\&. 
+.SS "void FGeometry::createNormalAttribute (\fBQtBuffer\fP * t_buffer, \fBuint\fP t_count)"
+
+.PP
+Creates a normal buffer attribute if none exists\&. 
+.SS "void FGeometry::createVertexAttribute (\fBQtBuffer\fP * t_buffer, \fBuint\fP t_count)"
+
+.PP
+Creates a vertex buffer attribute if none exists\&. 
+.SS "std::vector< \fBuint\fP > FGeometry::getIndices ()"
+
+.PP
+Converts flat buffer data into a vector of uint indices\&. 
+.SS "std::vector< QVector3D > FGeometry::getNormals ()"
+
+.PP
+Converts flat buffer data into a vector of QVector3D objects\&. 
+.SS "\fBQtRenderer\fP * FGeometry::getRenderer ()"
+
+.PP
+Creates and returns a configured Qt GeometryRenderer for for this Geometry instance\&. 
+.SS "std::vector< QVector3D > FGeometry::getVertices ()"
+
+.PP
+Converts flat buffer data into a vector of QVector3D objects\&. 
+.SS "bool FGeometry::isPlanar ()"
+
+.PP
+Verifies that the geometry is planar (all points lie in a plane)\&. 
+.SS "\fBQtRenderType\fP FGeometry::renderType ()"
+
+.SS "void FGeometry::setIndexData (std::vector< \fBuint\fP > & t_indices)"
+
+.PP
+Sets buffer data given uint indices for the vertex buffer\&. 
+.SS "void FGeometry::setIndices (std::vector< \fBuint\fP > t_indices)"
+
+.PP
+Creates or updates the index buffer\&. 
+.SS "void FGeometry::setNormalData (std::vector< QVector3D > & t_normals)"
+
+.PP
+Sets buffer data given QVector3D normal points\&. 
+.SS "void FGeometry::setNormals (std::vector< QVector3D > t_normals)"
+
+.PP
+Creates or updates the normal buffer\&. 
+.SS "void FGeometry::setRenderType (\fBQtRenderType\fP t_type)"
+
+.SS "void FGeometry::setVertexData (std::vector< QVector3D > & t_vertices)"
+
+.PP
+Sets buffer data given QVector3D vertex points\&. 
+.SS "void FGeometry::setVertices (std::vector< QVector3D > t_vertices)"
+
+.PP
+Creates or updates the vertex buffer\&. 
+.SS "QByteArray FGeometry::toData (std::vector< QVector3D > & t_points)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBQtAttribute\fP* FGeometry::m_indexAttribute"
+An attribute that handles the index buffer 
+.SS "\fBQtBuffer\fP* FGeometry::m_indices"
+The index buffer 
+.SS "\fBQtAttribute\fP* FGeometry::m_normalAttribute"
+An attribute that handles the normal buffer 
+.SS "\fBQtBuffer\fP* FGeometry::m_normals"
+The normal buffer 
+.SS "\fBQtRenderType\fP FGeometry::m_type"
+
+.SS "\fBQtAttribute\fP* FGeometry::m_vertexAttribute"
+An attribute that handles the vertex buffer 
+.SS "\fBQtBuffer\fP* FGeometry::m_vertices"
+The vertex buffer 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

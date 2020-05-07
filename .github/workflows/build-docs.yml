@@ -14,13 +14,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # install Doxygen
+      - name: Installing Doxygen
+        uses: mattnotmitt/doxygen-action@v1
+
     #   # install Qt5
     #   - name: Install Qt5
     #     uses: jurplel/install-qt-action@v2
     #     with:
     #       version: '5.14.1'
     #       dir: 'C:/'
-      
+    
     #   # build Forge
     #   - name: Build Forge
     #     run: "&'.github/scripts/windows-build.ps1'"

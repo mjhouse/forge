@@ -1,0 +1,54 @@
+.TH "ForgeMainMenu" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ForgeMainMenu
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ForgeMainMenu\&.h>\fP
+.PP
+Inherits \fBForgeControl\fP\&.
+.SS "Signals"
+
+.in +1c
+.ti -1c
+.RI "void \fBexitCommand\fP (bool t_checked)"
+.br
+.ti -1c
+.RI "void \fBviewCommand\fP (bool t_checked)"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBForgeMainMenu\fP (\fBForgeWindow\fP *t_parent)"
+.br
+.RI "The constructor for the main menu widget\&. "
+.ti -1c
+.RI "void \fBaddLauncher\fP (\fBRootMenu\fP t_root, const char *label, \fBForgeControl\fP *t_control)"
+.br
+.RI "This binds an existing widget to a menu option, so that clicking the menu displays the widget\&. "
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ForgeMainMenu::ForgeMainMenu (\fBForgeWindow\fP * t_parent)"
+
+.PP
+The constructor for the main menu widget\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void ForgeMainMenu::addLauncher (\fBRootMenu\fP t_root, const char * label, \fBForgeControl\fP * t_control)"
+
+.PP
+This binds an existing widget to a menu option, so that clicking the menu displays the widget\&. 
+.SS "void ForgeMainMenu::exitCommand (bool t_checked)\fC [signal]\fP"
+
+.SS "void ForgeMainMenu::viewCommand (bool t_checked)\fC [signal]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

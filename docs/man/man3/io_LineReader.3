@@ -1,0 +1,117 @@
+.TH "io::LineReader" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+io::LineReader
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <csv\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBLineReader\fP ()=delete"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const \fBLineReader\fP &)=delete"
+.br
+.ti -1c
+.RI "\fBLineReader\fP & \fBoperator=\fP (const \fBLineReader\fP &)=delete"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const char *file_name)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const std::string &file_name)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const char *file_name, std::unique_ptr< \fBByteSourceBase\fP >byte_source)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const std::string &file_name, std::unique_ptr< \fBByteSourceBase\fP >byte_source)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const char *file_name, const char *data_begin, const char *data_end)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const std::string &file_name, const char *data_begin, const char *data_end)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const char *file_name, FILE *file)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const std::string &file_name, FILE *file)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const char *file_name, std::istream &in)"
+.br
+.ti -1c
+.RI "\fBLineReader\fP (const std::string &file_name, std::istream &in)"
+.br
+.ti -1c
+.RI "void \fBset_file_name\fP (const std::string &file_name)"
+.br
+.ti -1c
+.RI "void \fBset_file_name\fP (const char *file_name)"
+.br
+.ti -1c
+.RI "const char * \fBget_truncated_file_name\fP () const"
+.br
+.ti -1c
+.RI "void \fBset_file_line\fP (unsigned file_line)"
+.br
+.ti -1c
+.RI "unsigned \fBget_file_line\fP () const"
+.br
+.ti -1c
+.RI "char * \fBnext_line\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "io::LineReader::LineReader ()\fC [delete]\fP"
+
+.SS "io::LineReader::LineReader (const \fBLineReader\fP &)\fC [delete]\fP"
+
+.SS "io::LineReader::LineReader (const char * file_name)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "io::LineReader::LineReader (const std::string & file_name)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "io::LineReader::LineReader (const char * file_name, std::unique_ptr< \fBByteSourceBase\fP > byte_source)\fC [inline]\fP"
+
+.SS "io::LineReader::LineReader (const std::string & file_name, std::unique_ptr< \fBByteSourceBase\fP > byte_source)\fC [inline]\fP"
+
+.SS "io::LineReader::LineReader (const char * file_name, const char * data_begin, const char * data_end)\fC [inline]\fP"
+
+.SS "io::LineReader::LineReader (const std::string & file_name, const char * data_begin, const char * data_end)\fC [inline]\fP"
+
+.SS "io::LineReader::LineReader (const char * file_name, FILE * file)\fC [inline]\fP"
+
+.SS "io::LineReader::LineReader (const std::string & file_name, FILE * file)\fC [inline]\fP"
+
+.SS "io::LineReader::LineReader (const char * file_name, std::istream & in)\fC [inline]\fP"
+
+.SS "io::LineReader::LineReader (const std::string & file_name, std::istream & in)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "unsigned io::LineReader::get_file_line () const\fC [inline]\fP"
+
+.SS "const char* io::LineReader::get_truncated_file_name () const\fC [inline]\fP"
+
+.SS "char* io::LineReader::next_line ()\fC [inline]\fP"
+
+.SS "\fBLineReader\fP& io::LineReader::operator= (const \fBLineReader\fP &)\fC [delete]\fP"
+
+.SS "void io::LineReader::set_file_line (unsigned file_line)\fC [inline]\fP"
+
+.SS "void io::LineReader::set_file_name (const char * file_name)\fC [inline]\fP"
+
+.SS "void io::LineReader::set_file_name (const std::string & file_name)\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

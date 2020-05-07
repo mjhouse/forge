@@ -1,0 +1,69 @@
+.TH "FMaterial" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FMaterial
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FMaterial\&.h>\fP
+.PP
+Inherits QtMaterial\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFMaterial\fP (QColor t_color, const char *t_vshader, const char *t_fshader)"
+.br
+.ti -1c
+.RI "\fBFMaterial\fP (\fBFSymbol\fP *t_symbol, QColor t_color)"
+.br
+.RI "Constructor for material that inits shader program and sets the initial color\&. "
+.ti -1c
+.RI "void \fBsetColor\fP (QColor t_color)"
+.br
+.RI "Set the color with a QColor object\&. "
+.ti -1c
+.RI "void \fBsetColor\fP (float t_r, float t_g, float t_b)"
+.br
+.RI "Set the color from r, g and b values\&. "
+.ti -1c
+.RI "QColor \fBcolor\fP ()"
+.br
+.RI "Get the current color\&. "
+.ti -1c
+.RI "void \fBresetColor\fP ()"
+.br
+.RI "Reset the original color\&. "
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FMaterial::FMaterial (QColor t_color, const char * t_vshader, const char * t_fshader)"
+
+.SS "FMaterial::FMaterial (\fBFSymbol\fP * t_symbol, QColor t_color)"
+
+.PP
+Constructor for material that inits shader program and sets the initial color\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "QColor FMaterial::color ()"
+
+.PP
+Get the current color\&. 
+.SS "void FMaterial::resetColor ()"
+
+.PP
+Reset the original color\&. 
+.SS "void FMaterial::setColor (float t_r, float t_g, float t_b)"
+
+.PP
+Set the color from r, g and b values\&. 
+.SS "void FMaterial::setColor (QColor t_color)"
+
+.PP
+Set the color with a QColor object\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

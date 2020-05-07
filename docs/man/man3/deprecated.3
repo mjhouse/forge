@@ -1,0 +1,14 @@
+.TH "deprecated" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+deprecated \- Deprecated List 
+
+.IP "\fBMember \fBnlohmann::basic_json::iterator_wrapper\fP (reference ref) noexcept\fP" 1c
+This stream operator is deprecated and will be removed in future 4\&.0\&.0 of the library\&. Please use \fBitems()\fP instead; that is, replace \fCjson::iterator_wrapper(j)\fP with \fCj\&.items()\fP\&.  
+.IP "\fBMember \fBnlohmann::basic_json::operator<<\fP (\fBbasic_json\fP &j, std::istream &i)\fP" 1c
+This stream operator is deprecated and will be removed in version 4\&.0\&.0 of the library\&. Please use \fBoperator>>(std::istream&, basic_json&)\fP instead; that is, replace calls like \fCj << i;\fP with \fCi >> j;\fP\&.  
+.IP "\fBMember \fBnlohmann::basic_json::operator>>\fP (const \fBbasic_json\fP &j, std::ostream &o)\fP" 1c
+This stream operator is deprecated and will be removed in future 4\&.0\&.0 of the library\&. Please use \fBoperator<<(std::ostream&, const basic_json&)\fP instead; that is, replace calls like \fCj >> o;\fP with \fCo << j;\fP\&. 
+.PP
+

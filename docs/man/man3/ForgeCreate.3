@@ -1,0 +1,80 @@
+.TH "ForgeCreate" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ForgeCreate
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ForgeCreate\&.h>\fP
+.PP
+Inherits \fBForgeControl\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBForgeCreate\fP (\fBForgeWindow\fP *t_parent)"
+.br
+.RI "Constructor for the place object widget\&. "
+.ti -1c
+.RI "void \fBdeleteModel\fP ()"
+.br
+.RI "Delete the currently selected model\&. "
+.ti -1c
+.RI "void \fBupdateModel\fP ()"
+.br
+.ti -1c
+.RI "void \fBmoveModel\fP (QPoint t_point)"
+.br
+.ti -1c
+.RI "void \fBextrudeModel\fP (QPoint t_point)"
+.br
+.ti -1c
+.RI "void \fBpositionModel\fP (QPoint t_point)"
+.br
+.ti -1c
+.RI "void \fBlengthChanged\fP (QString t_input)"
+.br
+.RI "Update the active model when the user changes the selection\&. "
+.ti -1c
+.RI "void \fBselectionChanged\fP (const QString &t_input)"
+.br
+.ti -1c
+.RI "void \fBonMessage\fP (\fBChannel\fP t_channel, \fBUnknownMessage\fP &t_message) override"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ForgeCreate::ForgeCreate (\fBForgeWindow\fP * t_parent)"
+
+.PP
+Constructor for the place object widget\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void ForgeCreate::deleteModel ()"
+
+.PP
+Delete the currently selected model\&. 
+.SS "void ForgeCreate::extrudeModel (QPoint t_point)"
+
+.SS "void ForgeCreate::lengthChanged (QString t_input)"
+
+.PP
+Update the active model when the user changes the selection\&. 
+.SS "void ForgeCreate::moveModel (QPoint t_point)"
+
+.SS "void ForgeCreate::onMessage (\fBChannel\fP t_channel, \fBUnknownMessage\fP & t_message)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBForgeControl\fP\&.
+.SS "void ForgeCreate::positionModel (QPoint t_point)"
+
+.SS "void ForgeCreate::selectionChanged (const QString & t_input)"
+
+.SS "void ForgeCreate::updateModel ()"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

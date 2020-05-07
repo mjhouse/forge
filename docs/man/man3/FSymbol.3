@@ -1,0 +1,148 @@
+.TH "FSymbol" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FSymbol
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FSymbol\&.h>\fP
+.PP
+Inherited by \fBFCrossSection\fP, and \fBFLine\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFSymbol\fP ()"
+.br
+.ti -1c
+.RI "\fBFSymbol\fP (\fBFSymbol\fP *t_other)"
+.br
+.ti -1c
+.RI "virtual \fB~FSymbol\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBFSymbol\fP * \fBcopy\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBsetGeometry\fP (std::vector< QVector3D > &t_points)=0"
+.br
+.ti -1c
+.RI "virtual \fBFGeometry\fP * \fBtoGeometry\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBupdateGeometry\fP ()=0"
+.br
+.ti -1c
+.RI "virtual const char * \fBfragmentShader\fP ()"
+.br
+.ti -1c
+.RI "virtual const char * \fBvertexShader\fP ()"
+.br
+.ti -1c
+.RI "\fB_setter\fP (int)"
+.br
+.ti -1c
+.RI "\fB_setter\fP (float)"
+.br
+.ti -1c
+.RI "\fB_setter\fP (std::string)"
+.br
+.ti -1c
+.RI "void \fBsetProperty\fP (std::string t_name, \fBjson::value_t\fP t_type, \fBjson\fP t_value)"
+.br
+.ti -1c
+.RI "template<typename T > bool \fBhasProperty\fP (std::string t_name, T t_value)"
+.br
+.ti -1c
+.RI "template<typename T > bool \fBhasProperty\fP (std::string t_name)"
+.br
+.ti -1c
+.RI "template<typename T > T \fBproperty\fP (std::string t_name)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBFSymbol\fP * \fBfrom\fP (std::string &t_type)"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const char * \fBDEFAULT_VERT\fP = 'default_vert'"
+.br
+.ti -1c
+.RI "static const char * \fBDEFAULT_FRAG\fP = 'default_frag'"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBpropertyChanged\fP (std::string t_name, \fBFProperty\fP t_property)=0"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FSymbol::FSymbol ()\fC [inline]\fP"
+
+.SS "FSymbol::FSymbol (\fBFSymbol\fP * t_other)\fC [inline]\fP"
+
+.SS "virtual FSymbol::~FSymbol ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "FSymbol::_setter (float)"
+
+.SS "FSymbol::_setter (int)"
+
+.SS "FSymbol::_setter (std::string)"
+
+.SS "virtual \fBFSymbol\fP* FSymbol::copy ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBFCrossSection\fP, and \fBFLine\fP\&.
+.SS "virtual const char* FSymbol::fragmentShader ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "\fBFSymbol\fP * FSymbol::from (std::string & t_type)\fC [static]\fP"
+
+.SS "template<typename T > bool FSymbol::hasProperty (std::string t_name)\fC [inline]\fP"
+
+.SS "template<typename T > bool FSymbol::hasProperty (std::string t_name, T t_value)\fC [inline]\fP"
+
+.SS "template<typename T > T FSymbol::property (std::string t_name)\fC [inline]\fP"
+
+.SS "virtual void FSymbol::propertyChanged (std::string t_name, \fBFProperty\fP t_property)\fC [protected]\fP, \fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBFCrossSection\fP, and \fBFLine\fP\&.
+.SS "virtual void FSymbol::setGeometry (std::vector< QVector3D > & t_points)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBFCrossSection\fP, and \fBFLine\fP\&.
+.SS "void FSymbol::setProperty (std::string t_name, \fBjson::value_t\fP t_type, \fBjson\fP t_value)"
+
+.SS "virtual \fBFGeometry\fP* FSymbol::toGeometry ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBFCrossSection\fP, and \fBFLine\fP\&.
+.SS "virtual void FSymbol::updateGeometry ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBFCrossSection\fP, and \fBFLine\fP\&.
+.SS "virtual const char* FSymbol::vertexShader ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "const char * FSymbol::DEFAULT_FRAG = 'default_frag'\fC [static]\fP"
+
+.SS "const char * FSymbol::DEFAULT_VERT = 'default_vert'\fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

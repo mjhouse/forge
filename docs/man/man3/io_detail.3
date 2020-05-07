@@ -1,0 +1,156 @@
+.TH "io::detail" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+io::detail
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBAsynchronousReader\fP"
+.br
+.ti -1c
+.RI "class \fBNonOwningIStreamByteSource\fP"
+.br
+.ti -1c
+.RI "class \fBNonOwningStringByteSource\fP"
+.br
+.ti -1c
+.RI "class \fBOwningStdIOByteSourceBase\fP"
+.br
+.ti -1c
+.RI "class \fBSynchronousReader\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class quote_policy > void \fBchop_next_column\fP (char *&line, char *&col_begin, char *&col_end)"
+.br
+.ti -1c
+.RI "template<class trim_policy , class quote_policy > void \fBparse_line\fP (char *line, char **sorted_col, const std::vector< int > &col_order)"
+.br
+.ti -1c
+.RI "template<unsigned column_count, class trim_policy , class quote_policy > void \fBparse_header_line\fP (char *line, std::vector< int > &col_order, const std::string *col_name, \fBignore_column\fP ignore_policy)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, char &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, std::string &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, const char *&x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, char *&x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy , class T > void \fBparse_unsigned_integer\fP (const char *col, T &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, unsigned char &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, unsigned short &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, unsigned int &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, unsigned long &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, unsigned long long &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy , class T > void \fBparse_signed_integer\fP (const char *col, T &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, signed char &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, signed short &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, signed int &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, signed long &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, signed long long &x)"
+.br
+.ti -1c
+.RI "template<class T > void \fBparse_float\fP (const char *col, T &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, float &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, double &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBparse\fP (char *col, long double &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy , class T > void \fBparse\fP (char *col, T &x)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "template<class quote_policy > void io::detail::chop_next_column (char *& line, char *& col_begin, char *& col_end)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, char & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, char *& x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, const char *& x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, double & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, float & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, long double & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, signed char & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, signed int & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, signed long & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, signed long long & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, signed short & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, std::string & x)"
+
+.SS "template<class overflow_policy , class T > void io::detail::parse (char * col, T & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, unsigned char & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, unsigned int & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, unsigned long & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, unsigned long long & x)"
+
+.SS "template<class overflow_policy > void io::detail::parse (char * col, unsigned short & x)"
+
+.SS "template<class T > void io::detail::parse_float (const char * col, T & x)"
+
+.SS "template<unsigned column_count, class trim_policy , class quote_policy > void io::detail::parse_header_line (char * line, std::vector< int > & col_order, const std::string * col_name, \fBignore_column\fP ignore_policy)"
+
+.SS "template<class trim_policy , class quote_policy > void io::detail::parse_line (char * line, char ** sorted_col, const std::vector< int > & col_order)"
+
+.SS "template<class overflow_policy , class T > void io::detail::parse_signed_integer (const char * col, T & x)"
+
+.SS "template<class overflow_policy , class T > void io::detail::parse_unsigned_integer (const char * col, T & x)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

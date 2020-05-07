@@ -1,0 +1,262 @@
+.TH "core/system/Defines.h" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+core/system/Defines.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <QtGui/QWindow>\fP
+.br
+\fC#include <Qt3DExtras/QOrbitCameraController>\fP
+.br
+\fC#include <Qt3DExtras/QFirstPersonCameraController>\fP
+.br
+\fC#include <Qt3DRender/QGeometryRenderer>\fP
+.br
+\fC#include <Qt3DExtras/Qt3DWindow>\fP
+.br
+\fC#include <Qt3DExtras/QForwardRenderer>\fP
+.br
+\fC#include <Qt3DCore/QNode>\fP
+.br
+\fC#include <Qt3DCore/QEntity>\fP
+.br
+\fC#include <Qt3DCore/QComponent>\fP
+.br
+\fC#include <Qt3DCore/QTransform>\fP
+.br
+\fC#include <Qt3DRender/QGraphicsApiFilter>\fP
+.br
+\fC#include <Qt3DRender/QShaderProgram>\fP
+.br
+\fC#include <Qt3DRender/QRenderPass>\fP
+.br
+\fC#include <Qt3DRender/QFilterKey>\fP
+.br
+\fC#include <Qt3DRender/QBuffer>\fP
+.br
+\fC#include <Qt3DRender/QAttribute>\fP
+.br
+\fC#include <Qt3DRender/QGeometry>\fP
+.br
+\fC#include <Qt3DRender/QMaterial>\fP
+.br
+\fC#include <Qt3DRender/QParameter>\fP
+.br
+\fC#include <Qt3DRender/QEffect>\fP
+.br
+\fC#include <Qt3DRender/QObjectPicker>\fP
+.br
+\fC#include <Qt3DRender/QRenderStateSet>\fP
+.br
+\fC#include <Qt3DRender/QLineWidth>\fP
+.br
+\fC#include <Qt3DRender/QPickEvent>\fP
+.br
+\fC#include <Qt3DRender/QCamera>\fP
+.br
+\fC#include <Qt3DRender/QViewPort>\fP
+.br
+\fC#include <Qt3DInput/QMouseHandler>\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef Qt3DRender::QGeometryRenderer::PrimitiveType \fBQtRenderType\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QGraphicsApiFilter::Api \fBQtRenderApi\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QGraphicsApiFilter::OpenGLProfile \fBQtOpenGLProfile\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QBuffer \fBQtBuffer\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QAttribute \fBQtAttribute\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QGeometry \fBQtGeometry\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QGeometryRenderer \fBQtRenderer\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QMaterial \fBQtMaterial\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QParameter \fBQtParameter\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QEffect \fBQtEffect\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QObjectPicker \fBQtObjectPicker\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QFrameGraphNode \fBQtFrameGraphNode\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QRenderSettings \fBQtRenderSettings\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QRenderAspect \fBQtRenderAspect\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QRenderStateSet \fBQtRenderStateSet\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QLineWidth \fBQtLineWidth\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QShaderProgram \fBQtShaderProgram\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QRenderPass \fBQtRenderPass\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QFilterKey \fBQtFilterKey\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QTechnique \fBQtTechnique\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QPickEvent \fBQtPickEvent\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QCamera \fBQtCamera\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DRender::QViewport \fBQtViewport\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DInput::QMouseHandler \fBQtMouseHandler\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DInput::QInputSettings \fBQtInputSettings\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DInput::QInputAspect \fBQtInputAspect\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DCore::QNode \fBQtNode\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DCore::QEntity \fBQtEntity\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DCore::QComponent \fBQtComponent\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DCore::QTransform \fBQtTransform\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DCore::QAspectEngine \fBQtAspectEngine\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DCore::QEntityPtr \fBQtEntityPtr\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DExtras::Qt3DWindow \fBQt3DWindow\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DExtras::QOrbitCameraController \fBQtOrbitController\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DExtras::QFirstPersonCameraController \fBQtFpsController\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DExtras::QAbstractCameraController \fBQtAbstractController\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DExtras::QForwardRenderer \fBQtForwardRenderer\fP"
+.br
+.ti -1c
+.RI "typedef Qt3DLogic::QLogicAspect \fBQtLogicAspect\fP"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef Qt3DExtras::Qt3DWindow \fBQt3DWindow\fP"
+
+.SS "typedef Qt3DExtras::QAbstractCameraController \fBQtAbstractController\fP"
+
+.SS "typedef Qt3DCore::QAspectEngine \fBQtAspectEngine\fP"
+
+.SS "typedef Qt3DRender::QAttribute \fBQtAttribute\fP"
+
+.SS "typedef Qt3DRender::QBuffer \fBQtBuffer\fP"
+
+.SS "typedef Qt3DRender::QCamera \fBQtCamera\fP"
+
+.SS "typedef Qt3DCore::QComponent \fBQtComponent\fP"
+
+.SS "typedef Qt3DRender::QEffect \fBQtEffect\fP"
+
+.SS "typedef Qt3DCore::QEntity \fBQtEntity\fP"
+
+.SS "typedef Qt3DCore::QEntityPtr \fBQtEntityPtr\fP"
+
+.SS "typedef Qt3DRender::QFilterKey \fBQtFilterKey\fP"
+
+.SS "typedef Qt3DExtras::QForwardRenderer \fBQtForwardRenderer\fP"
+
+.SS "typedef Qt3DExtras::QFirstPersonCameraController \fBQtFpsController\fP"
+
+.SS "typedef Qt3DRender::QFrameGraphNode \fBQtFrameGraphNode\fP"
+
+.SS "typedef Qt3DRender::QGeometry \fBQtGeometry\fP"
+
+.SS "typedef Qt3DInput::QInputAspect \fBQtInputAspect\fP"
+
+.SS "typedef Qt3DInput::QInputSettings \fBQtInputSettings\fP"
+
+.SS "typedef Qt3DRender::QLineWidth \fBQtLineWidth\fP"
+
+.SS "typedef Qt3DLogic::QLogicAspect \fBQtLogicAspect\fP"
+
+.SS "typedef Qt3DRender::QMaterial \fBQtMaterial\fP"
+
+.SS "typedef Qt3DInput::QMouseHandler \fBQtMouseHandler\fP"
+
+.SS "typedef Qt3DCore::QNode \fBQtNode\fP"
+
+.SS "typedef Qt3DRender::QObjectPicker \fBQtObjectPicker\fP"
+
+.SS "typedef Qt3DRender::QGraphicsApiFilter::OpenGLProfile \fBQtOpenGLProfile\fP"
+
+.SS "typedef Qt3DExtras::QOrbitCameraController \fBQtOrbitController\fP"
+
+.SS "typedef Qt3DRender::QParameter \fBQtParameter\fP"
+
+.SS "typedef Qt3DRender::QPickEvent \fBQtPickEvent\fP"
+
+.SS "typedef Qt3DRender::QGraphicsApiFilter::Api \fBQtRenderApi\fP"
+
+.SS "typedef Qt3DRender::QRenderAspect \fBQtRenderAspect\fP"
+
+.SS "typedef Qt3DRender::QGeometryRenderer \fBQtRenderer\fP"
+
+.SS "typedef Qt3DRender::QRenderPass \fBQtRenderPass\fP"
+
+.SS "typedef Qt3DRender::QRenderSettings \fBQtRenderSettings\fP"
+
+.SS "typedef Qt3DRender::QRenderStateSet \fBQtRenderStateSet\fP"
+
+.SS "typedef Qt3DRender::QGeometryRenderer::PrimitiveType \fBQtRenderType\fP"
+
+.SS "typedef Qt3DRender::QShaderProgram \fBQtShaderProgram\fP"
+
+.SS "typedef Qt3DRender::QTechnique \fBQtTechnique\fP"
+
+.SS "typedef Qt3DCore::QTransform \fBQtTransform\fP"
+
+.SS "typedef Qt3DRender::QViewport \fBQtViewport\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

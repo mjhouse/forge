@@ -2,6 +2,7 @@
 
 #include "FCrossSection.h"
 #include "ForgeApplication.h"
+#include "Selection.hpp"
 
 /*! \brief Constructor for model.
  */
@@ -59,7 +60,10 @@ FModel::~FModel(){
 }
 
 void FModel::onClick(Qt3DRender::QPickEvent* t_event) {
-	ForgeApplication::instance()->setSelected(this);
+	if (Selection::get()->contains(this))
+		Selection::get()->remove(this);
+	else
+		Selection::get()->add(this);
 }
 
 /*! \brief Get the FSymbol of the model.

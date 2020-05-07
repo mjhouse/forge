@@ -1,0 +1,88 @@
+.TH "core/system/Logger.h" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+core/system/Logger.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'Resources\&.h'\fP
+.br
+\fC#include 'json\&.hpp'\fP
+.br
+\fC#include <thread>\fP
+.br
+\fC#include <mutex>\fP
+.br
+\fC#include <atomic>\fP
+.br
+\fC#include <queue>\fP
+.br
+\fC#include <ctime>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <fstream>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBlogging::Logger\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBlogging\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBdebug\fP(m)   \fBlogging::Logger::instance\fP()\->log(__FILE__, __LINE__, \fBlogging::LogLevel::Debug\fP, m);"
+.br
+.ti -1c
+.RI "#define \fBinfo\fP(m)   \fBlogging::Logger::instance\fP()\->log(__FILE__, __LINE__, \fBlogging::LogLevel::Info\fP, m);"
+.br
+.ti -1c
+.RI "#define \fBwarning\fP(m)   \fBlogging::Logger::instance\fP()\->log(__FILE__, __LINE__, \fBlogging::LogLevel::Warning\fP, m);"
+.br
+.ti -1c
+.RI "#define \fBerror\fP(m)   \fBlogging::Logger::instance\fP()\->log(__FILE__, __LINE__, \fBlogging::LogLevel::Error\fP, m);"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBjson\fP = \fBnlohmann::json\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBlogging::LogLevel\fP { \fBlogging::LogLevel::Debug\fP = 0, \fBlogging::LogLevel::Info\fP = 1, \fBlogging::LogLevel::Warning\fP = 2, \fBlogging::LogLevel::Error\fP = 3 }"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define debug(m)   \fBlogging::Logger::instance\fP()\->log(__FILE__, __LINE__, \fBlogging::LogLevel::Debug\fP, m);"
+
+.SS "#define error(m)   \fBlogging::Logger::instance\fP()\->log(__FILE__, __LINE__, \fBlogging::LogLevel::Error\fP, m);"
+
+.SS "#define info(m)   \fBlogging::Logger::instance\fP()\->log(__FILE__, __LINE__, \fBlogging::LogLevel::Info\fP, m);"
+
+.SS "#define warning(m)   \fBlogging::Logger::instance\fP()\->log(__FILE__, __LINE__, \fBlogging::LogLevel::Warning\fP, m);"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "using \fBjson\fP =  \fBnlohmann::json\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

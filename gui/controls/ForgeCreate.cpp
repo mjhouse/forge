@@ -2,6 +2,7 @@
 #include "FCrossSection.h"
 #include "ForgeApplication.h"
 #include "FModel.h"
+#include "Selection.hpp"
 
 #include <QMouseEvent>
 
@@ -46,7 +47,7 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
 	auto lengthLabel = new QLabel("Length:");
 
 	m_lengthInput->setValidator(new QDoubleValidator(this));
-	m_lengthInput->setPlaceholderText("N/A");
+	m_lengthInput->setPlaceholderText("none");
 
 	layout->addWidget(objectPicker, 0, 0, 1, 0);
 	layout->addWidget(lengthLabel, 1, 0);
@@ -55,7 +56,7 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
 	layout->addWidget(deleteButton, 2, 0);
 	layout->addWidget(createButton, 2, 1);
 
-	(void)this->connect(ForgeApplication::instance(), &ForgeApplication::selectionChanged,
+	(void)this->connect(Selection::get(), &Selection::selectionChanged,
 		this, &ForgeCreate::updateView);
 
 	(void)this->connect(deleteButton, &QPushButton::pressed,
@@ -79,26 +80,41 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
 /*! \brief Update the displayed length when a new
  *		   object is selected.
  */
-void ForgeCreate::updateView(FModel* t_model) {
-	auto model = dynamic_cast<FModel*>(t_model);
-	if (model != nullptr) {
+void ForgeCreate::updateView() {
+	auto models = Selection::get()->selection();
+	if (models.size() == 1) {
+		auto model  = models.front();
 		auto length = model->symbol()->property<float>("length");
 		m_lengthInput->setText(QString::number(length));
-		m_model = model;
+		m_lengthInput->setPlaceholderText("none");
+	}
+	else if (models.size() == 0) {
+		m_lengthInput->setText("");
+		m_lengthInput->setPlaceholderText("none");
 	}
 	else {
-		m_lengthInput->setText("");
-		m_model = nullptr;
+		auto length = models.front()->symbol()->property<float>("length");
+		if (std::all_of(models.begin(), models.end(), 
+			[length](auto m) {
+				auto l = m->symbol()->property<float>("length");
+				return l == length;
+			})) {
+			m_lengthInput->setText(QString::number(length));
+			m_lengthInput->setPlaceholderText("none");
+		}
+		else {
+			m_lengthInput->setText("");
+			m_lengthInput->setPlaceholderText("mixed");
+		}
 	}
 }
 
 /*! \brief Delete the currently selected model.
  */
 void ForgeCreate::deleteModel() {
-	auto model = ForgeApplication::instance()->selected();
-	if (model != nullptr) {
-		ForgeApplication::instance()->setSelected(nullptr);
-		model->unHighlight();
+	auto models = Selection::get()->selection();
+	Selection::get()->clear();
+	for (auto model : models) {
 		model->deleteLater();
 	}
 }
@@ -110,7 +126,6 @@ void ForgeCreate::updateModel() {
 		case PlacementType::None:
 			m_model = new FModel(m_symbol->copy());
 			ForgeApplication::instance()->render(m_model);
-			ForgeApplication::instance()->setSelected(m_model);
 			m_mode = PlacementType::Start;
 			break;
 		case PlacementType::Start:
@@ -128,11 +143,11 @@ void ForgeCreate::updateModel() {
  */
 void ForgeCreate::lengthChanged(QString t_input) {
 	bool ok = false;
-	auto l = t_input.toFloat(&ok);
+	auto length = t_input.toFloat(&ok);
 	if (ok) {
-		m_length = l;
-		if (m_model != nullptr) {
-			m_model->symbol()->setProperty("length", m_length);
+		auto models = Selection::get()->selection();
+		for (auto model : models) {
+			model->symbol()->setProperty("length", length);
 		}
 	}
 }

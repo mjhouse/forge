@@ -1,0 +1,54 @@
+.TH "forge_exception" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+forge_exception
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <exceptions\&.h>\fP
+.PP
+Inherits exception\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBforge_exception\fP (const char *t_file, const int t_line, const char *t_message)"
+.br
+.ti -1c
+.RI "const char * \fBfile\fP () const  throw ()"
+.br
+.ti -1c
+.RI "const int \fBline\fP () const  throw ()"
+.br
+.ti -1c
+.RI "const char * \fBmessage\fP () const  throw ()"
+.br
+.ti -1c
+.RI "const char * \fBwhat\fP () const  throw ()"
+.br
+.ti -1c
+.RI "void \fBlog\fP (const \fBLogLevel\fP t_level)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "forge_exception::forge_exception (const char * t_file, const int t_line, const char * t_message)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "const char* forge_exception::file () const\fC [inline]\fP"
+
+.SS "const int forge_exception::line () const\fC [inline]\fP"
+
+.SS "void forge_exception::log (const \fBLogLevel\fP t_level)\fC [inline]\fP"
+
+.SS "const char* forge_exception::message () const\fC [inline]\fP"
+
+.SS "const char* forge_exception::what () const\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

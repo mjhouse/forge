@@ -82,9 +82,7 @@ public:
 	ForgeWindow* findWindow(QPoint t_point);
 
 	FModel* selected();
-
-	void setSelected(FModel* t_model);
-
+	
 	void render(FModel* t_model);
 		
 	void onReassign(Message<ForgeControl*>* t_message);

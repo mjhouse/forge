@@ -1,0 +1,92 @@
+.TH "io::CSVReader< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+io::CSVReader< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <csv\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCSVReader\fP ()=delete"
+.br
+.ti -1c
+.RI "\fBCSVReader\fP (const \fBCSVReader\fP &)=delete"
+.br
+.ti -1c
+.RI "\fBCSVReader\fP & \fBoperator=\fP (const \fBCSVReader\fP &)"
+.br
+.ti -1c
+.RI "template<class \&.\&.\&. Args> \fBCSVReader\fP (Args &&\&.\&.\&.args)"
+.br
+.ti -1c
+.RI "char * \fBnext_line\fP ()"
+.br
+.ti -1c
+.RI "template<class \&.\&.\&. ColNames> void \fBread_header\fP (\fBignore_column\fP ignore_policy, ColNames\&.\&.\&.cols)"
+.br
+.ti -1c
+.RI "template<class \&.\&.\&. ColNames> void \fBset_header\fP (ColNames\&.\&.\&.cols)"
+.br
+.ti -1c
+.RI "bool \fBhas_column\fP (const std::string &name) const"
+.br
+.ti -1c
+.RI "void \fBset_file_name\fP (const std::string &file_name)"
+.br
+.ti -1c
+.RI "void \fBset_file_name\fP (const char *file_name)"
+.br
+.ti -1c
+.RI "const char * \fBget_truncated_file_name\fP () const"
+.br
+.ti -1c
+.RI "void \fBset_file_line\fP (unsigned file_line)"
+.br
+.ti -1c
+.RI "unsigned \fBget_file_line\fP () const"
+.br
+.ti -1c
+.RI "template<class \&.\&.\&. ColType> bool \fBread_row\fP (ColType &\&.\&.\&.cols)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::\fBCSVReader\fP ()\fC [delete]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::\fBCSVReader\fP (const \fBCSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy > &)\fC [delete]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> template<class \&.\&.\&. Args> \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::\fBCSVReader\fP (Args &&\&.\&.\&. args)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> unsigned \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::get_file_line () const\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> const char* \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::get_truncated_file_name () const\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> bool \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::has_column (const std::string & name) const\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> char* \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::next_line ()\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> \fBCSVReader\fP& \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::operator= (const \fBCSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy > &)"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> template<class \&.\&.\&. ColNames> void \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::read_header (\fBignore_column\fP ignore_policy, ColNames\&.\&.\&. cols)\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> template<class \&.\&.\&. ColType> bool \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::read_row (ColType &\&.\&.\&. cols)\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> void \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::set_file_line (unsigned file_line)\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> void \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::set_file_name (const char * file_name)\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> void \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::set_file_name (const std::string & file_name)\fC [inline]\fP"
+
+.SS "template<unsigned column_count, class trim_policy  = trim_chars<' ', '\\t'>, class quote_policy  = no_quote_escape<','>, class overflow_policy  = throw_on_overflow, class comment_policy  = no_comment> template<class \&.\&.\&. ColNames> void \fBio::CSVReader\fP< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >::set_header (ColNames\&.\&.\&. cols)\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

@@ -1,0 +1,74 @@
+.TH "core/system/Message.cpp" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+core/system/Message.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'Message\&.h'\fP
+.br
+\fC#include 'Messages\&.h'\fP
+.br
+\fC#include 'ForgeControl\&.h'\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <QMouseEvent>\fP
+.br
+\fC#include <QFocusEvent>\fP
+.br
+\fC#include <QCloseEvent>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBimpl_message\fP(V,  T)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBimpl_message\fP (double, \fBMessageType::Double\fP) impl_message(float"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define impl_message(V, T)"
+\fBValue:\fP
+.PP
+.nf
+ template<>                                          \
+    Message<V>::Message(Handler* t_sender,              \
+                        V t_value)                      \
+        : UnknownMessage(T)                             \
+        , m_sender(t_sender)                            \
+        , m_value(t_value)                              \
+        , m_name(#T)                                    \
+    {}                                                  \
+                                                        \
+    template<>                                          \
+    V Message<V>::value() {                             \
+        return m_value;                                 \
+    }                                                   \
+                                                        \
+    template<>                                          \
+    const char* Message<V>::name() {                    \
+        return m_name;                                  \
+    }                                                   \
+                                                        \
+    template<>                                          \
+    Handler* Message<V>::sender() {                     \
+        return m_sender;                                \
+    }                                                   \
+.fi
+.SH "Function Documentation"
+.PP 
+.SS "impl_message (double, \fBMessageType::Double\fP)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

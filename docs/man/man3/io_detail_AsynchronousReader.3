@@ -1,0 +1,47 @@
+.TH "io::detail::AsynchronousReader" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+io::detail::AsynchronousReader
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <csv\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBinit\fP (std::unique_ptr< \fBByteSourceBase\fP >arg_byte_source)"
+.br
+.ti -1c
+.RI "bool \fBis_valid\fP () const"
+.br
+.ti -1c
+.RI "void \fBstart_read\fP (char *arg_buffer, int arg_desired_byte_count)"
+.br
+.ti -1c
+.RI "int \fBfinish_read\fP ()"
+.br
+.ti -1c
+.RI "\fB~AsynchronousReader\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "io::detail::AsynchronousReader::~AsynchronousReader ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "int io::detail::AsynchronousReader::finish_read ()\fC [inline]\fP"
+
+.SS "void io::detail::AsynchronousReader::init (std::unique_ptr< \fBByteSourceBase\fP > arg_byte_source)\fC [inline]\fP"
+
+.SS "bool io::detail::AsynchronousReader::is_valid () const\fC [inline]\fP"
+
+.SS "void io::detail::AsynchronousReader::start_read (char * arg_buffer, int arg_desired_byte_count)\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

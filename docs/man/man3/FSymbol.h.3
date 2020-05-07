@@ -1,0 +1,93 @@
+.TH "core/symbols/FSymbol.h" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+core/symbols/FSymbol.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'FGeometry\&.h'\fP
+.br
+\fC#include 'json\&.hpp'\fP
+.br
+\fC#include <QVector3D>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <variant>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBFSymbol\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_setter\fP(T)"
+.br
+.ti -1c
+.RI "#define \fB_fragment_shader\fP(n)"
+.br
+.ti -1c
+.RI "#define \fB_vertex_shader\fP(n)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBjson\fP = \fBnlohmann::json\fP"
+.br
+.ti -1c
+.RI "using \fBFProperty\fP = std::variant< int, float, std::string >"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _fragment_shader(n)"
+\fBValue:\fP
+.PP
+.nf
+public:                                                               \
+    const char* fragmentShader() override {                         \
+        return n;                                                   \
+    }                                                               \
+private:                                                            \
+.fi
+.SS "#define _setter(T)"
+\fBValue:\fP
+.PP
+.nf
+  void setProperty(std::string t_name, T t_value) {               \
+        if (!hasProperty<T>(t_name,t_value)){                       \
+            m_properties[t_name] = t_value;                         \
+            propertyChanged(t_name,m_properties[t_name]);           \
+        }                                                           \
+    }                                                               \
+.fi
+.SS "#define _vertex_shader(n)"
+\fBValue:\fP
+.PP
+.nf
+public:                                                                \
+    const char* vertexShader() override {                           \
+        return n;                                                   \
+    }                                                               \
+private:                                                            \
+.fi
+.SH "Typedef Documentation"
+.PP 
+.SS "using \fBFProperty\fP =  std::variant<int, float, std::string>"
+
+.SS "using \fBjson\fP =  \fBnlohmann::json\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

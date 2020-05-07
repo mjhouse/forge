@@ -1,0 +1,48 @@
+.TH "ForgeTransform" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ForgeTransform
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ForgeTransform\&.h>\fP
+.PP
+Inherits \fBForgeControl\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBForgeTransform\fP (\fBForgeWindow\fP *t_parent)"
+.br
+.RI "The constructor of the transform control\&. "
+.ti -1c
+.RI "void \fBupdateView\fP (\fBFModel\fP *t_model)"
+.br
+.RI "When the model selection changes, this callback updates the displayed values\&. "
+.ti -1c
+.RI "void \fBupdateModel\fP ()"
+.br
+.RI "When the input values change, this callback updates the selected model\&. "
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ForgeTransform::ForgeTransform (\fBForgeWindow\fP * t_parent)"
+
+.PP
+The constructor of the transform control\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void ForgeTransform::updateModel ()"
+
+.PP
+When the input values change, this callback updates the selected model\&. 
+.SS "void ForgeTransform::updateView (\fBFModel\fP * t_model)"
+
+.PP
+When the model selection changes, this callback updates the displayed values\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

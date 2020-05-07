@@ -1,0 +1,67 @@
+.TH "nlohmann::detail::input_stream_adapter" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::detail::input_stream_adapter
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.PP
+Inherits \fBnlohmann::detail::input_adapter_protocol\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB~input_stream_adapter\fP () override"
+.br
+.ti -1c
+.RI "\fBinput_stream_adapter\fP (std::istream &i)"
+.br
+.ti -1c
+.RI "\fBinput_stream_adapter\fP (const \fBinput_stream_adapter\fP &)=delete"
+.br
+.ti -1c
+.RI "\fBinput_stream_adapter\fP & \fBoperator=\fP (\fBinput_stream_adapter\fP &)=delete"
+.br
+.ti -1c
+.RI "\fBinput_stream_adapter\fP (\fBinput_stream_adapter\fP &&)=delete"
+.br
+.ti -1c
+.RI "\fBinput_stream_adapter\fP & \fBoperator=\fP (\fBinput_stream_adapter\fP &&)=delete"
+.br
+.ti -1c
+.RI "std::char_traits< char >::int_type \fBget_character\fP () override"
+.br
+.RI "get a character [0,255] or std::char_traits<char>::eof()\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Input adapter for a (caching) istream\&. Ignores a UFT Byte Order Mark at beginning of input\&. Does not support changing the underlying std::streambuf in mid-input\&. Maintains underlying std::istream and std::streambuf to support subsequent use of standard std::istream operations to process any input characters following those used in parsing the JSON input\&. Clears the std::istream flags; any input errors (e\&.g\&., EOF) will be detected by the first subsequent call for input from the std::istream\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "nlohmann::detail::input_stream_adapter::~input_stream_adapter ()\fC [inline]\fP, \fC [override]\fP"
+
+.SS "nlohmann::detail::input_stream_adapter::input_stream_adapter (std::istream & i)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "nlohmann::detail::input_stream_adapter::input_stream_adapter (const \fBinput_stream_adapter\fP &)\fC [delete]\fP"
+
+.SS "nlohmann::detail::input_stream_adapter::input_stream_adapter (\fBinput_stream_adapter\fP &&)\fC [delete]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::char_traits<char>::int_type nlohmann::detail::input_stream_adapter::get_character ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+get a character [0,255] or std::char_traits<char>::eof()\&. 
+.PP
+Implements \fBnlohmann::detail::input_adapter_protocol\fP\&.
+.SS "\fBinput_stream_adapter\fP& nlohmann::detail::input_stream_adapter::operator= (\fBinput_stream_adapter\fP &&)\fC [delete]\fP"
+
+.SS "\fBinput_stream_adapter\fP& nlohmann::detail::input_stream_adapter::operator= (\fBinput_stream_adapter\fP &)\fC [delete]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

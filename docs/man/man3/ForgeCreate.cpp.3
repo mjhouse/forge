@@ -1,0 +1,41 @@
+.TH "gui/controls/ForgeCreate.cpp" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gui/controls/ForgeCreate.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'ForgeCreate\&.h'\fP
+.br
+\fC#include 'FCrossSection\&.h'\fP
+.br
+\fC#include 'ForgeApplication\&.h'\fP
+.br
+\fC#include 'FModel\&.h'\fP
+.br
+\fC#include <QMouseEvent>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_distance\fP(a,  b)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _distance(a, b)"
+\fBValue:\fP
+.PP
+.nf
+    std::sqrtf(                      \
+        std::powf(b\&.x() - a\&.x(),2) + \
+        std::powf(b\&.y() - a\&.y(),2) + \
+        std::powf(b\&.z() - a\&.z(),2)     \
+    )                                \
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

@@ -1,0 +1,84 @@
+.TH "ForgeApplication" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ForgeApplication
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ForgeApplication\&.h>\fP
+.PP
+Inherits QApplication, and \fBHandler\fP\&.
+.SS "Signals"
+
+.in +1c
+.ti -1c
+.RI "void \fBselectionChanged\fP (\fBFModel\fP *t_model)"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBForgeApplication\fP (int argc, char *argv[])"
+.br
+.ti -1c
+.RI "\fB~ForgeApplication\fP ()"
+.br
+.ti -1c
+.RI "\fBForgeWindow\fP * \fBfindWindow\fP (QPoint t_point)"
+.br
+.ti -1c
+.RI "\fBFModel\fP * \fBselected\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSelected\fP (\fBFModel\fP *t_model)"
+.br
+.ti -1c
+.RI "void \fBrender\fP (\fBFModel\fP *t_model)"
+.br
+.ti -1c
+.RI "void \fBonReassign\fP (\fBMessage\fP< \fBForgeControl\fP * > *t_message)"
+.br
+.ti -1c
+.RI "void \fBonMessage\fP (\fBChannel\fP t_channel, \fBUnknownMessage\fP &t_message)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBForgeApplication\fP * \fBinstance\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ForgeApplication::ForgeApplication (int argc, char * argv[])"
+
+.SS "ForgeApplication::~ForgeApplication ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBForgeWindow\fP * ForgeApplication::findWindow (QPoint t_point)"
+
+.SS "\fBForgeApplication\fP * ForgeApplication::instance ()\fC [static]\fP"
+
+.SS "void ForgeApplication::onMessage (\fBChannel\fP t_channel, \fBUnknownMessage\fP & t_message)\fC [virtual]\fP"
+
+.PP
+Implements \fBHandler\fP\&.
+.SS "void ForgeApplication::onReassign (\fBMessage\fP< \fBForgeControl\fP * > * t_message)"
+
+.SS "void ForgeApplication::render (\fBFModel\fP * t_model)"
+
+.SS "\fBFModel\fP * ForgeApplication::selected ()"
+
+.SS "void ForgeApplication::selectionChanged (\fBFModel\fP * t_model)\fC [signal]\fP"
+
+.SS "void ForgeApplication::setSelected (\fBFModel\fP * t_model)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

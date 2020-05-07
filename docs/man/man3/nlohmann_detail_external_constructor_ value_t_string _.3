@@ -1,0 +1,35 @@
+.TH "nlohmann::detail::external_constructor< value_t::string >" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::detail::external_constructor< value_t::string >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename BasicJsonType > static \fBvoid\fP \fBconstruct\fP (BasicJsonType &j, const typename BasicJsonType::string_t &s)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType > static \fBvoid\fP \fBconstruct\fP (BasicJsonType &j, typename BasicJsonType::string_t &&s)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleStringType , enable_if_t< not std::is_same< CompatibleStringType, typename BasicJsonType::string_t >::value, int >  = 0> static \fBvoid\fP \fBconstruct\fP (BasicJsonType &j, const CompatibleStringType &str)"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename BasicJsonType , typename CompatibleStringType , enable_if_t< not std::is_same< CompatibleStringType, typename BasicJsonType::string_t >::value, int >  = 0> static \fBvoid\fP \fBnlohmann::detail::external_constructor\fP< \fBvalue_t::string\fP >::construct (BasicJsonType & j, const CompatibleStringType & str)\fC [inline]\fP, \fC [static]\fP"
+
+.SS "template<typename BasicJsonType > static \fBvoid\fP \fBnlohmann::detail::external_constructor\fP< \fBvalue_t::string\fP >::construct (BasicJsonType & j, const typename BasicJsonType::string_t & s)\fC [inline]\fP, \fC [static]\fP"
+
+.SS "template<typename BasicJsonType > static \fBvoid\fP \fBnlohmann::detail::external_constructor\fP< \fBvalue_t::string\fP >::construct (BasicJsonType & j, typename BasicJsonType::string_t && s)\fC [inline]\fP, \fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

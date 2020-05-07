@@ -1,0 +1,67 @@
+.TH "md__r_e_a_d_m_e" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md__r_e_a_d_m_e \- Forge 
+Forge is a 3D design solution for manufacturing and plant construction, currently under heavy development\&. It's written top-to-bottom in C++ using Qt5, primarily for (and on) Windows 10, although some thought has been given to keeping the codebase cross-platform for later porting\&.
+.PP
+\fC![](docs/media/gifs/mouse-extrude\&.gif)\fP
+.SH "Goals"
+.PP
+.SS "Fast"
+A primary goal of Forge is to make failure \fIeasy\fP\&. Iteration is part of any development process, and plant design is no different\&. Conventional manufacturing design applications have heavy processes that are awkward to configure and start, and that take a long time to complete\&. This inhibits creativity and risk-taking, because recovering from these processes is time-consuming, if it's even possible\&. By prioritizing speed, we make experimentation and failure recovery painless\&.
+.SS "Reliable"
+Forge will be rigorously tested and iteratively redesigned until \fBthere are no bugs\fP\&. Nothing is worse, or breaks the design process more thoroughly, than an unexpected failure that destroys or corrupts project files\&. This goal supports the first, because speed isn't just the rate at which things get done- it's the number of times they have to be done\&.
+.SS "Live"
+Forge will be \fIlive\fP\&. This means that as actions are completed locally, they will be shared across the network so that other users can see them\&. Communication, either through VOIP or direct messages, is a part of this\&. By allowing multiple designers to have eyes on the same work at the same time and communicate with each other about the project as it unfolds, Forge will support higher quality work and cooperation between designers\&.
+.SH "Features"
+.PP
+.SS "Current"
+.IP "\(bu" 2
+3D Views
+.IP "\(bu" 2
+Model creation control
+.IP "\(bu" 2
+Model transform control
+.IP "\(bu" 2
+JSON import
+.PP
+.SS "Planned"
+.IP "\(bu" 2
+Snap-to-surface / Snap-to-line
+.IP "\(bu" 2
+Placement by two points
+.IP "\(bu" 2
+Connections
+.IP "\(bu" 2
+Slabs / walls
+.IP "\(bu" 2
+Pipes
+.PP
+.SH "Building"
+.PP
+.SS "Using Visual Studio"
+You should be able to simply open the root directory in Visual Studio, generate a CMake cache and then build\&. I've only tested with \fBVisual Studio Community 2019\fP, however\&.
+.SS "Using CMake"
+Source the \fCvcvars64\&.bat\fP file:
+.PP
+.PP
+.nf
+>> "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/Build/vcvars64\&.bat"
+.fi
+.PP
+.PP
+Clone the repository and build: 
+.PP
+.nf
+git clone https://github\&.com/mjhouse/forge\&.git
+cd bin/Release
+cmake --build \&. --config Release
+
+.fi
+.PP
+.PP
+If you happen to be using \fBVisual Studio Enterprise 2019\fP, you could also run \fC\&.github/scripts/windows-build\&.ps1\fP (a CI/CD build script)\&.
+.SH "Contributing"
+.PP
+This project is currently not looking for outside support\&. 

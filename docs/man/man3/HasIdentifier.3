@@ -1,0 +1,56 @@
+.TH "HasIdentifier" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+HasIdentifier
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <HasIdentifier\&.h>\fP
+.PP
+Inherited by \fBFModel\fP, \fBForgeControl\fP, and \fBForgeWindow\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBHasIdentifier\fP ()"
+.br
+.RI "Default constructor inits the id and increments the global count\&. "
+.ti -1c
+.RI "virtual \fB~HasIdentifier\fP ()=0"
+.br
+.RI "\fBHasIdentifier\fP cannot be instantiated, although no methods need to be implemented to use the class\&. "
+.ti -1c
+.RI "\fBuint\fP \fBid\fP ()"
+.br
+.RI "Get the id\&. "
+.ti -1c
+.RI "bool \fBis\fP (\fBHasIdentifier\fP *t_object)"
+.br
+.RI "Compare the id of this object to another \fBHasIdentifier\fP object\&. if the other object is null, the return value is false\&. "
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "HasIdentifier::HasIdentifier ()"
+
+.PP
+Default constructor inits the id and increments the global count\&. 
+.SS "HasIdentifier::~HasIdentifier ()\fC [pure virtual]\fP"
+
+.PP
+\fBHasIdentifier\fP cannot be instantiated, although no methods need to be implemented to use the class\&. Implement the virtual destructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBuint\fP HasIdentifier::id ()"
+
+.PP
+Get the id\&. 
+.SS "bool HasIdentifier::is (\fBHasIdentifier\fP * t_object)"
+
+.PP
+Compare the id of this object to another \fBHasIdentifier\fP object\&. if the other object is null, the return value is false\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

@@ -1,0 +1,162 @@
+.TH "FModel" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FModel
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FModel\&.h>\fP
+.PP
+Inherits QtEntity, and \fBHasIdentifier\fP\&.
+.PP
+Inherited by \fBFOrigin\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFModel\fP (\fBFSymbol\fP *t_section, \fBQtTransform\fP *t_transform, \fBFMaterial\fP *t_material)"
+.br
+.RI "Constructor for model\&. "
+.ti -1c
+.RI "\fBFModel\fP (\fBFSymbol\fP *t_section, QColor t_color)"
+.br
+.RI "Secondary constructor for the \fBFModel\fP\&. "
+.ti -1c
+.RI "\fBFModel\fP (\fBFSymbol\fP *t_section)"
+.br
+.RI "Secondary constructor for the \fBFModel\fP\&. "
+.ti -1c
+.RI "\fBFModel\fP ()"
+.br
+.RI "Default constructor for the \fBFModel\fP\&. "
+.ti -1c
+.RI "\fB~FModel\fP ()"
+.br
+.RI "Destructor for the \fBFModel\fP\&. "
+.ti -1c
+.RI "\fBFSymbol\fP * \fBsymbol\fP ()"
+.br
+.RI "Get the \fBFSymbol\fP of the model\&. "
+.ti -1c
+.RI "\fBFGeometry\fP * \fBgeometry\fP ()"
+.br
+.RI "Get the \fBFGeometry\fP of the model\&. "
+.ti -1c
+.RI "\fBQtTransform\fP * \fBtransform\fP ()"
+.br
+.RI "Get the QTransform for this entity\&. "
+.ti -1c
+.RI "\fBFMaterial\fP * \fBmaterial\fP ()"
+.br
+.RI "Get the Material of the model\&. "
+.ti -1c
+.RI "\fBQtRenderer\fP * \fBrenderer\fP ()"
+.br
+.RI "Get the QtRenderer\&. "
+.ti -1c
+.RI "void \fBsetSelectable\fP (bool t_selectable)"
+.br
+.RI "Set this model as selectable\&. "
+.ti -1c
+.RI "bool \fBselectable\fP ()"
+.br
+.RI "Get the 'selectable' flag\&. True if the user can interact with this model\&. "
+.ti -1c
+.RI "void \fBunHighlight\fP ()"
+.br
+.RI "Stop highlighting the model\&. "
+.ti -1c
+.RI "void \fBhighlight\fP ()"
+.br
+.RI "Highlight the model\&. "
+.ti -1c
+.RI "bool \fBhidden\fP ()"
+.br
+.RI "If true, this entity/model is not visible in the 3D view\&. "
+.ti -1c
+.RI "void \fBhide\fP ()"
+.br
+.RI "Hide the model\&. (make NOT visible in the 3D view) "
+.ti -1c
+.RI "void \fBshow\fP ()"
+.br
+.RI "Show the model\&. (make VISIBLE in the 3D view) "
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FModel::FModel (\fBFSymbol\fP * t_section, \fBQtTransform\fP * t_transform, \fBFMaterial\fP * t_material)"
+
+.PP
+Constructor for model\&. 
+.SS "FModel::FModel (\fBFSymbol\fP * t_section, QColor t_color)"
+
+.PP
+Secondary constructor for the \fBFModel\fP\&. 
+.SS "FModel::FModel (\fBFSymbol\fP * t_section)"
+
+.PP
+Secondary constructor for the \fBFModel\fP\&. 
+.SS "FModel::FModel ()"
+
+.PP
+Default constructor for the \fBFModel\fP\&. 
+.SS "FModel::~FModel ()"
+
+.PP
+Destructor for the \fBFModel\fP\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBFGeometry\fP * FModel::geometry ()"
+
+.PP
+Get the \fBFGeometry\fP of the model\&. 
+.SS "bool FModel::hidden ()"
+
+.PP
+If true, this entity/model is not visible in the 3D view\&. 
+.SS "void FModel::hide ()"
+
+.PP
+Hide the model\&. (make NOT visible in the 3D view) 
+.SS "void FModel::highlight ()"
+
+.PP
+Highlight the model\&. 
+.SS "\fBFMaterial\fP * FModel::material ()"
+
+.PP
+Get the Material of the model\&. 
+.SS "\fBQtRenderer\fP * FModel::renderer ()"
+
+.PP
+Get the QtRenderer\&. 
+.SS "bool FModel::selectable ()"
+
+.PP
+Get the 'selectable' flag\&. True if the user can interact with this model\&. 
+.SS "void FModel::setSelectable (bool t_selectable)"
+
+.PP
+Set this model as selectable\&. 
+.SS "void FModel::show ()"
+
+.PP
+Show the model\&. (make VISIBLE in the 3D view) 
+.SS "\fBFSymbol\fP * FModel::symbol ()"
+
+.PP
+Get the \fBFSymbol\fP of the model\&. 
+.SS "\fBQtTransform\fP * FModel::transform ()"
+
+.PP
+Get the QTransform for this entity\&. 
+.SS "void FModel::unHighlight ()"
+
+.PP
+Stop highlighting the model\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

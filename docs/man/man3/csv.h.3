@@ -1,0 +1,267 @@
+.TH "core/dependencies/csv.h" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+core/dependencies/csv.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <vector>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <cstdio>\fP
+.br
+\fC#include <exception>\fP
+.br
+\fC#include <mutex>\fP
+.br
+\fC#include <thread>\fP
+.br
+\fC#include <condition_variable>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <cassert>\fP
+.br
+\fC#include <cerrno>\fP
+.br
+\fC#include <istream>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBio::error::base\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::with_file_name\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::with_file_line\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::with_errno\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::can_not_open_file\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::line_length_limit_exceeded\fP"
+.br
+.ti -1c
+.RI "class \fBio::ByteSourceBase\fP"
+.br
+.ti -1c
+.RI "class \fBio::detail::OwningStdIOByteSourceBase\fP"
+.br
+.ti -1c
+.RI "class \fBio::detail::NonOwningIStreamByteSource\fP"
+.br
+.ti -1c
+.RI "class \fBio::detail::NonOwningStringByteSource\fP"
+.br
+.ti -1c
+.RI "class \fBio::detail::AsynchronousReader\fP"
+.br
+.ti -1c
+.RI "class \fBio::detail::SynchronousReader\fP"
+.br
+.ti -1c
+.RI "class \fBio::LineReader\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::with_column_name\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::with_column_content\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::extra_column_in_header\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::missing_column_in_header\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::duplicated_column_in_header\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::header_missing\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::too_few_columns\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::too_many_columns\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::escaped_string_not_closed\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::integer_must_be_positive\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::no_digit\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::integer_overflow\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::integer_underflow\fP"
+.br
+.ti -1c
+.RI "struct \fBio::error::invalid_single_character\fP"
+.br
+.ti -1c
+.RI "struct \fBio::trim_chars< trim_char_list >\fP"
+.br
+.ti -1c
+.RI "struct \fBio::no_comment\fP"
+.br
+.ti -1c
+.RI "struct \fBio::single_line_comment< comment_start_char_list >\fP"
+.br
+.ti -1c
+.RI "struct \fBio::empty_line_comment\fP"
+.br
+.ti -1c
+.RI "struct \fBio::single_and_empty_line_comment< comment_start_char_list >\fP"
+.br
+.ti -1c
+.RI "struct \fBio::no_quote_escape< sep >\fP"
+.br
+.ti -1c
+.RI "struct \fBio::double_quote_escape< sep, quote >\fP"
+.br
+.ti -1c
+.RI "struct \fBio::throw_on_overflow\fP"
+.br
+.ti -1c
+.RI "struct \fBio::ignore_overflow\fP"
+.br
+.ti -1c
+.RI "struct \fBio::set_to_max_on_overflow\fP"
+.br
+.ti -1c
+.RI "class \fBio::CSVReader< column_count, trim_policy, quote_policy, overflow_policy, comment_policy >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBio\fP"
+.br
+.ti -1c
+.RI " \fBio::error\fP"
+.br
+.ti -1c
+.RI " \fBio::detail\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBio::ignore_column\fP = unsigned int"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class quote_policy > void \fBio::detail::chop_next_column\fP (char *&line, char *&col_begin, char *&col_end)"
+.br
+.ti -1c
+.RI "template<class trim_policy , class quote_policy > void \fBio::detail::parse_line\fP (char *line, char **sorted_col, const std::vector< int > &col_order)"
+.br
+.ti -1c
+.RI "template<unsigned column_count, class trim_policy , class quote_policy > void \fBio::detail::parse_header_line\fP (char *line, std::vector< int > &col_order, const std::string *col_name, ignore_column ignore_policy)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, char &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, std::string &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, const char *&x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, char *&x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy , class T > void \fBio::detail::parse_unsigned_integer\fP (const char *col, T &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, unsigned char &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, unsigned short &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, unsigned int &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, unsigned long &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, unsigned long long &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy , class T > void \fBio::detail::parse_signed_integer\fP (const char *col, T &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, signed char &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, signed short &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, signed int &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, signed long &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, signed long long &x)"
+.br
+.ti -1c
+.RI "template<class T > void \fBio::detail::parse_float\fP (const char *col, T &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, float &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, double &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy > void \fBio::detail::parse\fP (char *col, long double &x)"
+.br
+.ti -1c
+.RI "template<class overflow_policy , class T > void \fBio::detail::parse\fP (char *col, T &x)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBio::error::max_file_name_length\fP = 255"
+.br
+.ti -1c
+.RI "const int \fBio::error::max_column_name_length\fP = 63"
+.br
+.ti -1c
+.RI "const int \fBio::error::max_column_content_length\fP = 63"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

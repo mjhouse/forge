@@ -13,6 +13,7 @@
 #include <Qt3DRender/QLineWidth>
 #include <Qt3DRender/QViewport>
 #include <Qt3DRender/QScreenRayCaster>
+#include <qpa/qplatformwindow.h>
 
 #include "ForgeApplication.h"
 #include "ForgeWindow.h"
@@ -59,9 +60,11 @@ ForgeWindow::ForgeWindow()
 	m_renderer->setCamera(m_camera);
 	m_renderer->setSurface(this);
 	m_renderer->setClearColor(GRAY);
-	
+
 	this->installEventFilter(new CloseEventFilter(this,Channel::Action));
 	this->installEventFilter(new ClickEventFilter(this,Channel::Action));
+		
+
 
 	m_context->makeCurrent(this);
 	initializeOpenGLFunctions();

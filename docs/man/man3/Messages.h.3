@@ -1,0 +1,109 @@
+.TH "core/system/Messages.h" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+core/system/Messages.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'Message\&.h'\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <mutex>\fP
+.br
+\fC#include <QObject>\fP
+.br
+\fC#include <QEvent>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBHandler\fP"
+.br
+.ti -1c
+.RI "class \fBMessages\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_publish\fP(c,  m)   \fBMessages::instance\fP()\->publish(this, c, m);"
+.br
+.ti -1c
+.RI "#define \fB_subscribe\fP(c)   \fBMessages::instance\fP()\->subscribe(this, c);"
+.br
+.ti -1c
+.RI "#define \fB_route_in\fP(c,  v,  C,  V,  H)"
+.br
+.ti -1c
+.RI "#define \fB_event_publish\fP(E,  C)"
+.br
+.ti -1c
+.RI "#define \fB_method_publish\fP(N,  E,  C)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBChannel\fP { \fBChannel::Debug\fP, \fBChannel::Action\fP, \fBChannel::Reassign\fP }"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _event_publish(E, C)"
+\fBValue:\fP
+.PP
+.nf
+ (void)this->connect(this, &E,       \
+                        this,           \
+        [=](auto m) {                   \
+            _publish(C, m);             \
+    })                                  \
+.fi
+.SS "#define _method_publish(N, E, C)"
+\fBValue:\fP
+.PP
+.nf
+    void N(E* e) override {             \
+        _publish(C, e);                 \
+    }                                   \
+.fi
+.SS "#define _publish(c, m)   \fBMessages::instance\fP()\->publish(this, c, m);"
+
+.SS "#define _route_in(c, v, C, V, H)"
+\fBValue:\fP
+.PP
+.nf
+ if (c == C) {                       \
+        if (auto message = v\&.to<V>()) {  \
+            H(message);                 \
+        }                               \
+    }                                   \
+.fi
+.SS "#define _subscribe(c)   \fBMessages::instance\fP()\->subscribe(this, c);"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBChannel\fP\fC [strong]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIDebug \fP\fP
+.TP
+\fB\fIAction \fP\fP
+.TP
+\fB\fIReassign \fP\fP
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

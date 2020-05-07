@@ -1,0 +1,42 @@
+.TH "gui/components/EventFilters.cpp" 3 "Sat Apr 4 2020" "Version 0.1.0" "Forge" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gui/components/EventFilters.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'EventFilters\&.h'\fP
+.br
+\fC#include 'Messages\&.h'\fP
+.br
+\fC#include 'Defines\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_redirect\fP(M,  T)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _redirect(M, T)"
+\fBValue:\fP
+.PP
+.nf
+  if (event->type() == M) {                       \
+        auto handler = dynamic_cast<Handler*>(obj); \
+        auto message = dynamic_cast<T*>(event);     \
+        if (handler != nullptr) {                   \\
+			Messages::instance()->publish(           \
+                handler,                            \
+                m_channel,                          \
+                message);                           \
+        }                                           \
+    }                                               \
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Forge from the source code\&.

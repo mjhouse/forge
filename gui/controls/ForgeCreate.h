@@ -28,7 +28,7 @@ private:
 
 	QVector3D m_current;
 
-	void updateView(FModel* t_model);
+	void updateView();
 
 	void onMouseMove(Message<QMouseEvent*>* t_message);
 
