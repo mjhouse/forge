@@ -2,7 +2,7 @@
 
 Forge is a 3D design solution for manufacturing and plant construction, currently under heavy development. It's written top-to-bottom in C++ using Qt5, primarily for (and on) Windows 10, although some thought has been given to keeping the codebase cross-platform for later porting. 
 
-`![](docs/media/gifs/mouse-extrude.gif)`
+![](docs/media/gifs/multi-selection.gif)
 
 ## Goals
 
