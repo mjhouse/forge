@@ -76,6 +76,16 @@ ForgeCreate::ForgeCreate(ForgeWindow* t_parent)
 	this->setFixedWidth(120);
 }
 
+void ForgeCreate::onParentMouseMove(QMouseEvent* t_event) {
+	moveModel(t_event->pos());
+}
+
+void ForgeCreate::onParentMouseRelease(QMouseEvent* t_event) {
+	if (t_event->button() == Qt::LeftButton && m_mode != PlacementType::None) {
+		updateModel(); // update placement state
+	}
+}
+
 /*! \brief Update the displayed length when a new
  *		   object is selected.
  */
@@ -161,28 +171,7 @@ void ForgeCreate::selectionChanged(const QString& t_input) {
 
 void ForgeCreate::onMessage(Channel t_channel, UnknownMessage& t_message) {
 	ForgeControl::onMessage(t_channel, t_message);
-	_route_in(t_channel, t_message, Channel::Action, QMouseEvent*, onMouseMove);
-}
-
-void ForgeCreate::onMouseMove(Message<QMouseEvent*>* t_message) {
-
-	auto event  = t_message->value();
-	auto parent = controller();
-
-	if (parent == nullptr || Selection::get()->isEmpty()) {
-		m_mode = PlacementType::None;
-		return;
-	}
-
-	if (t_message->sender()->isHandler(parent)) {
-		if (event->button() == Qt::LeftButton && event->type() == QEvent::Type::MouseButtonRelease &&
-			m_mode != PlacementType::None) {
-			updateModel(); // update placement state
-		}
-		else if (event->type() == QEvent::Type::MouseMove) {
-			moveModel(event->pos()); // update placement
-		}
-	}
+	//_route_in(t_channel, t_message, Channel::Action, QMouseEvent*, onMouseMove);
 }
 
 void ForgeCreate::moveModel(QPoint t_point) {

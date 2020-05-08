@@ -48,9 +48,17 @@ private:
 	// message handlers
 	void appStateChanged(Message<Qt::ApplicationState>* state);
 
-	void winStateChanged(Message<Qt::WindowState>* t_state);
+	void winStateChanged(Qt::WindowState t_state);
 
 	void showEvent(QShowEvent* t_event) override;
+
+	void connectEvents();
+
+	void disconnectEvents();
+
+	virtual void onParentMouseMove(QMouseEvent* t_event) {};
+
+	virtual void onParentMouseRelease(QMouseEvent* t_event) {};
 
 public:
 

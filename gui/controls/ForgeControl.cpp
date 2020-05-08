@@ -30,6 +30,28 @@ ForgeControl::ForgeControl(ForgeWindow* t_parent, float t_x, float t_y)
 	this->setLayout(layout);
 }
 
+void ForgeControl::connectEvents() {
+	if (m_parent == nullptr) return;
+
+	(void)m_parent->connect(m_parent, &ForgeWindow::onMouseMove,
+		this, &ForgeControl::onParentMouseMove);
+	(void)m_parent->connect(m_parent, &ForgeWindow::onMouseRelease,
+		this, &ForgeControl::onParentMouseRelease);
+	(void)m_parent->connect(m_parent, &ForgeWindow::windowStateChanged,
+		this, &ForgeControl::winStateChanged);
+}
+
+void ForgeControl::disconnectEvents() {
+	if (m_parent == nullptr) return;
+
+	(void)m_parent->disconnect(m_parent, &ForgeWindow::onMouseMove,
+		this, &ForgeControl::onParentMouseMove);
+	(void)m_parent->disconnect(m_parent, &ForgeWindow::onMouseRelease,
+		this, &ForgeControl::onParentMouseRelease);
+	(void)m_parent->connect(m_parent, &ForgeWindow::windowStateChanged,
+		this, &ForgeControl::winStateChanged);
+}
+
 /* \brief Perform layout-related task after on show event
  */
 void ForgeControl::showEvent(QShowEvent* t_event) {
@@ -48,6 +70,7 @@ void ForgeControl::showEvent(QShowEvent* t_event) {
 
 		m_initialized = true;
 		m_parent->addControl(this);
+		connectEvents();
 	}
 }
 
@@ -72,11 +95,15 @@ QPoint ForgeControl::positionWithin(const QRect& t_parent, const QRect& t_child)
 /* \brief Snap this control to the new parent window.
  */
 void ForgeControl::setControlled(ForgeWindow* t_parent) {
+	disconnectEvents();
+
 	if (m_parent)
 		m_parent->removeControl(this);
 
 	m_parent = t_parent;
 	m_parent->addControl(this);
+
+	connectEvents();
 
 	auto rect = geometry();
 	move(positionWithin(m_parent->geometry(), rect));
@@ -108,6 +135,8 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 		auto rect = geometry();
 		auto window = ForgeApplication::instance()->findWindow(rect.center());
 
+		disconnectEvents();
+
 		if (window == nullptr) {
 			if (m_parent != nullptr) {
 				m_parent->removeControl(this);
@@ -122,6 +151,7 @@ void ForgeControl::moveEvent(QMoveEvent* t_event) {
 			m_parent = window;
 		}
 		
+		connectEvents();
 		findAnchor(rect);
 	}
 }
@@ -209,7 +239,6 @@ void ForgeControl::setAnchor(QVector2D t_anchor) {
 
 void ForgeControl::onMessage(Channel t_channel, UnknownMessage& t_message) {
 	_route_in(t_channel, t_message, Channel::Action, Qt::ApplicationState, appStateChanged);
-	_route_in(t_channel, t_message, Channel::Action, Qt::WindowState, winStateChanged);
 }
 
 /* \brief Handle application state changes (minimized etc.)
@@ -236,12 +265,12 @@ void ForgeControl::appStateChanged(Message<Qt::ApplicationState>* t_state) {
 
 /* \brief Handle parent state changes.
  */
-void ForgeControl::winStateChanged(Message<Qt::WindowState>* t_state) {
+void ForgeControl::winStateChanged(Qt::WindowState t_state) {
 
-	if (m_parent == nullptr || !m_parent->isHandler(t_state->sender()))
+	if (m_parent == nullptr)
 		return;
 
-	if ((t_state->value() & Qt::WindowMinimized) == Qt::WindowMinimized && isVisible()) {
+	if ((t_state & Qt::WindowMinimized) == Qt::WindowMinimized && isVisible()) {
 		hide();
 		m_minimized = true;
 	}

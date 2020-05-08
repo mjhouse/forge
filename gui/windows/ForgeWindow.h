@@ -32,10 +32,21 @@ private:
 	
 	QOpenGLContext* m_context;					/*!< The OpenGL context */
 
-	_method_publish(focusInEvent, QFocusEvent, Channel::Action)
-	_method_publish(focusOutEvent, QFocusEvent, Channel::Action)
-	_method_publish(mouseMoveEvent, QMouseEvent, Channel::Action)
-	_method_publish(mouseReleaseEvent, QMouseEvent, Channel::Action)
+	void focusInEvent(QFocusEvent* t_event) override {
+		Messages::instance()->publish(this, Channel::Action, t_event);
+	}
+
+	void focusOutEvent(QFocusEvent* t_event) override {
+		Messages::instance()->publish(this, Channel::Action, t_event);
+	}
+
+	void mouseMoveEvent(QMouseEvent* t_event) override {
+		emit onMouseMove(t_event);
+	}
+
+	void mouseReleaseEvent(QMouseEvent* t_event) override {
+		emit onMouseRelease(t_event);
+	}
 
 	void resizeEvent(QResizeEvent* event) override;
 
@@ -66,6 +77,14 @@ public:
 
 	void onMessage(Channel t_channel, UnknownMessage& t_message);
 
+signals:
+
+	void onMouseMove(QMouseEvent* t_event);
+
+	void onMouseRelease(QMouseEvent* t_event);
+
 };
+
+Q_DECLARE_METATYPE(QMouseEvent*);
 
 #endif // __FORGEWINDOW_H__

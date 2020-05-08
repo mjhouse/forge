@@ -28,7 +28,9 @@ private:
 
 	void updateView();
 
-	void onMouseMove(Message<QMouseEvent*>* t_message);
+	void onParentMouseMove(QMouseEvent* t_event);
+
+	void onParentMouseRelease(QMouseEvent* t_event);
 
 public:
 	ForgeCreate(ForgeWindow* t_parent);
@@ -42,9 +44,7 @@ public:
 	void extrudeModel(QPoint t_point);
 
 	void positionModel(QPoint t_point);
-
-
-
+	
 	void lengthChanged(QString t_input);
 
 	void selectionChanged(const QString& t_input);
