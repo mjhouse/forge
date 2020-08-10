@@ -48,9 +48,6 @@ public:
 	void lengthChanged(QString t_input);
 
 	void selectionChanged(const QString& t_input);
-
-	void onMessage(Channel t_channel, UnknownMessage& t_message) override;
-
 };
 
 #endif

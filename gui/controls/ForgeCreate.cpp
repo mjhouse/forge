@@ -169,11 +169,6 @@ void ForgeCreate::selectionChanged(const QString& t_input) {
 	m_symbol = m_loader.getName(t_input.toStdString());
 }
 
-void ForgeCreate::onMessage(Channel t_channel, UnknownMessage& t_message) {
-	ForgeControl::onMessage(t_channel, t_message);
-	//_route_in(t_channel, t_message, Channel::Action, QMouseEvent*, onMouseMove);
-}
-
 void ForgeCreate::moveModel(QPoint t_point) {
 	switch (m_mode) {
 	case PlacementType::Start:

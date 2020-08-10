@@ -27,7 +27,7 @@
 
 class FCameraController;
 
-class ForgeApplication : public QApplication, public Handler {
+class ForgeApplication : public QApplication {
 
 	Q_OBJECT
 
@@ -61,9 +61,9 @@ private:
 	
 	void setActive(ForgeWindow* t_window);
 
-	void onWindowClose(Message<QCloseEvent*>* t_message);
+	void onWindowClose(ForgeWindow* t_window);
 	
-	void onWindowFocus(Message<QFocusEvent*>* t_message);
+	void onWindowFocus(ForgeWindow* t_window);
 
 	ForgeWindow* newWindow();
 	
@@ -85,10 +85,8 @@ public:
 	
 	void render(FModel* t_model);
 		
-	void onReassign(Message<ForgeControl*>* t_message);
-
-	void onMessage(Channel t_channel, UnknownMessage& t_message);
-
+	void reassign(ForgeControl* t_control);
+	
 signals:
 	void selectionChanged(FModel* t_model);
 

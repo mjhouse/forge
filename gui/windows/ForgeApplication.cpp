@@ -28,12 +28,6 @@ ForgeApplication::ForgeApplication(int argc, char* argv[])
 	, m_selected(nullptr)
 	, m_active(nullptr)
 {
-	// subscribe to channels
-	_subscribe(Channel::Action);
-	_subscribe(Channel::Reassign);
-
-	// route events to channels
-	_event_publish(ForgeApplication::applicationStateChanged, Channel::Action);
 	resources::initialize(applicationDirPath());
 
 	// needs to be created after resources are initialized
@@ -100,14 +94,12 @@ void ForgeApplication::setActive(ForgeWindow* t_window) {
 
 /* \brief Clean up when a 3D window closes.
  */
-void ForgeApplication::onWindowClose(Message<QCloseEvent*>* t_message) {
-	auto window = (ForgeWindow*)t_message->sender();
-
+void ForgeApplication::onWindowClose(ForgeWindow* t_window) {
 	// clear parent node and framegraph
-	window->clearParent();
+	t_window->clearParent();
 
 	// remove window from window collection
-	m_windows.remove(window);
+	m_windows.remove(t_window);
 
 	// if there is another window in the collection
 	// set it as active.
@@ -129,11 +121,11 @@ ForgeWindow* ForgeApplication::newWindow() {
 	window->setRenderSource(m_frameGraph);
 	window->setRoot(m_rootEntity.data());
 
-	//(void)this->connect(window, &ForgeWindow::onFocus,
-	//	this, &ForgeApplication::setActive);
+	(void)this->connect(window, &ForgeWindow::gotFocusEvent,
+		this, &ForgeApplication::setActive);
 
-	//(void)this->connect(window, &ForgeWindow::onClose,
-	//	this, &ForgeApplication::onWindowClose);
+	(void)this->connect(window, &ForgeWindow::onCloseEvent,
+		this, &ForgeApplication::onWindowClose);
 
 	m_windows.add(window);
 	setActive(window);
@@ -185,32 +177,24 @@ void ForgeApplication::render(FModel* t_model) {
 
 /* \brief Reassign a control to a new parent.
  */
-void ForgeApplication::onReassign(Message<ForgeControl*>* t_message) {
-	auto control = t_message->value();
-	auto parent  = control->controller();
+void ForgeApplication::reassign(ForgeControl* t_control) {
+	auto parent  = t_control->controller();
 	if (parent == nullptr) {
-		if(control != nullptr)
-			control->close();
+		if(t_control != nullptr)
+			t_control->close();
 		return;
 	}
 
 	for (auto window : m_windows.priority()) {
 		if (!window->is(parent)) {
-			control->setControlled(window);
+			t_control->setControlled(window);
 			return;
 		}
 	}
 
-	control->close();
+	t_control->close();
 }
 
-void ForgeApplication::onWindowFocus(Message<QFocusEvent*>* t_message) {
-	auto window = dynamic_cast<ForgeWindow*>(t_message->sender());
-	if (window != nullptr) setActive(window);
-}
-
-void ForgeApplication::onMessage(Channel t_channel, UnknownMessage& t_message) {
-	_route_in(t_channel, t_message, Channel::Action, QCloseEvent*, onWindowClose);
-	_route_in(t_channel, t_message, Channel::Action, QFocusEvent*, onWindowFocus);
-	_route_in(t_channel, t_message, Channel::Reassign, ForgeControl*, onReassign);
+void ForgeApplication::onWindowFocus(ForgeWindow* t_window) {
+	if (t_window != nullptr) setActive(t_window);
 }

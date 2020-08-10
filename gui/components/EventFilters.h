@@ -12,11 +12,9 @@ class CloseEventFilter : public QObject {
 
 private:
 
-	Channel m_channel;
-
 public:
-	CloseEventFilter(QObject* parent, Channel t_channel) 
-		: QObject(parent), m_channel(t_channel) {}
+	CloseEventFilter(QObject* parent) 
+		: QObject(parent){}
 
 protected:
 	bool eventFilter(QObject* obj, QEvent* event);
@@ -29,11 +27,9 @@ class ClickEventFilter : public QObject {
 
 private:
 
-	Channel m_channel;
-
 public:
-	ClickEventFilter(QObject* parent, Channel t_channel)
-		: QObject(parent), m_channel(t_channel) {}
+	ClickEventFilter(QObject* parent)
+		: QObject(parent) {}
 
 protected:
 	bool eventFilter(QObject* obj, QEvent* event);

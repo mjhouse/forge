@@ -17,7 +17,6 @@ class ForgeControl;
  */
 class ForgeWindow:  public QWindow, 
 					public HasIdentifier,
-					public Handler,
 					protected QOpenGLFunctions
 {
 	Q_OBJECT
@@ -33,11 +32,11 @@ private:
 	QOpenGLContext* m_context;					/*!< The OpenGL context */
 
 	void focusInEvent(QFocusEvent* t_event) override {
-		Messages::instance()->publish(this, Channel::Action, t_event);
+		emit gotFocusEvent(this);
 	}
 
 	void focusOutEvent(QFocusEvent* t_event) override {
-		Messages::instance()->publish(this, Channel::Action, t_event);
+		emit lostFocusEvent(t_event);
 	}
 
 	void mouseMoveEvent(QMouseEvent* t_event) override {
@@ -54,7 +53,9 @@ private:
 	
 	void updateControls(QRect& oldRect, QRect& newRect);
 
-	void onWindowClose(Message<QCloseEvent*>* t_message);
+	void onClose(QCloseEvent* t_event);
+
+	void onClick(QMouseEvent* t_event);
 
 public:
 	ForgeWindow();
@@ -74,8 +75,9 @@ public:
 	void addControl(ForgeControl* t_control);
 
 	void removeControl(ForgeControl* t_control);
-
-	void onMessage(Channel t_channel, UnknownMessage& t_message);
+	
+	friend class CloseEventFilter;
+	friend class ClickEventFilter;
 
 signals:
 
@@ -83,8 +85,19 @@ signals:
 
 	void onMouseRelease(QMouseEvent* t_event);
 
+	void onCloseEvent(ForgeWindow* t_window);
+
+	void onClickEvent(QMouseEvent* t_event);
+
+	void gotFocusEvent(ForgeWindow* t_window);
+
+	void lostFocusEvent(QFocusEvent* t_event);
+
 };
 
 Q_DECLARE_METATYPE(QMouseEvent*);
+Q_DECLARE_METATYPE(QCloseEvent*);
+Q_DECLARE_METATYPE(QFocusEvent*);
+Q_DECLARE_METATYPE(ForgeWindow*);
 
 #endif // __FORGEWINDOW_H__

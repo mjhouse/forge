@@ -11,8 +11,7 @@
 class ForgeWindow;
 
 class ForgeControl : public QDialog, 
-					 public HasIdentifier,
-					 public Handler {
+					 public HasIdentifier {
 private:
 
 	ForgeTitleBar* m_title;		/*!< The dialog title */
@@ -46,10 +45,8 @@ private:
 	void keyPressEvent(QKeyEvent* t_event) override;
 	
 	// message handlers
-	void appStateChanged(Message<Qt::ApplicationState>* state);
-
-	void winStateChanged(Qt::WindowState t_state);
-
+	void appStateChanged(Qt::ApplicationState state);
+	
 	void showEvent(QShowEvent* t_event) override;
 
 	void connectEvents();
@@ -59,6 +56,8 @@ private:
 	virtual void onParentMouseMove(QMouseEvent* t_event) {};
 
 	virtual void onParentMouseRelease(QMouseEvent* t_event) {};
+
+	void onParentStateChanged(Qt::WindowState t_state);
 
 public:
 
@@ -86,8 +85,6 @@ public:
 	QVector2D anchor();
 
 	void setAnchor(QVector2D t_anchor);
-
-	virtual void onMessage(Channel t_channel, UnknownMessage& t_message);
 
 };
 

@@ -2,30 +2,23 @@
 
 #include "Messages.h"
 #include "Defines.h"
-
-#define _redirect(M,T)								\
-	if (event->type() == M) {						\
-		auto handler = dynamic_cast<Handler*>(obj);	\
-		auto message = dynamic_cast<T*>(event);		\
-		if (handler != nullptr) {					\
-			Messages::instance()->publish(			\
-				handler,							\
-				m_channel,							\
-				message);							\
-		}											\
-	}												\
+#include "ForgeWindow.h"
 
 /*! \brief Event filter to capture the close event and emit it
  *		   as an "onClose" signal.
  */
-bool CloseEventFilter::eventFilter(QObject* obj, QEvent* event) {
-	_redirect(QEvent::Close, QCloseEvent);
-	return QObject::eventFilter(obj, event);
+bool CloseEventFilter::eventFilter(QObject* t_object, QEvent* t_event) {
+	auto window = dynamic_cast<ForgeWindow*>(t_object);
+	if (window != nullptr && t_event->type() == QEvent::MouseButtonPress)
+		window->onClose((QCloseEvent*)t_event);
+	return QObject::eventFilter(t_object, t_event);
 }
 
 /*! \brief Event filter to capture the click event.
  */
-bool ClickEventFilter::eventFilter(QObject* obj, QEvent* event) {
-	_redirect(QEvent::MouseButtonPress, QMouseEvent);
-	return QObject::eventFilter(obj, event);
+bool ClickEventFilter::eventFilter(QObject* t_object, QEvent* t_event) {
+	auto window = dynamic_cast<ForgeWindow*>(t_object);
+	if (window != nullptr && t_event->type() == QEvent::MouseButtonPress) 
+		window->onClick((QMouseEvent*)t_event);
+	return QObject::eventFilter(t_object, t_event);
 }

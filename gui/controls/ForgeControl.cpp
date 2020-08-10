@@ -16,7 +16,8 @@ ForgeControl::ForgeControl(ForgeWindow* t_parent, float t_x, float t_y)
 	, m_persistent(false)
 	, m_minimized(false)
 {
-	_subscribe(Channel::Action);
+	(void)this->connect(ForgeApplication::instance(), &ForgeApplication::applicationStateChanged,
+		this, &ForgeControl::appStateChanged);
 	
 	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool);
 	auto layout = new QVBoxLayout();
@@ -38,7 +39,7 @@ void ForgeControl::connectEvents() {
 	(void)m_parent->connect(m_parent, &ForgeWindow::onMouseRelease,
 		this, &ForgeControl::onParentMouseRelease);
 	(void)m_parent->connect(m_parent, &ForgeWindow::windowStateChanged,
-		this, &ForgeControl::winStateChanged);
+		this, &ForgeControl::onParentStateChanged);
 }
 
 void ForgeControl::disconnectEvents() {
@@ -49,7 +50,7 @@ void ForgeControl::disconnectEvents() {
 	(void)m_parent->disconnect(m_parent, &ForgeWindow::onMouseRelease,
 		this, &ForgeControl::onParentMouseRelease);
 	(void)m_parent->connect(m_parent, &ForgeWindow::windowStateChanged,
-		this, &ForgeControl::winStateChanged);
+		this, &ForgeControl::onParentStateChanged);
 }
 
 /* \brief Perform layout-related task after on show event
@@ -237,24 +238,19 @@ void ForgeControl::setAnchor(QVector2D t_anchor) {
 	m_anchor = t_anchor;
 }
 
-void ForgeControl::onMessage(Channel t_channel, UnknownMessage& t_message) {
-	_route_in(t_channel, t_message, Channel::Action, Qt::ApplicationState, appStateChanged);
-}
-
 /* \brief Handle application state changes (minimized etc.)
  */
-void ForgeControl::appStateChanged(Message<Qt::ApplicationState>* t_state) {
-	auto state = t_state->value();
+void ForgeControl::appStateChanged(Qt::ApplicationState t_state) {
 	auto shown = isVisible();
-	
-	if ((state & Qt::ApplicationActive) == Qt::ApplicationActive) {
+
+	if ((t_state & Qt::ApplicationActive) == Qt::ApplicationActive) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 		if (shown) {
 			hide();
 			show();
 		}
 	}
-	else if ((state & Qt::ApplicationInactive) == Qt::ApplicationInactive) {
+	else if ((t_state & Qt::ApplicationInactive) == Qt::ApplicationInactive) {
 		setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
 		if (shown) {
 			hide();
@@ -265,8 +261,7 @@ void ForgeControl::appStateChanged(Message<Qt::ApplicationState>* t_state) {
 
 /* \brief Handle parent state changes.
  */
-void ForgeControl::winStateChanged(Qt::WindowState t_state) {
-
+void ForgeControl::onParentStateChanged(Qt::WindowState t_state) {
 	if (m_parent == nullptr)
 		return;
 

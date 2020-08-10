@@ -32,19 +32,12 @@ ForgeWindow::ForgeWindow()
 	: m_camera(new QtCamera())
 	, m_renderer(new QtForwardRenderer())
 	, m_controls()
-	, m_context(nullptr)
+	, m_context(new QOpenGLContext)
 {
-	// route events to channels
-	_event_publish(ForgeWindow::windowStateChanged, Channel::Action);
-
-	// subscribe to channels
-	_subscribe(Channel::Action);
-
 	this->setSurfaceType(QWindow::OpenGLSurface);
 	this->resize(1024, 768);
 	this->create();
 
-	this->m_context = new QOpenGLContext;
 	this->m_context->create();
 
 	setMinimumHeight(100);
@@ -61,11 +54,9 @@ ForgeWindow::ForgeWindow()
 	m_renderer->setSurface(this);
 	m_renderer->setClearColor(GRAY);
 
-	this->installEventFilter(new CloseEventFilter(this,Channel::Action));
-	this->installEventFilter(new ClickEventFilter(this,Channel::Action));
-		
-
-
+	this->installEventFilter(new CloseEventFilter(this));
+	this->installEventFilter(new ClickEventFilter(this));
+	
 	m_context->makeCurrent(this);
 	initializeOpenGLFunctions();
 }
@@ -186,22 +177,20 @@ void ForgeWindow::removeControl(ForgeControl* t_control) {
 	}
 }
 
-void ForgeWindow::onMessage(Channel t_channel, UnknownMessage& t_message) {
-	_route_in(t_channel, t_message, Channel::Action, QCloseEvent*, onWindowClose);
-}
-
 /*! \brief Close or reassign child controls on close.
  */
-void ForgeWindow::onWindowClose(Message<QCloseEvent*>* t_message) {
-	auto window = (ForgeWindow*)t_message->sender();
-	if (window->is(this)) {
-		for (auto child : m_controls.priority()) {
-			if (!child->persistent()) {
-				child->close();
-			}
-			else {
-				_publish(Channel::Reassign, child);
-			}
+void ForgeWindow::onClose(QCloseEvent* t_event) {
+	for (auto child : m_controls.priority()) {
+		if (!child->persistent()) {
+			child->close();
+		}
+		else {
+			ForgeApplication::instance()->reassign(child);
 		}
 	}
+	emit onCloseEvent(this);
+}
+
+void ForgeWindow::onClick(QMouseEvent* t_event) {
+	emit onClickEvent(t_event);
 }
